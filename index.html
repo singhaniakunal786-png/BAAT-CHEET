@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-    <title>बात-चीत (Baat-Cheet) - Fully Fixed Messenger</title>
+    <title>बात-चीत (Baat-Cheet) - Secure Messenger</title>
     <meta name="theme-color" content="#f8fafc">
     
     <link rel="manifest" href="manifest.json">
@@ -216,9 +216,9 @@
 
         <div class="content active" id="sec0">
             <div class="contact-search-box">
-                <input type="text" id="contactSearchInput" placeholder="🔍 International dost ya @Username khojein..." oninput="filterContacts()">
+                <input type="text" id="contactSearchInput" placeholder="🔍 Online dost ya @Username khojein..." oninput="filterContacts()">
             </div>
-            <div style="padding:8px; text-align:center; font-size:11px; color:var(--sub); background:rgba(56,189,248,0.1);">🌐 Secure OTP Login & E2EE Active</div>
+            <div style="padding:8px; text-align:center; font-size:11px; color:var(--sub); background:rgba(56,189,248,0.1);">🌐 Sirf Online Users Dikh Rahe Hain</div>
             <div id="contactList" style="flex:1; overflow-y:auto; width:100%;"></div>
         </div>
 
@@ -363,11 +363,11 @@
         </div>
 
         <div class="call-screen" id="callScreen">
-            <div style="font-size: 16px; color: #38bdf8; font-weight: bold; margin-top: 10px;" id="callTypeTitle">🌐 GLOBAL STUN/TURN SECURE CALL</div>
+            <div style="font-size: 16px; color: #38bdf8; font-weight: bold; margin-top: 10px;" id="callTypeTitle">🌐 SECURE CALL</div>
             
             <div id="audioCallView" style="flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:15px;">
                 <div class="avatar" id="callAvatarIcon" style="width:90px; height:90px; font-size:36px;">📞</div>
-                <div style="font-size:18px; font-weight:600;" id="callUserNameDisplay">Connecting Worldwide...</div>
+                <div style="font-size:18px; font-weight:600;" id="callUserNameDisplay">Connecting...</div>
             </div>
 
             <div class="video-grid" id="videoGridContainer" style="display:none;">
@@ -380,12 +380,7 @@
             <audio id="msgNotificationSound" src="https://assets.mixkit.co/active_storage/sfx/2354/2354-preview.mp3"></audio>
 
             <div style="display:flex; gap:10px; margin-bottom:20px; align-items:center; justify-content:center; flex-wrap:wrap;">
-                <button onclick="toggleMuteMic()" id="muteMicBtn" style="width: 45px; height: 45px; background: #334155; border-radius: 50%; border: none; color: white; font-size: 18px; cursor: pointer;" title="Mute Mic">🎤</button>
-                <button onclick="toggleAudioOutput()" id="speakerToggleBtn" style="width: 45px; height: 45px; background: #334155; border-radius: 50%; border: none; color: white; font-size: 18px; cursor: pointer;" title="Speaker">🔊</button>
-                <button onclick="toggleScreenShare()" id="screenShareBtn" style="width: 45px; height: 45px; background: #334155; border-radius: 50%; border: none; color: white; font-size: 18px; cursor: pointer;" title="Screen Share">💻</button>
-                <button onclick="toggleCallRecording()" id="recordCallBtn" style="width: 45px; height: 45px; background: #334155; border-radius: 50%; border: none; color: white; font-size: 18px; cursor: pointer;" title="Record Call">🔴</button>
                 <button onclick="endCall()" style="width: 60px; height: 60px; background: #ef4444; border-radius: 50%; border: none; color: white; font-size: 22px; cursor: pointer;" title="End Call">📞</button>
-                <button onclick="toggleVideoCamera()" id="muteCamBtn" style="width: 45px; height: 45px; background: #334155; border-radius: 50%; border: none; color: white; font-size: 18px; cursor: pointer;" title="Camera Off">📹</button>
             </div>
         </div>
 
@@ -463,7 +458,6 @@
                 <div class="input-bar">
                     <input type="file" id="imgFile" accept="image/*" style="display:none;" onchange="sendImage(event)">
                     <button class="icon-btn" onclick="toggleAttach()">📎</button>
-                    <!-- Emoji Button Moved Next to Attachment -->
                     <button class="icon-btn" onclick="toggleEmojiPicker()" title="Emoji">😊</button>
                     <input type="text" id="msgInput" placeholder="Global message likhein..." oninput="handleTyping()" onkeypress="if(event.key=='Enter')sendMsg()">
                     <button class="send-btn" onclick="sendMsg()">➤</button>
@@ -527,6 +521,7 @@
             if(!myName) {
                 document.getElementById('loginScreen').classList.remove('hide');
             } else {
+                document.getElementById('loginScreen').classList.add('hide');
                 startApp();
             }
         }
@@ -775,6 +770,11 @@
                 presenceRef = db.ref("presence/" + myName.replace(/[^a-zA-Z0-9+_]/g, '_'));
                 presenceRef.set({ status: "online", lastSeen: Date.now() });
                 presenceRef.onDisconnect().set({ status: "offline", lastSeen: Date.now() });
+                
+                // Keep presence alive every 10 seconds
+                setInterval(() => {
+                    if(myName) presenceRef.update({ status: "online", lastSeen: Date.now() });
+                }, 10000);
             } catch(err) { console.log(err); }
 
             loadPhotoStatuses();
@@ -906,6 +906,14 @@
                                 };
 
                                 let callRef = db.ref("calls/" + callKey);
+                                
+                                // Listen if call is ended from remote side
+                                callRef.on('value', snapSnap => {
+                                    if(!snapSnap.exists()) {
+                                        endCallRemotely();
+                                    }
+                                });
+
                                 peerConnection.onicecandidate = event => {
                                     if (event.candidate) callRef.child('candidates').push(event.candidate.toJSON());
                                 };
@@ -926,6 +934,7 @@
                         } else {
                             ringtone.pause();
                             ringtone.currentTime = 0;
+                            db.ref("calls/" + callKey).remove();
                         }
                     }
                 }
@@ -938,27 +947,32 @@
             document.querySelector('.fab').style.display = (i === 0) ? 'flex' : 'none';
         }
 
+        // --- Render ONLY Online Users ---
         function renderContacts(listToRender) {
             let list = document.getElementById('contactList'); list.innerHTML = '';
-            listToRender.forEach(c => {
+            
+            // Filter to show ONLY currently online users (active in last 20 seconds) or Global Room
+            let onlineOnlyList = listToRender.filter(c => {
+                if(c.type === 'group') return true;
+                let pKey = c.name.replace(/[^a-zA-Z0-9+_]/g, '_');
+                let pData = onlinePresenceMap[pKey];
+                return (pData && pData.status === 'online' && (Date.now() - pData.lastSeen < 20000));
+            });
+
+            if(onlineOnlyList.length <= 1) {
+                list.innerHTML = `<div style="text-align:center; padding:30px; color:var(--sub); font-size:13px;">Abhi koi doosra user online nahi hai. 🌐<br><small>Dusre browser/device se login karke check karein.</small></div>`;
+                return;
+            }
+
+            onlineOnlyList.forEach(c => {
                 let div = document.createElement('div'); div.className = 'item';
                 div.onclick = () => openChat(c.name);
                 let isBlocked = blockedUsers.includes(c.name);
                 
                 let pKey = c.name.replace(/[^a-zA-Z0-9+_]/g, '_');
                 let pData = onlinePresenceMap[pKey];
-                let isOnline = false;
-                let statusTextCustom = c.type === 'group' ? '👥 Global Room' : 'Offline ⚪';
-
-                if(c.type === 'group') {
-                    statusTextCustom = '👥 Global Room';
-                } else if(pData && pData.status === 'online' && (Date.now() - pData.lastSeen < 30000)) {
-                    isOnline = true;
-                    statusTextCustom = 'Online 🟢';
-                } else if(pData && pData.lastSeen) {
-                    let d = new Date(pData.lastSeen);
-                    statusTextCustom = 'Last seen ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                }
+                let isOnline = (c.type === 'group' || (pData && pData.status === 'online' && (Date.now() - pData.lastSeen < 20000)));
+                let statusTextCustom = c.type === 'group' ? '👥 Global Room' : 'Online 🟢';
 
                 let lastMsg = lastMessagesMap[c.name] || statusTextCustom;
                 let badge = isBlocked ? '🚫 Blocked' : lastMsg;
@@ -1717,6 +1731,14 @@
                 };
 
                 let callRef = db.ref("calls/" + callKey);
+                
+                // Listen if call is ended from remote side
+                callRef.on('value', snapSnap => {
+                    if(!snapSnap.exists()) {
+                        endCallRemotely();
+                    }
+                });
+
                 peerConnection.onicecandidate = event => {
                     if (event.candidate) callRef.child('candidates').push(event.candidate.toJSON());
                 };
@@ -1743,42 +1765,10 @@
             } catch (err) { alert("Call error: " + err); endCall(); }
         }
 
-        function toggleMuteMic() {
-            if(localStream) {
-                let audioTrack = localStream.getAudioTracks()[0];
-                audioTrack.enabled = !audioTrack.enabled;
-                document.getElementById('muteMicBtn').style.background = audioTrack.enabled ? "#334155" : "#ef4444";
-            }
-        }
-
-        let isSpeakerOn = true;
-        function toggleAudioOutput() {
-            let remoteAudio = document.getElementById('remoteAudioElement');
-            isSpeakerOn = !isSpeakerOn;
-            document.getElementById('speakerToggleBtn').style.background = isSpeakerOn ? "#38bdf8" : "#334155";
-            alert(isSpeakerOn ? "🔊 Speaker ON" : "👂 Earpiece ON");
-        }
-
-        function toggleVideoCamera() {
-            if(localStream) {
-                let videoTrack = localStream.getVideoTracks()[0];
-                if(videoTrack) {
-                    videoTrack.enabled = !videoTrack.enabled;
-                    document.getElementById('muteCamBtn').style.background = videoTrack.enabled ? "#334155" : "#ef4444";
-                } else {
-                    alert("Yeh audio-only call hai!");
-                }
-            }
-        }
-
         function endCall() {
             let ringtone = document.getElementById('ringtoneAudioElement');
             ringtone.pause();
             ringtone.currentTime = 0;
-
-            if(isCallRecordingActive) {
-                toggleCallRecording();
-            }
 
             if(localStream) localStream.getTracks().forEach(track => track.stop());
             if(peerConnection) peerConnection.close();
@@ -1799,6 +1789,18 @@
                 }
                 db.ref("calls/" + callKey).remove();
             }
+        }
+
+        function endCallRemotely() {
+            let ringtone = document.getElementById('ringtoneAudioElement');
+            ringtone.pause();
+            ringtone.currentTime = 0;
+
+            if(localStream) localStream.getTracks().forEach(track => track.stop());
+            if(peerConnection) peerConnection.close();
+            peerConnection = null;
+            document.getElementById('callScreen').classList.remove('active');
+            activeCallKey = null;
         }
 
         function toggleDark() { 
