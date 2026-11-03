@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-    <title>बात-चीत (Baat-Cheet) - Secure OTP Admin Messenger</title>
+    <title>बात-चीत (Baat-Cheet) - Secure OTP Login Messenger</title>
     <meta name="theme-color" content="#090d16">
-    <meta name="description" content="Ultimate Global Desi Messenger with Admin Controls and 5-Minute OTP Verification">
+    <meta name="description" content="Ultimate Global Desi Messenger with 5-Minute OTP Verification">
     
     <link rel="manifest" href="manifest.json">
 
@@ -153,10 +153,10 @@
         
         <div class="india-splash" id="indiaSplash">
             <div class="india-badge">
-                <div style="font-size: 40px; margin-bottom: 10px;">🛡️</div>
-                <h2 style="color: #FF9933; font-size: 24px; margin-bottom: 6px;">ADMIN BAAT-CHEET</h2>
-                <p style="font-size: 13px; color: #94a3b8; margin-bottom: 15px;" id="detectedDistrictText">Admin Security Active (+91 8700404029)...</p>
-                <button onclick="dismissIndiaSplash()" style="background:#10b981; color:white; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer; width:100%;">Secure Login ➔</button>
+                <div style="font-size: 40px; margin-bottom: 10px;">🌐</div>
+                <h2 style="color: #FF9933; font-size: 24px; margin-bottom: 6px;">GLOBAL BAAT-CHEET</h2>
+                <p style="font-size: 13px; color: #94a3b8; margin-bottom: 15px;" id="detectedDistrictText">International Gateway Active...</p>
+                <button onclick="dismissIndiaSplash()" style="background:#10b981; color:white; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer; width:100%;">Connect Globally ➔</button>
             </div>
         </div>
 
@@ -169,7 +169,7 @@
         <div class="screen" id="loginScreen">
             <div class="cyber-card" id="step1PhoneCard">
                 <div class="brand-title">💬 baat-cheet</div>
-                <p class="brand-subtitle">Admin Secure OTP Login (5-Min Limit)</p>
+                <p class="brand-subtitle">Secure OTP Login (5-Min Limit)</p>
                 <div style="display:flex; gap:8px; width:100%; margin-bottom:18px;">
                     <select id="countryCodeSelect" style="padding:14px 10px; border-radius:14px; border:1px solid rgba(255,255,255,0.15); background:rgba(15, 23, 42, 0.8); color:white; font-size:14px; outline:none;">
                         <option value="+91">🇮🇳 +91</option>
@@ -194,14 +194,14 @@
 
         <header>
             <div style="display:flex; align-items:center; gap:6px;">
-                <span style="font-size:18px;">🛡️</span>
-                <div style="font-weight:700; font-size:15px; display:flex; align-items:center; gap:4px;">baat-cheet <span style="background:#ef4444; font-size:9px; padding:1px 5px; border-radius:6px; color:white;" id="headerCountryBadge">ADMIN</span></div>
+                <span style="font-size:18px;">🌍</span>
+                <div style="font-weight:700; font-size:15px; display:flex; align-items:center; gap:4px;">baat-cheet <span style="background:#38bdf8; font-size:9px; padding:1px 5px; border-radius:6px; color:white;" id="headerCountryBadge">GLOBAL</span></div>
             </div>
             <div style="display:flex; gap:10px; align-items:center;">
                 <span onclick="openCloudVault()" style="cursor:pointer; font-size:16px;" title="Cloud Vault / Notes">☁️</span>
                 <span onclick="openStarredModal()" style="cursor:pointer; font-size:16px;" title="Starred">⭐</span>
                 <span onclick="openWallpaperModal()" style="cursor:pointer; font-size:16px;" title="Wallpaper">🎨</span>
-                <span onclick="openProfileModal()" style="cursor:pointer; font-size:16px;" title="Profile & Admin ID">⚙️</span>
+                <span onclick="openProfileModal()" style="cursor:pointer; font-size:16px;" title="Profile & User ID">⚙️</span>
                 <span onclick="toggleDark()" style="cursor:pointer; font-size:18px;" title="Dark Mode">🌙</span>
             </div>
         </header>
@@ -214,9 +214,9 @@
 
         <div class="content active" id="sec0">
             <div class="contact-search-box">
-                <input type="text" id="contactSearchInput" placeholder="🔍 Dost ya @Username khojein..." oninput="filterContacts()">
+                <input type="text" id="contactSearchInput" placeholder="🔍 International dost ya @Username khojein..." oninput="filterContacts()">
             </div>
-            <div style="padding:8px; text-align:center; font-size:11px; color:var(--sub); background:rgba(239,68,68,0.1);">🛡️ Admin Mode Active (+91 8700404029) - User Deletion Enabled</div>
+            <div style="padding:8px; text-align:center; font-size:11px; color:var(--sub); background:rgba(56,189,248,0.1);">🌐 Secure OTP Login & E2EE Active</div>
             <div id="contactList" style="flex:1; overflow-y:auto; width:100%;"></div>
         </div>
 
@@ -228,12 +228,12 @@
         </div>
 
         <div class="content" id="sec2" style="padding: 16px; font-size: 13px; color: var(--text);">
-            <h3 style="color:#38bdf8; margin-bottom:8px;">📡 Global Mesh & Admin Nodes</h3>
+            <h3 style="color:#38bdf8; margin-bottom:8px;">📡 Global Mesh & International Nodes</h3>
             <p style="color:var(--sub); margin-bottom:14px;">Cross-border aur offline mesh status:</p>
             <div style="display:flex; flex-direction:column; gap:8px;">
                 <div style="background:var(--card); padding:12px; border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
-                    <div>🌐 Admin Relay Server</div>
-                    <span style="color:#10b981; font-weight:bold; font-size:12px;">Connected (Master) ✓</span>
+                    <div>🌐 Global STUN Relay</div>
+                    <span style="color:#10b981; font-weight:bold; font-size:12px;">Connected (US-East) ✓</span>
                 </div>
                 <div style="background:var(--card); padding:12px; border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
                     <div>📱 Nearby Bluetooth Mesh</div>
@@ -246,17 +246,17 @@
 
         <div class="modal" id="modal">
             <div class="modal-box">
-                <h3>Admin Management</h3>
-                <button onclick="openAddContact()" style="width:100%; padding:10px; margin:6px 0; background:#38bdf8; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600;">Dost Jodein (+Code / @ID)</button>
-                <button onclick="openCreateGroup()" style="width:100%; padding:10px; margin:6px 0; background:#0f172a; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600;">Group Banayein</button>
+                <h3>Global Connection</h3>
+                <button onclick="openAddContact()" style="width:100%; padding:10px; margin:6px 0; background:#38bdf8; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600;">International Dost Jodein (+Code / @ID)</button>
+                <button onclick="openCreateGroup()" style="width:100%; padding:10px; margin:6px 0; background:#0f172a; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600;">Global Group Banayein</button>
                 <button onclick="closeModal()" style="width:100%; padding:8px; margin-top:10px; background:#cbd5e1; border:none; border-radius:8px; cursor:pointer;">Radd</button>
             </div>
         </div>
 
         <div class="modal" id="contactModal">
             <div class="modal-box">
-                <h3>Number ya @Username Jodein</h3>
-                <input type="text" id="contactNameInput" placeholder="+918700404029 ya @username">
+                <h3>International Number ya @Username Jodein</h3>
+                <input type="text" id="contactNameInput" placeholder="+1 5550192 ya @username">
                 <div style="display:flex; justify-content:flex-end; gap:8px;">
                     <button onclick="document.getElementById('contactModal').classList.remove('active')" style="padding:8px 14px; background:#cbd5e1; border:none; border-radius:6px; cursor:pointer;">Radd</button>
                     <button onclick="saveContact()" style="padding:8px 14px; background:#10b981; color:white; border:none; border-radius:6px; cursor:pointer;">Jodein</button>
@@ -266,7 +266,7 @@
 
         <div class="modal" id="groupModal">
             <div class="modal-box">
-                <h3>Group Banayein</h3>
+                <h3>Global Group Banayein</h3>
                 <input type="text" id="groupNameInput" placeholder="Group ka naam">
                 <div style="display:flex; justify-content:flex-end; gap:8px;">
                     <button onclick="document.getElementById('groupModal').classList.remove('active')" style="padding:8px 14px; background:#cbd5e1; border:none; border-radius:6px; cursor:pointer;">Radd</button>
@@ -277,13 +277,13 @@
 
         <div class="modal" id="profileModal">
             <div class="modal-box">
-                <h3>Admin Profile & Rights</h3>
-                <label style="font-size:11px; color:var(--sub);">Admin Account:</label>
+                <h3>Global Profile & Country Code</h3>
+                <label style="font-size:11px; color:var(--sub);">Country & Number:</label>
                 <input type="text" id="profileNameEdit" disabled>
                 <label style="font-size:11px; color:var(--sub);">Unique User ID (@username):</label>
-                <input type="text" id="profileUsernameEdit" placeholder="e.g. kunal_admin">
+                <input type="text" id="profileUsernameEdit" placeholder="e.g. rohan_global">
                 <label style="font-size:11px; color:var(--sub);">Bio / Status:</label>
-                <input type="text" id="profileBioEdit" placeholder="System Master Admin 🛡️">
+                <input type="text" id="profileBioEdit" placeholder="Global Traveller 🚀">
                 <div style="margin:10px 0; font-size:13px; display:flex; align-items:center; gap:8px;">
                     <input type="checkbox" id="hideOnlineToggle" style="width:16px; height:16px;">
                     <label for="hideOnlineToggle">Hide Online Status</label>
@@ -298,7 +298,7 @@
 
         <div class="modal" id="groupAdminModal">
             <div class="modal-box">
-                <h3>🛡️ Admin Control & User Management</h3>
+                <h3>👥 Global Group Settings</h3>
                 <input type="text" id="newMemberInput" placeholder="Naye member ka naam">
                 <button onclick="addGroupMember()" style="width:100%; padding:8px; background:#10b981; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:600; margin-top:6px;">Member Jodein</button>
                 <div id="groupMemberList" style="margin-top:12px; font-size:13px; max-height:100px; overflow-y:auto; display:flex; flex-direction:column; gap:4px;"></div>
@@ -325,11 +325,11 @@
 
         <div class="modal" id="wallpaperModal">
             <div class="modal-box">
-                <h3>Chat Wallpaper & Themes</h3>
+                <h3>Chat Wallpaper & Global Themes</h3>
                 <div style="display:flex; gap:10px; margin:8px 0; justify-content:center;">
                     <div onclick="setWallpaperColor('#f1f5f9')" style="width:30px; height:30px; background:#f1f5f9; border-radius:50%; cursor:pointer; border:1px solid #cbd5e1;" title="Solid Light"></div>
                     <div onclick="setWallpaperColor('#0f172a')" style="width:30px; height:30px; background:#0f172a; border-radius:50%; cursor:pointer;" title="Solid Dark"></div>
-                    <div onclick="setWallpaperColor('linear-gradient(135deg, #38bdf8, #0f172a)')" style="width:30px; height:30px; background:linear-gradient(135deg, #38bdf8, #0f172a); border-radius:50%; cursor:pointer;" title="Gradient"></div>
+                    <div onclick="setWallpaperColor('linear-gradient(135deg, #38bdf8, #0f172a)')" style="width:30px; height:30px; background:linear-gradient(135deg, #38bdf8, #0f172a); border-radius:50%; cursor:pointer;" title="Global Blue Gradient"></div>
                 </div>
                 <input type="file" id="wallpaperFileInput" accept="image/*" style="display:none;" onchange="setCustomWallpaperImage(event)">
                 <button onclick="document.getElementById('wallpaperFileInput').click()" style="width:100%; padding:10px; background:#10b981; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600; margin-top:6px;">📷 Gallery Se Custom Photo</button>
@@ -351,18 +351,18 @@
             <header style="background:var(--primary); margin-bottom:15px;">
                 <div style="display:flex; align-items:center; gap:10px;">
                     <span onclick="closeMediaGallery()" style="cursor:pointer; font-size:20px;">←</span>
-                    <div style="font-weight:600; font-size:15px;">Shared Cloud Media</div>
+                    <div style="font-weight:600; font-size:15px;">Shared Global Cloud Media</div>
                 </div>
             </header>
             <div id="mediaGalleryContainer" style="flex:1; overflow-y:auto; display:grid; grid-template-columns: repeat(3, 1fr); gap:8px;"></div>
         </div>
 
         <div class="call-screen" id="callScreen">
-            <div style="font-size: 16px; color: #38bdf8; font-weight: bold; margin-top: 10px;" id="callTypeTitle">🛡️ ADMIN SECURE CALL</div>
+            <div style="font-size: 16px; color: #38bdf8; font-weight: bold; margin-top: 10px;" id="callTypeTitle">🌐 GLOBAL STUN/TURN SECURE CALL</div>
             
             <div id="audioCallView" style="flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:15px;">
                 <div class="avatar" id="callAvatarIcon" style="width:90px; height:90px; font-size:36px;">📞</div>
-                <div style="font-size:18px; font-weight:600;" id="callUserNameDisplay">Connecting...</div>
+                <div style="font-size:18px; font-weight:600;" id="callUserNameDisplay">Connecting Worldwide...</div>
             </div>
 
             <div class="video-grid" id="videoGridContainer" style="display:none;">
@@ -385,22 +385,22 @@
         </div>
 
         <div class="chat-screen" id="chatScreen">
-            <div class="network-banner" id="networkBanner">⚠️ Waiting for network... Connecting</div>
+            <div class="network-banner" id="networkBanner">⚠️ Waiting for network... Global Gateway Connecting</div>
             <header>
                 <div style="display:flex; align-items:center; gap:10px;">
                     <span onclick="closeChat()" style="cursor:pointer; font-size:20px;">←</span>
                     <div class="avatar" id="chatAvatar" style="width:34px; height:34px; font-size:13px; margin:0;">?</div>
                     <div>
                         <div id="chatName" style="font-weight:600; font-size:15px;" onclick="checkGroupSettings()">Chat</div>
-                        <div id="chatSubStatus" style="font-size:10px; color:#38bdf8;">Admin E2EE Active 🛡️</div>
+                        <div id="chatSubStatus" style="font-size:10px; color:#38bdf8;">Global E2EE Active 🌐</div>
                     </div>
                 </div>
                 <div style="display:flex; gap:10px; font-size:15px; align-items:center;">
                     <span onclick="startTicTacToe()" style="cursor:pointer;" title="Play Tic-Tac-Toe Game">🎮</span>
                     <span onclick="toggleSearchBox()" style="cursor:pointer;" title="Search">🔍</span>
                     <span onclick="openMediaGallery()" style="cursor:pointer;" title="Gallery">🖼️</span>
-                    <span onclick="startAudioCall()" style="cursor:pointer;" title="Audio Call">📞</span>
-                    <span onclick="startVideoCall()" style="cursor:pointer;" title="Video Call">📹</span>
+                    <span onclick="startAudioCall()" style="cursor:pointer;" title="International Audio Call">📞</span>
+                    <span onclick="startVideoCall()" style="cursor:pointer;" title="International Video Call">📹</span>
                     <span onclick="toggleBlockContact()" style="cursor:pointer;" title="Block/Unblock" id="blockIconBtn">🚫</span>
                 </div>
             </header>
@@ -416,7 +416,7 @@
             </div>
 
             <div class="messages" id="msgList">
-                <div style="text-align:center; font-size:11px; color:var(--sub); padding:4px;">🛡️ Secure Admin Encrypted Chat</div>
+                <div style="text-align:center; font-size:11px; color:var(--sub); padding:4px;">🌐 Global Cross-Border Encrypted Chat</div>
                 <div class="typing-bubble" id="typingIndicatorBubble">
                     <div class="dot"></div>
                     <div class="dot"></div>
@@ -458,7 +458,7 @@
                 <div class="input-bar">
                     <input type="file" id="imgFile" accept="image/*" style="display:none;" onchange="sendImage(event)">
                     <button class="icon-btn" onclick="toggleAttach()">📎</button>
-                    <input type="text" id="msgInput" placeholder="Message likhein..." oninput="handleTyping()" onkeypress="if(event.key=='Enter')sendMsg()">
+                    <input type="text" id="msgInput" placeholder="Global message likhein..." oninput="handleTyping()" onkeypress="if(event.key=='Enter')sendMsg()">
                     <button class="icon-btn" onclick="toggleEmojiPicker()">😊</button>
                     <button class="send-btn" onclick="sendMsg()">➤</button>
                 </div>
@@ -470,17 +470,13 @@
         var myName = localStorage.getItem('baatcheet_username') || "";
         var myCountryCode = localStorage.getItem('baatcheet_countrycode') || "+91";
         var myUsername = localStorage.getItem('baatcheet_userhandle') || "";
-        var myBio = localStorage.getItem('baatcheet_bio') || "System Master Admin 🛡️";
+        var myBio = localStorage.getItem('baatcheet_bio') || "Global Traveller 🚀";
         var hideOnlineStatus = false;
         var cryptoKey = null;
         var generatedOtp = "";
         var otpTimerInterval = null;
-        
-        // --- ADMIN NUMBER CONFIGURATION ---
-        const ADMIN_NUMBER = "+91 8700404029";
-
         var contacts = [
-            {name: "Admin Control Room", type: "group", admin: ADMIN_NUMBER, members: [ADMIN_NUMBER], is_verified: true, country: "🛡️"}
+            {name: "Global International Room", type: "group", admin: "System", members: ["System"], is_verified: true, country: "🌐"}
         ];
         var blockedUsers = [];
         var starredMessages = JSON.parse(localStorage.getItem('baatcheet_starred') || '[]');
@@ -528,7 +524,7 @@
             myName = cCode + " " + phone;
             myCountryCode = cCode;
 
-            alert("📲 Admin OTP Sent to " + myName + ": [" + generatedOtp + "]");
+            alert("📲 Demo OTP Sent to " + myName + ": [" + generatedOtp + "]");
 
             document.getElementById('step1PhoneCard').style.display = 'none';
             document.getElementById('step2OtpCard').style.display = 'flex';
@@ -566,26 +562,14 @@
             }
 
             if(otpTimerInterval) clearInterval(otpTimerInterval);
-            
-            if(myName === ADMIN_NUMBER) {
-                alert("🛡️ Admin Login Successful! Full Control Granted.");
-            } else {
-                alert("✅ OTP Verified Successfully!");
-            }
+            alert("✅ OTP Verified Safalpurvak!");
             
             localStorage.setItem('baatcheet_username', myName);
             localStorage.setItem('baatcheet_countrycode', myCountryCode);
             document.getElementById('loginScreen').classList.add('hide');
 
             let badgeElem = document.getElementById('headerCountryBadge');
-            if(badgeElem) {
-                if(myName === ADMIN_NUMBER) {
-                    badgeElem.innerText = "ADMIN";
-                    badgeElem.style.background = "#ef4444";
-                } else {
-                    badgeElem.innerText = myCountryCode + " USER";
-                }
-            }
+            if(badgeElem) badgeElem.innerText = myCountryCode + " GLOBAL";
 
             if(!myUsername) {
                 myUsername = "_" + myName.replace(/[^a-z0-9]/g, '');
@@ -638,11 +622,6 @@
         document.addEventListener("DOMContentLoaded", () => {
             if(myName) {
                 document.getElementById('loginScreen').classList.add('hide');
-                let badgeElem = document.getElementById('headerCountryBadge');
-                if(badgeElem && myName === ADMIN_NUMBER) {
-                    badgeElem.innerText = "ADMIN";
-                    badgeElem.style.background = "#ef4444";
-                }
                 startApp();
             }
         });
@@ -680,7 +659,6 @@
                     name: myName,
                     countryCode: myCountryCode,
                     username: myUsername,
-                    isAdmin: (myName === ADMIN_NUMBER),
                     is_verified: true,
                     lastActive: Date.now()
                 });
@@ -697,7 +675,7 @@
 
             db.ref("users").on('value', snap => {
                 let allUsers = snap.val() || {};
-                contacts = [{name: "Admin Control Room", type: "group", admin: ADMIN_NUMBER, members: [ADMIN_NUMBER], is_verified: true, country: "🛡️"}];
+                contacts = [{name: "Global International Room", type: "group", admin: "System", members: ["System"], is_verified: true, country: "🌐"}];
                 for(let uKey in allUsers) {
                     let uData = allUsers[uKey];
                     if(uData.name && uData.name !== myName) {
@@ -706,7 +684,6 @@
                                 name: uData.name, 
                                 username: uData.username || ('@' + uData.name.toLowerCase()),
                                 type: 'direct',
-                                isAdmin: uData.isAdmin || false,
                                 is_verified: uData.is_verified !== undefined ? uData.is_verified : true
                             });
                         }
@@ -807,24 +784,24 @@
                 let callKey = snap.key;
                 let data = snap.val();
                 if(data && data.offer && data.caller !== myName && !peerConnection) {
-                    if(callKey.includes(myName.replace(/[^a-zA-Z0-9+_]/g, '_')) || callKey === "Admin_Control_Room") {
+                    if(callKey.includes(myName.replace(/[^a-zA-Z0-9+_]/g, '_')) || callKey === "Global_International_Room") {
                         let ringtone = document.getElementById('ringtoneAudioElement');
                         ringtone.play().catch(e => console.log(e));
 
-                        if(confirm(data.caller + " se secure " + (data.callType || 'video') + " call aa rahi hai? Accept karein?")) {
+                        if(confirm(data.caller + " se International " + (data.callType || 'video') + " call aa rahi hai? Accept karein?")) {
                             ringtone.pause();
                             ringtone.currentTime = 0;
                             activeCallKey = callKey;
                             document.getElementById('callScreen').classList.add('active');
                             
                             if(data.callType === 'audio') {
-                                document.getElementById('callTypeTitle').innerText = "📞 ADMIN HD AUDIO CALL (Connected)";
+                                document.getElementById('callTypeTitle').innerText = "📞 GLOBAL HD AUDIO CALL (Connected)";
                                 document.getElementById('audioCallView').style.display = 'flex';
                                 document.getElementById('videoGridContainer').style.display = 'none';
                                 document.getElementById('callUserNameDisplay').innerText = data.caller;
                                 document.getElementById('callAvatarIcon').innerText = data.caller[0];
                             } else {
-                                document.getElementById('callTypeTitle').innerText = "📹 ADMIN HD VIDEO CALL (Connected)";
+                                document.getElementById('callTypeTitle').innerText = "📹 GLOBAL HD VIDEO CALL (Connected)";
                                 document.getElementById('audioCallView').style.display = 'none';
                                 document.getElementById('videoGridContainer').style.display = 'flex';
                             }
@@ -892,10 +869,10 @@
                 let pKey = c.name.replace(/[^a-zA-Z0-9+_]/g, '_');
                 let pData = onlinePresenceMap[pKey];
                 let isOnline = false;
-                let statusTextCustom = c.type === 'group' ? '👥 Admin Room' : 'Offline ⚪';
+                let statusTextCustom = c.type === 'group' ? '👥 Global Room' : 'Offline ⚪';
 
                 if(c.type === 'group') {
-                    statusTextCustom = '👥 Admin Room';
+                    statusTextCustom = '👥 Global Room';
                 } else if(pData && pData.status === 'online' && (Date.now() - pData.lastSeen < 30000)) {
                     isOnline = true;
                     statusTextCustom = 'Online 🟢';
@@ -907,37 +884,12 @@
                 let lastMsg = lastMessagesMap[c.name] || statusTextCustom;
                 let badge = isBlocked ? '🚫 Blocked' : lastMsg;
                 let unreadCount = unreadCountsMap[c.name] || 0;
-                let verifiedTick = (c.is_verified !== false) ? ' <span style="color:#38bdf8; font-size:13px;" title="Verified">✓</span>' : '';
+                let verifiedTick = (c.is_verified !== false) ? ' <span style="color:#38bdf8; font-size:13px;" title="Global Verified">✓</span>' : '';
                 let handleLabel = c.username ? `<span style="font-size:11px; color:#38bdf8; margin-left:6px;">${c.username}</span>` : '';
                 
-                // Admin Delete Button for unverified/unwanted users
-                let deleteBtnHtml = "";
-                if (myName === ADMIN_NUMBER && c.type !== 'group' && c.name !== ADMIN_NUMBER) {
-                    deleteBtnHtml = `<span onclick="event.stopPropagation(); adminDeleteUser('${c.name}')" style="color:#ef4444; font-size:12px; font-weight:bold; margin-left:10px; padding:2px 6px; background:rgba(239,68,68,0.1); border-radius:4px;" title="Admin Delete User">🗑️ Hatao</span>`;
-                }
-
-                div.innerHTML = `<div style="display:flex; align-items:center; overflow:hidden;"><div class="avatar">${c.name[0]}<div class="online-dot ${isOnline ? 'active':''}"></div></div><div style="overflow:hidden;"><b>${c.name}</b>${verifiedTick} ${handleLabel}<div style="font-size:12px; color:var(--sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;">${badge}</div></div></div><div style="display:flex; align-items:center; gap:6px;">${deleteBtnHtml}<div class="unread-badge ${unreadCount > 0 ? 'active':''}">${unreadCount}</div></div>`;
+                div.innerHTML = `<div style="display:flex; align-items:center; overflow:hidden;"><div class="avatar">${c.name[0]}<div class="online-dot ${isOnline ? 'active':''}"></div></div><div style="overflow:hidden;"><b>${c.name}</b>${verifiedTick} ${handleLabel}<div style="font-size:12px; color:var(--sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px;">${badge}</div></div></div><div class="unread-badge ${unreadCount > 0 ? 'active':''}">${unreadCount}</div>`;
                 list.appendChild(div);
             });
-        }
-
-        // --- Admin User Removal Function ---
-        function adminDeleteUser(targetName) {
-            if (myName !== ADMIN_NUMBER) {
-                alert("⚠️ Aapke paas Admin Power nahi hai!");
-                return;
-            }
-            if (confirm(`🛡️ [Admin Power] Kya aap user '${targetName}' ko database se puri tarah hataana chahte hain?`)) {
-                let targetKey = targetName.replace(/[^a-zA-Z0-9+_]/g, '_');
-                db.ref("users/" + targetKey).remove().then(() => {
-                    db.ref("presence/" + targetKey).remove();
-                    alert(`✅ '${targetName}' ko successfully hata diya gaya hai!`);
-                    contacts = contacts.filter(c => c.name !== targetName);
-                    renderContacts(contacts);
-                }).catch(err => {
-                    alert("Error deleting user: " + err);
-                });
-            }
         }
 
         function filterContacts() {
@@ -953,7 +905,7 @@
 
         function saveContact() {
             let val = document.getElementById('contactNameInput').value.trim();
-            if(!val) return alert('Kripya number ya @username daalein!');
+            if(!val) return alert('Kripya international number ya @username daalein!');
             let name = val.startsWith('@') ? val.substring(1) : val;
             let formattedHandle = '@' + name.toLowerCase().replace(/[^a-z0-9]/g, '');
 
@@ -970,7 +922,7 @@
             let name = document.getElementById('groupNameInput').value.trim();
             if(!name) return alert('Kripya group naam daalein!');
             if(!contacts.some(c => c.name === name)) {
-                contacts.push({name: name, type: 'group', admin: ADMIN_NUMBER, members: [ADMIN_NUMBER], is_verified: true});
+                contacts.push({name: name, type: 'group', admin: myName, members: [myName], is_verified: true});
             }
             renderContacts(contacts);
             document.getElementById('groupModal').classList.remove('active');
@@ -1005,7 +957,6 @@
             db.ref("users/" + myName.replace(/[^a-zA-Z0-9+_]/g, '_')).update({
                 username: myUsername,
                 bio: myBio,
-                isAdmin: (myName === ADMIN_NUMBER),
                 is_verified: true
             });
 
@@ -1014,7 +965,7 @@
             } else {
                 presenceRef.set({ status: "online", lastSeen: Date.now() });
             }
-            alert("✨ Admin Profile successfully updated!");
+            alert("✨ Global Profile successfully updated!");
         }
 
         function openWallpaperModal() { document.getElementById('wallpaperModal').classList.add('active'); }
@@ -1119,13 +1070,13 @@
                     grp.members.forEach(m => {
                         let row = document.createElement('div');
                         row.style.cssText = "display:flex; justify-content:space-between; align-items:center; background:var(--bg); padding:6px 10px; border-radius:6px;";
-                        row.innerHTML = `<span>👤 ${m}</span> ${myName === ADMIN_NUMBER && m !== myName ? `<span onclick="removeGroupMember('${activeChat}', '${m}')" style="color:#ef4444; cursor:pointer; font-weight:bold;">Remove</span>` : ''}`;
+                        row.innerHTML = `<span>👤 ${m}</span> ${grp.admin === myName && m !== myName ? `<span onclick="removeGroupMember('${activeChat}', '${m}')" style="color:#ef4444; cursor:pointer; font-weight:bold;">Remove</span>` : ''}`;
                         list.appendChild(row);
                     });
                 }
                 document.getElementById('groupAdminModal').classList.add('active');
             } else {
-                document.getElementById('groupMemberList').innerHTML = `<div style="color:var(--sub);">Secure Admin Chat with ${activeChat} 🛡️</div>`;
+                document.getElementById('groupMemberList').innerHTML = `<div style="color:var(--sub);">Global Secure Chat with ${activeChat} 🌐</div>`;
                 document.getElementById('groupAdminModal').classList.add('active');
             }
         }
@@ -1133,7 +1084,7 @@
         function clearChatHistory() {
             if(confirm("Kya aap is chat ki saari history clear karna chahte hain?")) {
                 if(dbRef) dbRef.remove();
-                document.getElementById('msgList').innerHTML = `<div style="text-align:center; font-size:11px; color:var(--sub);">🛡️ Admin Encrypted Chat</div>`;
+                document.getElementById('msgList').innerHTML = `<div style="text-align:center; font-size:11px; color:var(--sub);">🌐 Global Encrypted Chat</div>`;
                 document.getElementById('groupAdminModal').classList.remove('active');
                 alert("🗑️ Chat history clear kar di gayi hai!");
             }
@@ -1144,7 +1095,7 @@
             if(!newMem) return;
             let grp = contacts.find(c => c.name === activeChat && c.type === 'group');
             if(grp) {
-                if(!grp.members) grp.members = [ADMIN_NUMBER];
+                if(!grp.members) grp.members = [myName];
                 if(!grp.members.includes(newMem)) {
                     grp.members.push(newMem);
                     alert(newMem + " ko group mein jodh diya gaya hai!");
@@ -1167,13 +1118,13 @@
 
         function openChat(name) {
             activeChat = name; 
-            document.getElementById('chatName').innerText = name + " 🛡️";
+            document.getElementById('chatName').innerText = name + " 🌐";
             document.getElementById('chatAvatar').innerText = name[0];
             document.getElementById('chatScreen').classList.add('open');
-            document.getElementById('msgList').innerHTML = `<div style="text-align:center; font-size:11px; color:var(--sub);">🛡️ Admin Encrypted Chat Active</div>`;
+            document.getElementById('msgList').innerHTML = `<div style="text-align:center; font-size:11px; color:var(--sub);">🌐 Global Cross-Border Encrypted Chat</div>`;
             allMessagesCache = [];
             
-            document.getElementById('chatSubStatus').innerText = `🛡️ Admin Secure Node Active`;
+            document.getElementById('chatSubStatus').innerText = `🌍 International STUN Node Active`;
 
             let cObj = contacts.find(c => c.name === name);
             let key = "";
@@ -1380,7 +1331,7 @@
             let storageRef = storage.ref(`chats/${activeChat}/${Date.now()}_${file.name}`);
             let uploadTask = storageRef.put(file);
             
-            alert("☁️ Uploading media to Cloud...");
+            alert("☁️ Uploading media to Global Cloud...");
             uploadTask.on('state_changed', null, (err) => {
                 alert("Upload error: " + err);
             }, async () => {
@@ -1398,12 +1349,12 @@
             let storageRef = storage.ref(`documents/${activeChat}/${Date.now()}_${file.name}`);
             let uploadTask = storageRef.put(file);
             
-            alert("☁️ Uploading document to Storage...");
+            alert("☁️ Uploading document to Global Storage...");
             uploadTask.on('state_changed', null, (err) => {
                 alert("Upload error: " + err);
             }, async () => {
                 let downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
-                let fileHtml = `📁 <b>Document:</b> <a href="${downloadURL}" target="_blank" style="color:#38bdf8;">${file.name}</a> (${(file.size/1024).toFixed(1)} KB)`;
+                let fileHtml = `📁 <b>Global Document:</b> <a href="${downloadURL}" target="_blank" style="color:#38bdf8;">${file.name}</a> (${(file.size/1024).toFixed(1)} KB)`;
                 let enc = await encryptMessage(fileHtml);
                 dbRef.push({text: enc, sender: myName, isHtml: true, seen: false, seenBy: { [myName]: true }, deleted: false, edited: false, time: Date.now()});
             });
@@ -1424,7 +1375,7 @@
                     let audioUrl = await snapshot.ref.getDownloadURL();
                     
                     let uniqueId = 'audio_' + Date.now();
-                    let voiceHtml = `🎵 <b>Voice Note</b>
+                    let voiceHtml = `🎵 <b>Global Voice Note</b>
                     <audio id="${uniqueId}" src="${audioUrl}" style="display:none;"></audio>
                     <div class="wave-bars">
                         <div class="wave-bar" style="animation-delay: 0.1s;"></div>
@@ -1504,7 +1455,7 @@
         }
 
         function deleteForEveryone(key, sender) {
-            if(sender !== myName && myName !== ADMIN_NUMBER) { alert("Aap sirf apna bheja hua message delete kar sakte hain!"); return; }
+            if(sender !== myName) { alert("Aap sirf apna bheja hua message delete kar sakte hain!"); return; }
             if(confirm("Kya aap yeh message sabke liye delete karna chahte hain?")) { dbRef.child(key).update({ deleted: true }); }
         }
 
@@ -1575,7 +1526,7 @@
             if(sender && sender !== myName) {
                 let senderTag = document.createElement('div');
                 senderTag.style.cssText = "font-size:10px; font-weight:bold; color:#38bdf8; margin-bottom:2px;";
-                senderTag.innerText = sender + " 🛡️";
+                senderTag.innerText = sender + " 🌐";
                 box.appendChild(senderTag);
             }
 
@@ -1628,7 +1579,7 @@
                     reactHtml += ` <span style="background:rgba(0,0,0,0.05); padding:1px 4px; border-radius:4px;">${em} ${reactions[em]}</span>`;
                 }
                 reactBar.innerHTML = reactHtml;
-                box.boxappendChild ? box.appendChild(reactBar) : box.appendChild(reactBar);
+                box.appendChild(reactBar);
             }
 
             div.appendChild(box);
@@ -1644,13 +1595,13 @@
             document.getElementById('callScreen').classList.add('active');
             
             if(type === 'audio') {
-                document.getElementById('callTypeTitle').innerText = "📞 ADMIN HD AUDIO CALL (Ringing...)";
+                document.getElementById('callTypeTitle').innerText = "📞 GLOBAL HD AUDIO CALL (Ringing...)";
                 document.getElementById('audioCallView').style.display = 'flex';
                 document.getElementById('videoGridContainer').style.display = 'none';
                 document.getElementById('callUserNameDisplay').innerText = activeChat;
                 document.getElementById('callAvatarIcon').innerText = activeChat[0];
             } else {
-                document.getElementById('callTypeTitle').innerText = "📹 ADMIN HD VIDEO CALL";
+                document.getElementById('callTypeTitle').innerText = "📹 GLOBAL HD VIDEO CALL";
                 document.getElementById('audioCallView').style.display = 'none';
                 document.getElementById('videoGridContainer').style.display = 'flex';
             }
@@ -1680,7 +1631,7 @@
                         let remoteAudio = document.getElementById('remoteAudioElement');
                         remoteAudio.srcObject = remoteStream;
                         remoteAudio.play().catch(e => console.log(e));
-                        document.getElementById('callTypeTitle').innerText = "📞 ADMIN HD AUDIO CALL (Connected)";
+                        document.getElementById('callTypeTitle').innerText = "📞 GLOBAL HD AUDIO CALL (Connected)";
                     } else {
                         document.getElementById('remoteVideo').srcObject = remoteStream;
                     }
@@ -1700,7 +1651,7 @@
                     if (ans && !peerConnection.currentRemoteDescription) {
                         await peerConnection.setRemoteDescription(new RTCSessionDescription(ans));
                         if(type === 'audio') {
-                            document.getElementById('callTypeTitle').innerText = "📞 ADMIN HD AUDIO CALL (Connected)";
+                            document.getElementById('callTypeTitle').innerText = "📞 GLOBAL HD AUDIO CALL (Connected)";
                         }
                     }
                 });
