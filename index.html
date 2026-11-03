@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-    <title>बात-चीत (Baat-Cheet) - Secure Messenger with Account Delete & Photo Status</title>
+    <title>बात-चीत (Baat-Cheet) - Real SMS OTP Messenger</title>
     <meta name="theme-color" content="#090d16">
-    <meta name="description" content="Ultimate Global Desi Messenger with Account Deletion & Photo Status">
+    <meta name="description" content="Ultimate Global Desi Messenger with Real Firebase SMS OTP">
     
     <link rel="manifest" href="manifest.json">
 
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-messaging-compat.js"></script>
 
     <style>
@@ -165,11 +166,11 @@
             <img id="fullImg" src="" alt="Full">
         </div>
 
-        <!-- Login & OTP Verification Screen -->
+        <!-- Firebase Real SMS Login & OTP Screen -->
         <div class="screen" id="loginScreen">
             <div class="cyber-card" id="step1PhoneCard">
                 <div class="brand-title">💬 baat-cheet</div>
-                <p class="brand-subtitle">Secure OTP Login (5-Min Limit)</p>
+                <p class="brand-subtitle">Real Firebase SMS OTP (Free Tier)</p>
                 <div style="display:flex; gap:8px; width:100%; margin-bottom:18px;">
                     <select id="countryCodeSelect" style="padding:14px 10px; border-radius:14px; border:1px solid rgba(255,255,255,0.15); background:rgba(15, 23, 42, 0.8); color:white; font-size:14px; outline:none;">
                         <option value="+91">🇮🇳 +91</option>
@@ -178,17 +179,18 @@
                         <option value="+971">🇦🇪 +971</option>
                         <option value="+61">🇦🇺 +61</option>
                     </select>
-                    <input type="text" id="phoneInput" class="cyber-input" value="8700404029" placeholder="Mobile Number..." style="margin-bottom:0;" onkeypress="if(event.key=='Enter')sendOTP()">
+                    <input type="text" id="phoneInput" class="cyber-input" placeholder="Mobile Number..." style="margin-bottom:0;" onkeypress="if(event.key=='Enter')sendFirebaseSMSOTP()">
                 </div>
-                <button type="button" class="cyber-btn" onclick="sendOTP()">📩 Send OTP</button>
+                <button type="button" class="cyber-btn" onclick="sendFirebaseSMSOTP()">📩 Send Real SMS OTP</button>
+                <div id="recaptcha-container" style="margin-top: 10px;"></div>
             </div>
 
             <div class="cyber-card" id="step2OtpCard" style="display:none;">
-                <div class="brand-title">🔒 Verify OTP</div>
-                <p class="brand-subtitle" id="otpSubText">Enter 4-digit code (Valid for 5 Mins)</p>
-                <input type="text" id="otpInput" class="cyber-input" placeholder="Enter OTP (e.g. 1234)" maxlength="4">
+                <div class="brand-title">🔒 Verify SMS OTP</div>
+                <p class="brand-subtitle" id="otpSubText">Enter 6-digit code received via SMS</p>
+                <input type="text" id="otpInput" class="cyber-input" placeholder="Enter 6-digit OTP" maxlength="6">
                 <div id="otpTimerDisplay" style="font-size:12px; color:#38bdf8; margin-bottom:14px;">Time left: 05:00</div>
-                <button type="button" class="cyber-btn" onclick="verifyOTP()">✅ Verify & Login</button>
+                <button type="button" class="cyber-btn" onclick="verifyFirebaseSMSOTP()">✅ Verify & Login</button>
             </div>
         </div>
 
@@ -216,7 +218,7 @@
             <div class="contact-search-box">
                 <input type="text" id="contactSearchInput" placeholder="🔍 International dost ya @Username khojein..." oninput="filterContacts()">
             </div>
-            <div style="padding:8px; text-align:center; font-size:11px; color:var(--sub); background:rgba(56,189,248,0.1);">🌐 Secure OTP Login & E2EE Active</div>
+            <div style="padding:8px; text-align:center; font-size:11px; color:var(--sub); background:rgba(56,189,248,0.1);">🌐 Real Firebase Auth & E2EE Active</div>
             <div id="contactList" style="flex:1; overflow-y:auto; width:100%;"></div>
         </div>
 
@@ -478,7 +480,6 @@
         var myBio = localStorage.getItem('baatcheet_bio') || "Global Traveller 🚀";
         var hideOnlineStatus = false;
         var cryptoKey = null;
-        var generatedOtp = "";
         var otpTimerInterval = null;
         var contacts = [
             {name: "Global International Room", type: "group", admin: "System", members: ["System"], is_verified: true, country: "🌐"}
@@ -511,10 +512,20 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         const storage = firebase.storage();
+        const auth = firebase.auth();
         const messaging = firebase.messaging().catch(() => {});
 
-        // --- OTP Management with 5-Minute Limitation ---
-        function sendOTP() {
+        // --- Real Firebase SMS OTP Authentication ---
+        window.addEventListener('DOMContentLoaded', () => {
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                'size': 'invisible',
+                'callback': (response) => {
+                    // reCAPTCHA solved
+                }
+            });
+        });
+
+        function sendFirebaseSMSOTP() {
             let phoneElem = document.getElementById('phoneInput');
             let phone = phoneElem ? phoneElem.value.trim() : "";
             let cCode = document.getElementById('countryCodeSelect') ? document.getElementById('countryCodeSelect').value : "+91";
@@ -525,17 +536,23 @@
                 return;
             }
 
-            generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
-            myName = cCode + " " + phone;
+            myName = cCode + phone;
             myCountryCode = cCode;
+            let appVerifier = window.recaptchaVerifier;
 
-            alert("📲 Demo OTP Sent to " + myName + ": [" + generatedOtp + "]");
+            alert("⏳ Sending real SMS OTP via Firebase...");
 
-            document.getElementById('step1PhoneCard').style.display = 'none';
-            document.getElementById('step2OtpCard').style.display = 'flex';
-            document.getElementById('otpSubText').innerText = "OTP sent to " + myName;
-
-            startOtpTimer(300);
+            auth.signInWithPhoneNumber(myName, appVerifier)
+                .then((confirmationResult) => {
+                    window.confirmationResult = confirmationResult;
+                    alert("✅ SMS OTP successfully sent to " + myName);
+                    document.getElementById('step1PhoneCard').style.display = 'none';
+                    document.getElementById('step2OtpCard').style.display = 'flex';
+                    document.getElementById('otpSubText').innerText = "SMS sent to " + myName;
+                    startOtpTimer(300); // 5-Minute Limitation
+                }).catch((error) => {
+                    alert("SMS Error: " + error.message);
+                });
         }
 
         function startOtpTimer(durationInSeconds) {
@@ -559,29 +576,33 @@
             }, 1000);
         }
 
-        function verifyOTP() {
+        function verifyFirebaseSMSOTP() {
             let userOtpInput = document.getElementById('otpInput').value.trim();
-            if(userOtpInput !== generatedOtp) {
-                alert("❌ Galat OTP hai! Kripya sahi OTP daalein.");
+            if(!userOtpInput || userOtpInput.length !== 6) {
+                alert("Kripya 6-digit ka valid OTP daalein!");
                 return;
             }
 
-            if(otpTimerInterval) clearInterval(otpTimerInterval);
-            alert("✅ OTP Verified Safalpurvak!");
-            
-            localStorage.setItem('baatcheet_username', myName);
-            localStorage.setItem('baatcheet_countrycode', myCountryCode);
-            document.getElementById('loginScreen').classList.add('hide');
+            window.confirmationResult.confirm(userOtpInput).then((result) => {
+                if(otpTimerInterval) clearInterval(otpTimerInterval);
+                alert("🎉 OTP Verified & Login Successful!");
 
-            let badgeElem = document.getElementById('headerCountryBadge');
-            if(badgeElem) badgeElem.innerText = myCountryCode + " GLOBAL";
+                localStorage.setItem('baatcheet_username', myName);
+                localStorage.setItem('baatcheet_countrycode', myCountryCode);
+                document.getElementById('loginScreen').classList.add('hide');
 
-            if(!myUsername) {
-                myUsername = "_" + myName.replace(/[^a-z0-9]/g, '');
-                localStorage.setItem('baatcheet_userhandle', myUsername);
-            }
+                let badgeElem = document.getElementById('headerCountryBadge');
+                if(badgeElem) badgeElem.innerText = myCountryCode + " GLOBAL";
 
-            startApp();
+                if(!myUsername) {
+                    myUsername = "_" + myName.replace(/[^a-z0-9]/g, '');
+                    localStorage.setItem('baatcheet_userhandle', myUsername);
+                }
+
+                startApp();
+            }).catch((error) => {
+                alert("❌ Galat OTP ya verification fail: " + error.message);
+            });
         }
 
         // --- Account Deletion Feature ---
@@ -632,7 +653,6 @@
                 let currentTime = Date.now();
                 for(let sId in data) {
                     let st = data[sId];
-                    // Keep status active for 24 hours (86400000 ms)
                     if(currentTime - st.time < 86400000) {
                         let div = document.createElement('div');
                         div.style.cssText = "background:var(--card); padding:10px; border-radius:10px; display:flex; flex-direction:column; gap:6px;";
