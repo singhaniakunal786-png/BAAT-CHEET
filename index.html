@@ -184,7 +184,8 @@
                     </select>
                     <input type="text" id="userNameInput" class="cyber-input" placeholder="Naam ya Number..." style="margin-bottom:0;" onkeypress="if(event.key=='Enter')startApp()">
                 </div>
-                <button class="cyber-btn" id="startBtn" onclick="startApp()">🚀 Global App Shuru Karein</button>
+                <!-- 100% Working Safe Trigger Button -->
+                <button type="button" class="cyber-btn" id="startBtn" onclick="try { startApp(); } catch(e) { alert('Error: ' + e.message); }">🚀 Global App Shuru Karein</button>
             </div>
         </div>
 
@@ -543,18 +544,11 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             if(myName) {
-                document.getElementById('userNameInput').value = myName.replace(/^[+\d\s]+/, '');
+                let cleanName = myName.replace(/^[+\d\s]+/, '');
+                let nameInput = document.getElementById('userNameInput');
+                if(nameInput) nameInput.value = cleanName;
                 document.getElementById('loginScreen').classList.add('hide');
                 startApp();
-            }
-            
-            // Direct event listener fix for button click
-            const startBtn = document.getElementById('startBtn');
-            if(startBtn) {
-                startBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    startApp();
-                });
             }
         });
 
@@ -587,11 +581,13 @@
         window.addEventListener('offline', () => { document.getElementById('networkBanner').classList.add('active'); });
 
         function startApp() {
-            let uName = document.getElementById('userNameInput').value.trim();
+            let uNameElem = document.getElementById('userNameInput');
+            let uName = uNameElem ? uNameElem.value.trim() : "";
             let cCode = document.getElementById('countryCodeSelect') ? document.getElementById('countryCodeSelect').value : "+91";
             
             if(!uName) {
                 alert("Kripya apna naam ya number daalein!");
+                if(uNameElem) uNameElem.focus();
                 return;
             }
             
@@ -608,13 +604,15 @@
                 localStorage.setItem('baatcheet_userhandle', myUsername);
             }
 
-            db.ref("users/" + myName.replace(/[^a-zA-Z0-9+_]/g, '_')).update({
-                name: myName,
-                countryCode: myCountryCode,
-                username: myUsername,
-                is_verified: true,
-                lastActive: Date.now()
-            });
+            try {
+                db.ref("users/" + myName.replace(/[^a-zA-Z0-9+_]/g, '_')).update({
+                    name: myName,
+                    countryCode: myCountryCode,
+                    username: myUsername,
+                    is_verified: true,
+                    lastActive: Date.now()
+                });
+            } catch(err) { console.log(err); }
 
             db.ref("presence").on('value', snap => {
                 let presData = snap.val() || {};
@@ -645,9 +643,11 @@
                 fetchChatMetadata();
             });
             
-            presenceRef = db.ref("presence/" + myName.replace(/[^a-zA-Z0-9+_]/g, '_'));
-            presenceRef.set({ status: "online", lastSeen: Date.now() });
-            presenceRef.onDisconnect().set({ status: "offline", lastSeen: Date.now() });
+            try {
+                presenceRef = db.ref("presence/" + myName.replace(/[^a-zA-Z0-9+_]/g, '_'));
+                presenceRef.set({ status: "online", lastSeen: Date.now() });
+                presenceRef.onDisconnect().set({ status: "offline", lastSeen: Date.now() });
+            } catch(err) { console.log(err); }
 
             setupGlobalCallListener();
         }
