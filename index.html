@@ -460,29 +460,29 @@
 
     <script>
         // --- GLOBAL VARIABLES DECLARED SAFELY AT THE TOP ---
-        let myName = localStorage.getItem('baatcheet_username') || "";
-        let myCountryCode = localStorage.getItem('baatcheet_countrycode') || "+91";
-        let myUsername = localStorage.getItem('baatcheet_userhandle') || "";
-        let myBio = localStorage.getItem('baatcheet_bio') || "Global Traveller 🚀";
-        let hideOnlineStatus = false;
-        let cryptoKey = null;
-        let contacts = [
+        var myName = localStorage.getItem('baatcheet_username') || "";
+        var myCountryCode = localStorage.getItem('baatcheet_countrycode') || "+91";
+        var myUsername = localStorage.getItem('baatcheet_userhandle') || "";
+        var myBio = localStorage.getItem('baatcheet_bio') || "Global Traveller 🚀";
+        var hideOnlineStatus = false;
+        var cryptoKey = null;
+        var contacts = [
             {name: "Global International Room", type: "group", admin: "System", members: ["System"], is_verified: true, country: "🌐"}
         ];
-        let blockedUsers = [];
-        let starredMessages = JSON.parse(localStorage.getItem('baatcheet_starred') || '[]');
-        let activeChat = null, dbRef = null, typingRef = null, presenceRef = null, disappearActive = false;
-        let replyingTo = null;
-        let messageToForward = null;
-        let mediaRecorder, audioChunks = [];
-        let allMessagesCache = [];
-        let activeCallKey = null;
-        let lastMessagesMap = {};
-        let unreadCountsMap = {};
-        let onlinePresenceMap = {};
-        let isCallRecordingActive = false;
-        let callRecorder, callAudioChunks = [];
-        let localStream, remoteStream, peerConnection;
+        var blockedUsers = [];
+        var starredMessages = JSON.parse(localStorage.getItem('baatcheet_starred') || '[]');
+        var activeChat = null, dbRef = null, typingRef = null, presenceRef = null, disappearActive = false;
+        var replyingTo = null;
+        var messageToForward = null;
+        var mediaRecorder, audioChunks = [];
+        var allMessagesCache = [];
+        var activeCallKey = null;
+        var lastMessagesMap = {};
+        var unreadCountsMap = {};
+        var onlinePresenceMap = {};
+        var isCallRecordingActive = false;
+        var callRecorder, callAudioChunks = [];
+        var localStream, remoteStream, peerConnection;
 
         const firebaseConfig = {
             apiKey: "AIzaSyAOVmmhxs2hEXNplaYlyXbL3_LrX6qxp6Q",
@@ -560,7 +560,7 @@
             ]
         };
 
-        let savedWallpaper = localStorage.getItem('baatcheet_wallpaper');
+        var savedWallpaper = localStorage.getItem('baatcheet_wallpaper');
         if(savedWallpaper) {
             let screen = document.getElementById('chatScreen');
             if(savedWallpaper.includes('gradient') || savedWallpaper.includes('rgb')) {
