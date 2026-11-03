@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-    <title>बातें (Baatain) - Ultra-Luxury Cyber Messenger Pro</title>
+    <title>बात-चीत (Baat-Cheet) - India's Ultra-Luxury Messenger</title>
     <meta name="theme-color" content="#090d16">
-    <meta name="description" content="Ultimate Next-Gen Luxury Cyber Messenger with HD Calls and Cloud Vault">
+    <meta name="description" content="Ultimate Next-Gen Desi Messenger with HD Calls and District Wallpapers">
     
-    <link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Baatain%20Messenger%22%2C%22short_name%22%3A%22Baatain%22%2C%22description%22%3A%22Ultimate%20Next-Gen%20Luxury%20Cyber%20Messenger%20with%20HD%20Calls%20and%20Cloud%20Vault%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23090d16%22%2C%22theme_color%22%3A%22%23090d16%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fcdn-icons-png.flaticon.com%2F512%2F733%2F733585.png%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fpng%22%2C%22purpose%22%3A%22any%20maskable%22%7D%2C%7B%22src%22%3A%22https%3A%2F%2Fcdn-icons-png.flaticon.com%2F512%2F733%2F733585.png%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D">
+    <link rel="manifest" href="manifest.json">
 
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
@@ -26,15 +26,21 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         html, body { width: 100%; height: 100%; overflow: hidden; background: #090d16; display: flex; justify-content: center; align-items: center; }
         
-        .app { width: 100%; height: 100%; max-width: 480px; max-height: 100vh; background: var(--bg); display: flex; flex-direction: column; position: relative; box-shadow: 0 0 40px rgba(0,0,0,0.9); transition: 0.3s; }
+        .app { width: 100%; height: 100%; max-width: 480px; max-height: 100vh; background: var(--bg); display: flex; flex-direction: column; position: relative; box-shadow: 0 0 40px rgba(0,0,0,0.9); transition: 0.3s; overflow: hidden; }
         
+        /* Fixed India District Intro Splash Screen */
+        .india-splash { position: absolute; inset: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #FF9933 0%, #ffffff 50%, #138808 100%); z-index: 999; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 30px; transition: opacity 0.5s ease; }
+        .india-splash.hide { opacity: 0; pointer-events: none; display: none; }
+        .india-badge { background: rgba(15, 23, 42, 0.95); border: 2px solid rgba(255,255,255,0.2); border-radius: 24px; padding: 35px 25px; width: 100%; max-width: 360px; color: white; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+
         /* Ultra-Luxury Cyber Glassmorphism Login Screen */
-        .screen { position: absolute; inset: 0; background: radial-gradient(circle at center, #1e293b 0%, #090d16 100%); z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; text-align: center; color: white; overflow: hidden; }
+        .screen { position: absolute; inset: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1e293b 0%, #090d16 100%); z-index: 500; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; text-align: center; color: white; overflow: hidden; }
+        .screen.hide { display: none; }
         
-        .cyber-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 24px; padding: 35px 25px; width: 100%; max-width: 380px; box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 15px rgba(16,185,129,0.1); display: flex; flex-direction: column; align-items: center; animation: floatCard 4s ease-in-out infinite alternate; }
+        .cyber-card { background: rgba(30, 41, 59, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 24px; padding: 35px 25px; width: 100%; max-width: 380px; box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 15px rgba(16,185,129,0.1); display: flex; flex-direction: column; align-items: center; animation: floatCard 4s ease-in-out infinite alternate; }
         @keyframes floatCard { 0% { transform: translateY(0px); } 100% { transform: translateY(-8px); } }
 
-        .brand-title { font-size: 34px; font-weight: 800; color: #10b981; margin-bottom: 8px; letter-spacing: 0.5px; text-shadow: 0 0 20px rgba(16,185,129,0.6); }
+        .brand-title { font-size: 30px; font-weight: 800; color: #10b981; margin-bottom: 8px; letter-spacing: 0.5px; text-shadow: 0 0 20px rgba(16,185,129,0.6); }
         .brand-subtitle { color: #94a3b8; font-size: 13px; margin-bottom: 25px; line-height: 1.4; }
         
         .cyber-input { width: 100%; padding: 14px 18px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.15); background: rgba(15, 23, 42, 0.8); color: white; font-size: 15px; text-align: center; outline: none; margin-bottom: 18px; transition: 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
@@ -146,16 +152,26 @@
 <body class="dark">
     <div class="app">
         
+        <!-- India District Welcome Splash -->
+        <div class="india-splash" id="indiaSplash">
+            <div class="india-badge">
+                <div style="font-size: 40px; margin-bottom: 10px;">🇮🇳</div>
+                <h2 style="color: #FF9933; font-size: 24px; margin-bottom: 6px;">INDIA</h2>
+                <p style="font-size: 13px; color: #94a3b8; margin-bottom: 15px;" id="detectedDistrictText">Aapka District detect ho raha hai...</p>
+                <button onclick="dismissIndiaSplash()" style="background:#10b981; color:white; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer; width:100%;">Aage Badhein ➔</button>
+            </div>
+        </div>
+
         <div class="img-viewer" id="imgViewer" onclick="this.classList.remove('active')">
             <div style="position: absolute; top: 20px; right: 20px; color: white; font-size: 26px; cursor: pointer;">✕</div>
             <img id="fullImg" src="" alt="Full">
         </div>
 
-        <!-- Ultra-Luxury Cyber Glassmorphism Login & Welcome Screen -->
+        <!-- Ultra-Luxury Cyber Glassmorphism Login Screen -->
         <div class="screen" id="loginScreen">
             <div class="cyber-card">
-                <div class="brand-title">💬 बातें (Baatain)</div>
-                <p class="brand-subtitle">Next-Gen Luxury Cyber Messenger<br>Fast, Secure & Feature-Packed</p>
+                <div class="brand-title">💬 baat-cheet</div>
+                <p class="brand-subtitle">India's Next-Gen Desi Messenger<br>Fast, Secure & Feature-Packed</p>
                 <input type="text" id="userNameInput" class="cyber-input" placeholder="Apna Unique Naam Daalein..." onkeypress="if(event.key=='Enter')startApp()">
                 <button class="cyber-btn" onclick="startApp()">🚀 App Shuru Karein</button>
             </div>
@@ -164,7 +180,7 @@
         <header>
             <div style="display:flex; align-items:center; gap:6px;">
                 <span style="font-size:18px;">💬</span>
-                <div style="font-weight:700; font-size:16px; display:flex; align-items:center; gap:4px;">बातें <span style="background:#10b981; font-size:9px; padding:1px 5px; border-radius:6px; color:white;">ULTRA</span></div>
+                <div style="font-weight:700; font-size:15px; display:flex; align-items:center; gap:4px;">baat-cheet <span style="background:#10b981; font-size:9px; padding:1px 5px; border-radius:6px; color:white;">🇮🇳 DISTRICT</span></div>
             </div>
             <div style="display:flex; gap:10px; align-items:center;">
                 <span onclick="openCloudVault()" style="cursor:pointer; font-size:16px;" title="Cloud Vault / Notes">☁️</span>
@@ -185,7 +201,7 @@
             <div class="contact-search-box">
                 <input type="text" id="contactSearchInput" placeholder="🔍 Dost khojein..." oninput="filterContacts()">
             </div>
-            <div style="padding:8px; text-align:center; font-size:11px; color:var(--sub); background:rgba(16,185,129,0.1);">⚡ Cyber-Lux Messenger: HD Calls & Translation Active</div>
+            <div style="padding:8px; text-align:center; font-size:11px; color:var(--sub); background:rgba(16,185,129,0.1);" id="districtBannerInfo">⚡ Desi Messenger: Live District Wallpaper Active</div>
             <div id="contactList" style="flex:1; overflow-y:auto; width:100%;"></div>
         </div>
 
@@ -197,8 +213,8 @@
         </div>
 
         <div class="content" id="sec2" style="padding: 20px; font-size: 13px; color: var(--text);">
-            <h3>Ultra-Luxury Pro Features:</h3>
-            <p style="margin-top:6px;">Glassmorphism Login, Instant Translation, Spoiler Blur Text, HD Audio/Video Calls with Screen Sharing & Call Recording, Tic-Tac-Toe Game, and Cloud Vault!</p>
+            <h3>Desi Pro Features:</h3>
+            <p style="margin-top:6px;">India Live District Splash, Auto Famous Zila Wallpaper during chat, HD Audio/Video Calls, and Cloud Vault!</p>
         </div>
 
         <button class="fab" onclick="openModal()">+</button>
@@ -282,15 +298,14 @@
 
         <div class="modal" id="wallpaperModal">
             <div class="modal-box">
-                <h3>Chat Wallpaper & Gradients</h3>
+                <h3>Chat Wallpaper & Famous Districts</h3>
                 <div style="display:flex; gap:10px; margin:8px 0; justify-content:center;">
                     <div onclick="setWallpaperColor('#f1f5f9')" style="width:30px; height:30px; background:#f1f5f9; border-radius:50%; cursor:pointer; border:1px solid #cbd5e1;" title="Solid Light"></div>
                     <div onclick="setWallpaperColor('#0f172a')" style="width:30px; height:30px; background:#0f172a; border-radius:50%; cursor:pointer;" title="Solid Dark"></div>
-                    <div onclick="setWallpaperColor('linear-gradient(135deg, #0f172a, #065f46)')" style="width:30px; height:30px; background:linear-gradient(135deg, #0f172a, #065f46); border-radius:50%; cursor:pointer;" title="Emerald Gradient"></div>
-                    <div onclick="setWallpaperColor('linear-gradient(135deg, #4c1d95, #0f172a)')" style="width:30px; height:30px; background:linear-gradient(135deg, #4c1d95, #0f172a); border-radius:50%; cursor:pointer;" title="Purple Gradient"></div>
+                    <div onclick="setWallpaperColor('linear-gradient(135deg, #FF9933, #138808)')" style="width:30px; height:30px; background:linear-gradient(135deg, #FF9933, #138808); border-radius:50%; cursor:pointer;" title="Tiranga Gradient"></div>
                 </div>
                 <input type="file" id="wallpaperFileInput" accept="image/*" style="display:none;" onchange="setCustomWallpaperImage(event)">
-                <button onclick="document.getElementById('wallpaperFileInput').click()" style="width:100%; padding:10px; background:#10b981; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600; margin-top:6px;">📷 Gallery Se Photo Lagayein</button>
+                <button onclick="document.getElementById('wallpaperFileInput').click()" style="width:100%; padding:10px; background:#10b981; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600; margin-top:6px;">📷 Gallery Se Custom Photo</button>
                 <button onclick="document.getElementById('wallpaperModal').classList.remove('active')" style="width:100%; padding:8px; margin-top:8px; background:#cbd5e1; border:none; border-radius:8px; cursor:pointer;">Band Karein</button>
             </div>
         </div>
@@ -306,7 +321,7 @@
         </div>
 
         <div class="call-screen" id="callScreen">
-            <div style="font-size: 16px; color: #34d399; font-weight: bold; margin-top: 10px;" id="callTypeTitle">🔒 CYBER SECURE CALL</div>
+            <div style="font-size: 16px; color: #34d399; font-weight: bold; margin-top: 10px;" id="callTypeTitle">🔒 DESI SECURE CALL</div>
             
             <div id="audioCallView" style="flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:15px;">
                 <div class="avatar" id="callAvatarIcon" style="width:90px; height:90px; font-size:36px;">📞</div>
@@ -427,14 +442,14 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        let myName = localStorage.getItem('baatain_username') || "";
-        let myBio = localStorage.getItem('baatain_bio') || "Cloud User 🚀";
+        let myName = localStorage.getItem('baatcheet_username') || "";
+        let myBio = localStorage.getItem('baatcheet_bio') || "Cloud User 🚀";
         let hideOnlineStatus = false;
         let contacts = [
-            {name: "Global Public Room", type: "group", admin: "System", members: ["System"]}
+            {name: "India Public Chat Room", type: "group", admin: "System", members: ["System"]}
         ];
         let blockedUsers = [];
-        let starredMessages = JSON.parse(localStorage.getItem('baatain_starred') || '[]');
+        let starredMessages = JSON.parse(localStorage.getItem('baatcheet_starred') || '[]');
         let activeChat = null, dbRef = null, typingRef = null, presenceRef = null, disappearActive = false;
         let replyingTo = null;
         let messageToForward = null;
@@ -447,7 +462,56 @@
         let isCallRecordingActive = false;
         let callRecorder, callAudioChunks = [];
 
-        const SECRET_KEY = "BaatainSecureKey2026";
+        // Famous District Wallpapers Map of India
+        const districtWallpapers = {
+            "New Delhi": "https://images.unsplash.com/photo-1587474260584-136574528ed5?q=80&w=600&auto=format&fit=crop",
+            "Delhi": "https://images.unsplash.com/photo-1587474260584-136574528ed5?q=80&w=600&auto=format&fit=crop",
+            "Mumbai": "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?q=80&w=600&auto=format&fit=crop",
+            "Pune": "https://images.unsplash.com/photo-1626015493098-2a6288339c9b?q=80&w=600&auto=format&fit=crop",
+            "Agra": "https://images.unsplash.com/photo-1564507592333-c60657eea523?q=80&w=600&auto=format&fit=crop",
+            "Lucknow": "https://images.unsplash.com/photo-1595655652936-ceeb92e6c012?q=80&w=600&auto=format&fit=crop",
+            "Jaipur": "https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?q=80&w=600&auto=format&fit=crop",
+            "Bengaluru": "https://images.unsplash.com/photo-1600119403565-4c5ff4f9f6e3?q=80&w=600&auto=format&fit=crop",
+            "Kolkata": "https://images.unsplash.com/photo-1558431382-27e303142255?q=80&w=600&auto=format&fit=crop",
+            "Varanasi": "https://images.unsplash.com/photo-1561647784-2f9c43b07a0b?q=80&w=600&auto=format&fit=crop",
+            "Default": "https://images.unsplash.com/photo-1532375810709-75b1da00537c?q=80&w=600&auto=format&fit=crop"
+        };
+
+        // Check if user already logged in via localStorage on startup
+        document.addEventListener("DOMContentLoaded", () => {
+            if(myName) {
+                document.getElementById('userNameInput').value = myName;
+                document.getElementById('loginScreen').classList.add('hide');
+                startApp();
+            }
+        });
+
+        function detectUserLocationAndWallpaper() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    let lat = position.coords.latitude;
+                    let lon = position.coords.longitude;
+                    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            let district = data.address.city || data.address.state_district || data.address.county || "New Delhi";
+                            if(myName) {
+                                db.ref("users/" + myName.replace(/[^a-zA-Z0-9]/g, '_') + "/district").set(district);
+                            }
+                            let districtTextElem = document.getElementById('detectedDistrictText');
+                            if(districtTextElem) districtTextElem.innerText = `🇮🇳 Namaste! Aapka District: ${district}`;
+                        }).catch(() => {});
+                }, () => {});
+            }
+        }
+
+        function dismissIndiaSplash() {
+            let splash = document.getElementById('indiaSplash');
+            splash.classList.add('hide');
+            detectUserLocationAndWallpaper();
+        }
+
+        const SECRET_KEY = "BaatCheetSecureKey2026";
         function encryptText(text) {
             try { return btoa(encodeURIComponent(text).split('').map((char, index) => String.fromCharCode(char.charCodeAt(0) ^ SECRET_KEY.charCodeAt(index % SECRET_KEY.length))).join('')); } catch(e) { return text; }
         }
@@ -458,23 +522,17 @@
         let localStream, remoteStream, peerConnection;
         const servers = { iceServers: [{ urls: ['stun:stun1.l.google.com:19302', 'stun:stun2.l.google.com:19302'] }] };
 
-        let savedWallpaper = localStorage.getItem('baatain_wallpaper');
+        let savedWallpaper = localStorage.getItem('baatcheet_wallpaper');
         if(savedWallpaper) {
-            document.addEventListener("DOMContentLoaded", () => {
-                let screen = document.getElementById('chatScreen');
-                if(savedWallpaper.includes('gradient') || savedWallpaper.includes('rgb')) {
-                    screen.style.backgroundImage = savedWallpaper;
-                } else if(savedWallpaper.startsWith('#')) {
-                    screen.style.backgroundImage = 'none';
-                    screen.style.backgroundColor = savedWallpaper;
-                } else {
-                    screen.style.backgroundImage = `url('${savedWallpaper}')`;
-                }
-                if(myName) {
-                    document.getElementById('userNameInput').value = myName;
-                    startApp();
-                }
-            });
+            let screen = document.getElementById('chatScreen');
+            if(savedWallpaper.includes('gradient') || savedWallpaper.includes('rgb')) {
+                screen.style.backgroundImage = savedWallpaper;
+            } else if(savedWallpaper.startsWith('#')) {
+                screen.style.backgroundImage = 'none';
+                screen.style.backgroundColor = savedWallpaper;
+            } else {
+                screen.style.backgroundImage = `url('${savedWallpaper}')`;
+            }
         }
 
         window.addEventListener('online', () => { document.getElementById('networkBanner').classList.remove('active'); });
@@ -484,13 +542,15 @@
             let uName = document.getElementById('userNameInput').value.trim();
             if(!uName) return alert("Kripya apna naam ya ID daalein!");
             myName = uName;
-            localStorage.setItem('baatain_username', myName);
-            document.getElementById('loginScreen').style.display = 'none';
+            localStorage.setItem('baatcheet_username', myName);
+            document.getElementById('loginScreen').classList.add('hide');
 
             db.ref("users/" + myName.replace(/[^a-zA-Z0-9]/g, '_')).set({
                 name: myName,
                 lastActive: Date.now()
             });
+
+            detectUserLocationAndWallpaper();
 
             db.ref("presence").on('value', snap => {
                 let presData = snap.val() || {};
@@ -503,7 +563,7 @@
 
             db.ref("users").on('value', snap => {
                 let allUsers = snap.val() || {};
-                contacts = [{name: "Global Public Room", type: "group", admin: "System", members: ["System"]}];
+                contacts = [{name: "India Public Chat Room", type: "group", admin: "System", members: ["System"]}];
                 for(let uKey in allUsers) {
                     let uData = allUsers[uKey];
                     if(uData.name && uData.name !== myName) {
@@ -525,7 +585,7 @@
 
         function logoutApp() {
             if(presenceRef) presenceRef.set({ status: "offline", lastSeen: Date.now() });
-            localStorage.removeItem('baatain_username');
+            localStorage.removeItem('baatcheet_username');
             location.reload();
         }
 
@@ -602,7 +662,7 @@
                             let url = URL.createObjectURL(blob);
                             let a = document.createElement('a');
                             a.href = url;
-                            a.download = 'Baatain_Call_Recording.mp3';
+                            a.download = 'BaatCheet_Call_Recording.mp3';
                             a.click();
                         };
                         callRecorder.start();
@@ -653,7 +713,7 @@
                 let callKey = snap.key;
                 let data = snap.val();
                 if(data && data.offer && data.caller !== myName && !peerConnection) {
-                    if(callKey.includes(myName.replace(/[^a-zA-Z0-9]/g, '_')) || callKey === "Global_Public_Room") {
+                    if(callKey.includes(myName.replace(/[^a-zA-Z0-9]/g, '_')) || callKey === "India_Public_Chat_Room") {
                         let ringtone = document.getElementById('ringtoneAudioElement');
                         ringtone.play().catch(e => console.log(e));
 
@@ -804,7 +864,7 @@
             hideOnlineStatus = document.getElementById('hideOnlineToggle').checked;
             if(b) {
                 myBio = b;
-                localStorage.setItem('baatain_bio', myBio);
+                localStorage.setItem('baatcheet_bio', myBio);
             }
             document.getElementById('profileModal').classList.remove('active');
             
@@ -825,7 +885,7 @@
                 screen.style.backgroundImage = 'none';
                 screen.style.backgroundColor = val;
             }
-            localStorage.setItem('baatain_wallpaper', val);
+            localStorage.setItem('baatcheet_wallpaper', val);
             document.getElementById('wallpaperModal').classList.remove('active');
         }
 
@@ -836,7 +896,7 @@
             reader.onload = function(evt) {
                 let screen = document.getElementById('chatScreen');
                 screen.style.backgroundImage = `url('${evt.target.result}')`;
-                localStorage.setItem('baatain_wallpaper', evt.target.result);
+                localStorage.setItem('baatcheet_wallpaper', evt.target.result);
                 document.getElementById('wallpaperModal').classList.remove('active');
                 alert("✨ Gallery photo successfully saved as permanent wallpaper!");
             };
@@ -970,6 +1030,14 @@
             document.getElementById('msgList').innerHTML = `<div style="text-align:center; font-size:11px; color:var(--sub);">🔒 Secure Encrypted Chat</div>`;
             allMessagesCache = [];
             
+            db.ref("users/" + name.replace(/[^a-zA-Z0-9]/g, '_') + "/district").once('value', snap => {
+                let friendDistrict = snap.val() || "New Delhi";
+                let screen = document.getElementById('chatScreen');
+                let targetWallpaper = districtWallpapers[friendDistrict] || districtWallpapers["Default"];
+                screen.style.backgroundImage = `url('${targetWallpaper}')`;
+                document.getElementById('chatSubStatus').innerText = `📍 Live from ${friendDistrict} 🟢`;
+            });
+
             let cObj = contacts.find(c => c.name === name);
             let key = "";
             if(cObj && cObj.type === 'group') {
@@ -1050,35 +1118,8 @@
                     document.getElementById('chatSubStatus').innerText = status + " typing...";
                 } else {
                     typingBubble.classList.remove('active');
-                    if(cObj && cObj.type === 'direct') {
-                        let pKeyChat = name.replace(/[^a-zA-Z0-9]/g, '_');
-                        let pDataChat = onlinePresenceMap[pKeyChat];
-                        if(pDataChat && pDataChat.status === 'online' && (Date.now() - pDataChat.lastSeen < 30000)) {
-                            document.getElementById('chatSubStatus').innerText = "Online 🟢";
-                        } else if(pDataChat && pDataChat.lastSeen) {
-                            let lastSeenDate = new Date(pDataChat.lastSeen);
-                            let timeStr = lastSeenDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                            document.getElementById('chatSubStatus').innerText = "Last seen at " + timeStr;
-                        } else {
-                            document.getElementById('chatSubStatus').innerText = "Offline ⚪";
-                        }
-                    } else {
-                        document.getElementById('chatSubStatus').innerText = "Tap name for group info 👥";
-                    }
                 }
             });
-
-            if(cObj && cObj.type === 'direct') {
-                let pKeyChat = name.replace(/[^a-zA-Z0-9]/g, '_');
-                let pDataChat = onlinePresenceMap[pKeyChat];
-                if(pDataChat && pDataChat.status === 'online' && (Date.now() - pDataChat.lastSeen < 30000)) {
-                    document.getElementById('chatSubStatus').innerText = "Online 🟢";
-                } else if(pDataChat && pDataChat.lastSeen) {
-                    let lastSeenDate = new Date(pDataChat.lastSeen);
-                    let timeStr = lastSeenDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                    document.getElementById('chatSubStatus').innerText = "Last seen at " + timeStr;
-                }
-            }
         }
 
         function closeChat() { 
@@ -1374,7 +1415,7 @@
         function starMessage(txt, sender) {
             if(!starredMessages.some(m => m.text === txt)) {
                 starredMessages.push({text: txt, sender: sender});
-                localStorage.setItem('baatain_starred', JSON.stringify(starredMessages));
+                localStorage.setItem('baatcheet_starred', JSON.stringify(starredMessages));
                 alert("⭐ Message Starred messages mein jod diya gaya hai!");
             } else {
                 alert("Yeh message pehle se starred hai.");
