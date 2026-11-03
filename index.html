@@ -445,7 +445,7 @@
         let myBio = localStorage.getItem('baatcheet_bio') || "Cloud User 🚀";
         let hideOnlineStatus = false;
         let contacts = [
-            {name: "Global Public Room", type: "group", admin: "System", members: ["System"]}
+            {name: "India Public Chat Room", type: "group", admin: "System", members: ["System"]}
         ];
         let blockedUsers = [];
         let starredMessages = JSON.parse(localStorage.getItem('baatcheet_starred') || '[]');
@@ -463,42 +463,26 @@
 
         // Famous State Wallpapers Map of India
         const stateWallpapers = {
-            "Delhi": "https://images.unsplash.com/photo-1587474260584-136574528ed5?q=80&w=600&auto=format&fit=crop", // India Gate / Delhi
-            "Maharashtra": "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?q=80&w=600&auto=format&fit=crop", // Gateway of India Mumbai
-            "Uttar Pradesh": "https://images.unsplash.com/photo-1564507592333-c60657eea523?q=80&w=600&auto=format&fit=crop", // Taj Mahal Agra
-            "Rajasthan": "https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?q=80&w=600&auto=format&fit=crop", // Hawa Mahal Jaipur
-            "Karnataka": "https://images.unsplash.com/photo-1600119403565-4c5ff4f9f6e3?q=80&w=600&auto=format&fit=crop", // Bangalore Palace
-            "West Bengal": "https://images.unsplash.com/photo-1558431382-27e303142255?q=80&w=600&auto=format&fit=crop", // Howrah Bridge
-            "Kerala": "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?q=80&w=600&auto=format&fit=crop", // Backwaters
-            "Goa": "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?q=80&w=600&auto=format&fit=crop", // Beach
-            "Punjab": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=600&auto=format&fit=crop", // Golden Temple vibe
-            "Default": "https://images.unsplash.com/photo-1532375810709-75b1da00537c?q=80&w=600&auto=format&fit=crop" // India Incredible
+            "Delhi": "https://images.unsplash.com/photo-1587474260584-136574528ed5?q=80&w=600&auto=format&fit=crop",
+            "Maharashtra": "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?q=80&w=600&auto=format&fit=crop",
+            "Uttar Pradesh": "https://images.unsplash.com/photo-1564507592333-c60657eea523?q=80&w=600&auto=format&fit=crop",
+            "Rajasthan": "https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?q=80&w=600&auto=format&fit=crop",
+            "Karnataka": "https://images.unsplash.com/photo-1600119403565-4c5ff4f9f6e3?q=80&w=600&auto=format&fit=crop",
+            "West Bengal": "https://images.unsplash.com/photo-1558431382-27e303142255?q=80&w=600&auto=format&fit=crop",
+            "Kerala": "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?q=80&w=600&auto=format&fit=crop",
+            "Goa": "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?q=80&w=600&auto=format&fit=crop",
+            "Punjab": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=600&auto=format&fit=crop",
+            "Default": "https://images.unsplash.com/photo-1532375810709-75b1da00537c?q=80&w=600&auto=format&fit=crop"
         };
 
-        // Auto Detect State via Geolocation / IP fallback
         function detectUserLocationAndWallpaper() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(position => {
-                    // Approximate based on lat/lng or use free IP geolocation
-                    fetch('https://ipapi.co/json/')
-                        .then(res => res.json())
-                        .then(data => {
-                            let state = data.region || "Delhi";
-                            applyStateWallpaper(state);
-                        })
-                        .catch(() => applyStateWallpaper("Delhi"));
-                }, () => {
-                    fetch('https://ipapi.co/json/')
-                        .then(res => res.json())
-                        .then(data => {
-                            let state = data.region || "Delhi";
-                            applyStateWallpaper(state);
-                        })
-                        .catch(() => applyStateWallpaper("Delhi"));
-                });
-            } else {
-                applyStateWallpaper("Delhi");
-            }
+            fetch('https://ipapi.co/json/')
+                .then(res => res.json())
+                .then(data => {
+                    let state = data.region || "Delhi";
+                    applyStateWallpaper(state);
+                })
+                .catch(() => applyStateWallpaper("Delhi"));
         }
 
         function applyStateWallpaper(stateName) {
@@ -507,7 +491,8 @@
             screen.style.backgroundImage = `url('${imgUrl}')`;
             localStorage.setItem('baatcheet_wallpaper', imgUrl);
             
-            document.getElementById('detectedStateTextinnerHTML').innerText = `🇮🇳 Namaste! Detected State: ${stateName}`;
+            let stateTextElem = document.getElementById('detectedStateText');
+            if(stateTextElem) stateTextElem.innerText = `🇮🇳 Namaste! Detected State: ${stateName}`;
             let banner = document.getElementById('stateBannerInfo');
             if(banner) banner.innerText = `🇮🇳 Welcome from ${stateName}! Famous State Wallpaper Applied.`;
         }
