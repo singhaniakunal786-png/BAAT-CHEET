@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-    <title>बात-चीत (Baat-Cheet) - Secure Messenger</title>
-    <meta name="theme-color" content="#f8fafc">
+    <title>बात-चीत (Baat-Cheet) - WhatsApp Style Menu & Settings</title>
+    <meta name="theme-color" content="#ffffff">
     
     <link rel="manifest" href="manifest.json">
 
@@ -15,77 +15,89 @@
 
     <style>
         :root {
-            --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --sub: #64748b;
-            --primary: #0f172a; --accent: #10b981; --bubble-out: #ccfbf1; --bubble-in: #ffffff;
-            --chat-wallpaper: #f1f5f9;
+            --bg: #ffffff; --card: #ffffff; --text: #111b21; --sub: #667781;
+            --primary: #00a884; --accent: #00a884; --bubble-out: #d9fdd3; --bubble-in: #ffffff;
+            --chat-wallpaper: #efeae2; --nav-bg: #ffffff; --border-clr: #e9edef;
         }
         body.dark {
-            --bg: #090d16; --card: #1e293b; --text: #f1f5f9; --sub: #94a3b8;
-            --primary: #0f172a; --accent: #10b981; --bubble-out: #065f46; --bubble-in: #1e293b;
-            --chat-wallpaper: #090d16;
+            --bg: #111b21; --card: #202c33; --text: #e9edef; --sub: #8696a0;
+            --primary: #00a884; --accent: #00a884; --bubble-out: #005c4b; --bubble-in: #202c33;
+            --chat-wallpaper: #0b141a; --nav-bg: #111b21; --border-clr: #222d34;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg); display: flex; justify-content: center; align-items: center; }
+        html, body { width: 100%; height: 100%; overflow: hidden; background: #0b141a; display: flex; justify-content: center; align-items: center; }
         
         .app { width: 100%; height: 100%; max-width: 480px; max-height: 100vh; background: var(--bg); display: flex; flex-direction: column; position: relative; box-shadow: 0 0 40px rgba(0,0,0,0.9); transition: 0.3s; overflow: hidden; }
         
-        .india-splash { position: absolute; inset: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #FF9933 0%, #ffffff 50%, #138808 100%); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 30px; transition: opacity 0.5s ease; pointer-events: auto; }
+        .india-splash { position: absolute; inset: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #00a884 0%, #111b21 100%); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 30px; transition: opacity 0.5s ease; pointer-events: auto; }
         .india-splash.hide { opacity: 0; pointer-events: none; display: none; }
-        .india-badge { background: rgba(15, 23, 42, 0.95); border: 2px solid rgba(255,255,255,0.2); border-radius: 24px; padding: 35px 25px; width: 100%; max-width: 360px; color: white; box-shadow: 0 20px 40px rgba(0,0,0,0.6); pointer-events: auto; }
+        .india-badge { background: var(--card); border: 1px solid var(--border-clr); border-radius: 16px; padding: 35px 25px; width: 100%; max-width: 360px; color: var(--text); box-shadow: 0 10px 30px rgba(0,0,0,0.3); pointer-events: auto; }
 
-        .screen { position: absolute; inset: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1e293b 0%, #090d16 100%); z-index: 500; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; text-align: center; color: white; overflow: hidden; }
+        .screen { position: absolute; inset: 0; width: 100%; height: 100%; background: var(--bg); z-index: 500; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; text-align: center; color: var(--text); overflow: hidden; }
         .screen.hide { display: none; }
         
-        .cyber-card { background: rgba(30, 41, 59, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 24px; padding: 30px 20px; width: 100%; max-width: 380px; box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 15px rgba(16,185,129,0.1); display: flex; flex-direction: column; align-items: center; }
+        .cyber-card { background: var(--card); border: 1px solid var(--border-clr); border-radius: 16px; padding: 30px 20px; width: 100%; max-width: 380px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); display: flex; flex-direction: column; align-items: center; }
         
-        .brand-title { font-size: 28px; font-weight: 800; color: #10b981; margin-bottom: 6px; letter-spacing: 0.5px; text-shadow: 0 0 20px rgba(16,185,129,0.6); }
-        .brand-subtitle { color: #94a3b8; font-size: 12px; margin-bottom: 20px; line-height: 1.4; }
+        .brand-title { font-size: 26px; font-weight: 800; color: var(--primary); margin-bottom: 6px; letter-spacing: 0.5px; }
+        .brand-subtitle { color: var(--sub); font-size: 12px; margin-bottom: 20px; line-height: 1.4; }
         
-        .cyber-input { width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); background: rgba(15, 23, 42, 0.8); color: white; font-size: 14px; text-align: center; outline: none; margin-bottom: 14px; transition: 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
-        .cyber-input:focus { border-color: #10b981; box-shadow: 0 0 15px rgba(16,185,129,0.4), inset 0 2px 4px rgba(0,0,0,0.5); }
+        .cyber-input { width: 100%; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border-clr); background: var(--bg); color: var(--text); font-size: 14px; text-align: center; outline: none; margin-bottom: 14px; transition: 0.3s; }
+        .cyber-input:focus { border-color: var(--primary); }
 
-        .cyber-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; border-radius: 14px; font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 6px 20px rgba(16,185,129,0.5); transition: 0.2s; letter-spacing: 0.5px; z-index: 600; pointer-events: auto; }
+        .cyber-btn { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 20px; font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(0,168,132,0.3); transition: 0.2s; z-index: 600; pointer-events: auto; }
         .cyber-btn:active { transform: scale(0.97); }
 
-        header { background: var(--primary); color: white; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.2); z-index: 10; width: 100%; }
+        header { background: var(--nav-bg); color: var(--text); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-clr); z-index: 10; width: 100%; position: relative; }
         
-        .tabs { display: flex; background: var(--primary); border-top: 1px solid rgba(255,255,255,0.1); width: 100%; }
-        .tab { flex: 1; text-align: center; padding: 10px; font-size: 12px; font-weight: 600; color: #94a3b8; cursor: pointer; border-bottom: 3px solid transparent; }
-        .tab.active { color: #10b981; border-bottom-color: #10b981; }
+        /* WhatsApp Style Dropdown Menu */
+        .menu-dropdown { display: none; position: absolute; top: 50px; right: 12px; background: var(--card); border: 1px solid var(--border-clr); border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); width: 180px; z-index: 1000; flex-direction: column; padding: 6px 0; }
+        .menu-dropdown.active { display: flex; }
+        .menu-item { padding: 10px 16px; font-size: 13px; color: var(--text); cursor: pointer; text-align: left; }
+        .menu-item:hover { background: rgba(0,168,132,0.1); color: var(--primary); }
 
-        .content { flex: 1; width: 100%; overflow-y: auto; display: none; flex-direction: column; }
+        .tabs { display: flex; background: var(--nav-bg); border-top: 1px solid var(--border-clr); width: 100%; height: 60px; position: absolute; bottom: 0; left: 0; z-index: 40; justify-content: space-around; align-items: center; }
+        .tab { flex: 1; text-align: center; padding: 6px; font-size: 11px; font-weight: 600; color: var(--sub); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+        .tab.active { color: var(--primary); }
+        .tab span.tab-icon { font-size: 20px; }
+
+        .content { flex: 1; width: 100%; overflow-y: auto; display: none; flex-direction: column; padding-bottom: 70px; background: var(--bg); }
         .content.active { display: flex; }
         
-        .contact-search-box { padding: 10px 14px; background: var(--card); border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .contact-search-box input { width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 20px; font-size: 13px; outline: none; background: var(--bg); color: var(--text); }
+        .contact-search-box { padding: 10px 16px; background: var(--bg); }
+        .contact-search-box input { width: 100%; padding: 10px 16px; border: none; border-radius: 24px; font-size: 13px; outline: none; background: var(--card); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
 
-        .item { display: flex; align-items: center; padding: 12px 16px; border-bottom: 1px solid rgba(0,0,0,0.05); cursor: pointer; background: var(--card); width: 100%; justify-content: space-between; }
-        .avatar { width: 45px; height: 45px; border-radius: 50%; background: #10b981; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 14px; flex-shrink: 0; position: relative; }
+        .item { display: flex; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border-clr); cursor: pointer; background: var(--card); width: 100%; justify-content: space-between; }
+        .avatar { width: 48px; height: 48px; border-radius: 50%; background: #00a884; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 14px; flex-shrink: 0; position: relative; border: 2px solid var(--primary); }
         
-        .online-dot { width: 12px; height: 12px; background: #94a3b8; border: 2px solid white; border-radius: 50%; position: absolute; bottom: 0; right: 0; transition: background 0.3s; }
-        .online-dot.active { background: #10b981; }
+        .online-dot { width: 12px; height: 12px; background: var(--sub); border: 2px solid var(--card); border-radius: 50%; position: absolute; bottom: 0; right: 0; transition: background 0.3s; }
+        .online-dot.active { background: #00a884; }
 
-        .unread-badge { background: #10b981; color: white; font-size: 11px; padding: 2px 7px; border-radius: 10px; font-weight: bold; display: none; }
+        .unread-badge { background: #00a884; color: white; font-size: 11px; padding: 2px 7px; border-radius: 10px; font-weight: bold; display: none; }
         .unread-badge.active { display: inline-block; }
 
-        .fab { position: absolute; bottom: 24px; right: 24px; width: 54px; height: 54px; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; cursor: pointer; border: none; box-shadow: 0 4px 15px rgba(16,185,129,0.5); z-index: 50; }
+        .fab { position: absolute; bottom: 76px; right: 20px; width: 56px; height: 56px; background: var(--primary); color: white; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; border: none; box-shadow: 0 4px 15px rgba(0,168,132,0.4); z-index: 50; }
         
+        .status-viewer-modal { display: none; position: absolute; inset: 0; width: 100%; height: 100%; background: #000000; z-index: 200; flex-direction: column; justify-content: space-between; padding: 20px; color: white; text-align: center; }
+        .status-viewer-modal.active { display: flex; }
+        .status-progress-bar { width: 100%; height: 3px; background: rgba(255,255,255,0.3); border-radius: 2px; overflow: hidden; margin-bottom: 15px; }
+        .status-progress-fill { width: 0%; height: 100%; background: white; transition: width 5s linear; }
+
         .chat-screen { position: absolute; inset: 0; width: 100%; height: 100%; background: var(--chat-wallpaper); background-size: cover; background-position: center; display: flex; flex-direction: column; z-index: 60; transform: translateX(100%); transition: 0.25s ease; }
         .chat-screen.open { transform: translateX(0); }
         
         .network-banner { display: none; background: #ef4444; color: white; text-align: center; font-size: 11px; padding: 4px; font-weight: bold; }
         .network-banner.active { display: block; }
 
-        .pinned-banner { display: none; background: var(--card); padding: 8px 12px; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 12px; color: var(--text); align-items: center; justify-content: space-between; border-left: 4px solid #10b981; }
+        .pinned-banner { display: none; background: var(--card); padding: 8px 12px; border-bottom: 1px solid var(--border-clr); font-size: 12px; color: var(--text); align-items: center; justify-content: space-between; border-left: 4px solid var(--primary); }
         .pinned-banner.active { display: flex; }
 
-        .search-bar-box { display: none; background: var(--card); padding: 8px 12px; border-bottom: 1px solid rgba(0,0,0,0.1); align-items: center; gap: 8px; }
+        .search-bar-box { display: none; background: var(--card); padding: 8px 12px; border-bottom: 1px solid var(--border-clr); align-items: center; gap: 8px; }
         .search-bar-box.active { display: flex; }
-        .search-bar-box input { flex: 1; padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none; background: var(--bg); color: var(--text); }
+        .search-bar-box input { flex: 1; padding: 6px 10px; border: 1px solid var(--border-clr); border-radius: 6px; font-size: 13px; outline: none; background: var(--bg); color: var(--text); }
 
         .messages { flex: 1; width: 100%; padding: 14px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-bottom: 85px; scroll-behavior: smooth; }
         
-        .bubble { max-width: 75%; padding: 10px 14px; border-radius: 12px; font-size: 14px; word-break: break-word; box-shadow: 0 1px 2px rgba(0,0,0,0.05); position: relative; cursor: pointer; user-select: none; }
+        .bubble { max-width: 75%; padding: 10px 14px; border-radius: 8px; font-size: 14px; word-break: break-word; box-shadow: 0 1px 2px rgba(0,0,0,0.1); position: relative; cursor: pointer; user-select: none; }
         .in { background: var(--bubble-in); color: var(--text); align-self: flex-start; }
         .out { background: var(--bubble-out); color: var(--text); align-self: flex-end; }
         .bubble img { max-width: 100%; border-radius: 8px; margin-top: 4px; }
@@ -95,46 +107,46 @@
         .spoiler-blur.revealed { background: transparent; color: inherit; text-shadow: none; }
 
         .wave-bars { display: flex; align-items: center; gap: 2px; height: 16px; margin: 4px 0; }
-        .wave-bar { width: 3px; background: #10b981; border-radius: 2px; animation: pulseWave 1.2s infinite ease-in-out; }
+        .wave-bar { width: 3px; background: var(--primary); border-radius: 2px; animation: pulseWave 1.2s infinite ease-in-out; }
         @keyframes pulseWave { 0%, 100% { height: 4px; } 50% { height: 16px; } }
 
-        .typing-bubble { display: none; align-items: center; gap: 4px; padding: 8px 12px; background: var(--card); border-radius: 12px; width: fit-content; margin-bottom: 6px; }
+        .typing-bubble { display: none; align-items: center; gap: 4px; padding: 8px 12px; background: var(--card); border-radius: 8px; width: fit-content; margin-bottom: 6px; }
         .typing-bubble.active { display: flex; }
         .dot { width: 6px; height: 6px; background: var(--sub); border-radius: 50%; animation: bounceDot 1.4s infinite ease-in-out both; }
         .dot:nth-child(2) { animation-delay: 0.2s; }
         .dot:nth-child(3) { animation-delay: 0.4s; }
         @keyframes bounceDot { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
 
-        .reply-quote { background: rgba(0,0,0,0.06); border-left: 3px solid #10b981; padding: 4px 8px; border-radius: 4px; font-size: 11px; margin-bottom: 6px; color: var(--sub); }
+        .reply-quote { background: rgba(0,0,0,0.04); border-left: 3px solid var(--primary); padding: 4px 8px; border-radius: 4px; font-size: 11px; margin-bottom: 6px; color: var(--sub); }
         .reactions-bar { display: flex; gap: 6px; margin-top: 4px; font-size: 12px; flex-wrap: wrap; }
 
-        .emoji-picker-popup { display: none; position: absolute; bottom: 70px; left: 10px; background: var(--card); border: 1px solid rgba(0,0,0,0.15); border-radius: 16px; padding: 8px; gap: 8px; font-size: 18px; z-index: 80; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .emoji-picker-popup { display: none; position: absolute; bottom: 70px; left: 10px; background: var(--card); border: 1px solid var(--border-clr); border-radius: 16px; padding: 8px; gap: 8px; font-size: 18px; z-index: 80; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .emoji-picker-popup.active { display: flex; }
 
-        .reply-preview { display: none; background: var(--card); padding: 8px 12px; border-left: 3px solid #10b981; font-size: 12px; color: var(--text); justify-content: space-between; align-items: center; border-top: 1px solid rgba(0,0,0,0.05); }
+        .reply-preview { display: none; background: var(--card); padding: 8px 12px; border-left: 3px solid var(--primary); font-size: 12px; color: var(--text); justify-content: space-between; align-items: center; border-top: 1px solid var(--border-clr); }
         .reply-preview.active { display: flex; }
 
-        .poll-box { background: var(--bubble-in); padding: 10px; border-radius: 10px; margin-top: 4px; border: 1px solid rgba(0,0,0,0.1); }
+        .poll-box { background: var(--bubble-in); padding: 10px; border-radius: 8px; margin-top: 4px; border: 1px solid var(--border-clr); }
         .poll-option { background: var(--bg); padding: 6px 10px; border-radius: 6px; margin-top: 6px; cursor: pointer; font-size: 13px; color: var(--text); }
 
-        .attach-menu { display: none; position: absolute; bottom: 75px; left: 10px; background: var(--card); border: 1px solid rgba(0,0,0,0.1); border-radius: 12px; padding: 8px; width: 230px; z-index: 70; flex-direction: column; gap: 4px; box-shadow: 0 -4px 15px rgba(0,0,0,0.15); }
+        .attach-menu { display: none; position: absolute; bottom: 75px; left: 10px; background: var(--card); border: 1px solid var(--border-clr); border-radius: 12px; padding: 8px; width: 230px; z-index: 70; flex-direction: column; gap: 4px; box-shadow: 0 -4px 15px rgba(0,0,0,0.15); }
         .attach-menu.active { display: flex; }
         .attach-item { padding: 8px; font-size: 13px; color: var(--text); cursor: pointer; border-radius: 6px; }
-        .attach-item:hover { background: rgba(16,185,129,0.1); color: #10b981; }
+        .attach-item:hover { background: rgba(0,168,132,0.1); color: var(--primary); }
 
-        .input-container { position: absolute; bottom: 12px; left: 10px; right: 10px; background: var(--primary); border-radius: 24px; display: flex; flex-direction: column; z-index: 65; box-shadow: 0 4px 15px rgba(0,0,0,0.2); overflow: hidden; }
-        .input-bar { padding: 8px 12px; display: flex; align-items: center; gap: 8px; width: 100%; }
-        .input-bar input { flex: 1; padding: 10px 14px; padding-right: 10px; border: none; border-radius: 20px; outline: none; background: white; font-size: 14px; color: #0f172a; }
-        .icon-btn { background: none; border: none; color: #94a3b8; font-size: 18px; cursor: pointer; padding: 0 4px; }
-        .send-btn { background: #10b981; color: white; border: none; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .input-container { position: absolute; bottom: 12px; left: 10px; right: 10px; background: transparent; display: flex; flex-direction: column; z-index: 65; }
+        .input-bar { padding: 6px 10px; background: var(--card); border-radius: 24px; display: flex; align-items: center; gap: 8px; width: 100%; box-shadow: 0 1px 4px rgba(0,0,0,0.1); border: 1px solid var(--border-clr); }
+        .input-bar input { flex: 1; padding: 10px 4px; border: none; outline: none; background: transparent; font-size: 14px; color: var(--text); }
+        .icon-btn { background: none; border: none; color: var(--sub); font-size: 18px; cursor: pointer; padding: 0 4px; }
+        .send-btn { background: var(--primary); color: white; border: none; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 
         .media-gallery { display: none; position: absolute; inset: 0; background: var(--bg); z-index: 130; flex-direction: column; padding: 15px; }
         .media-gallery.active { display: flex; }
 
-        .call-screen { display: none; position: absolute; inset: 0; width: 100%; height: 100%; background: #0f172a; z-index: 120; flex-direction: column; justify-content: space-between; align-items: center; padding: 30px; color: white; text-align: center; }
+        .call-screen { display: none; position: absolute; inset: 0; width: 100%; height: 100%; background: #0b141a; z-index: 120; flex-direction: column; justify-content: space-between; align-items: center; padding: 30px; color: white; text-align: center; }
         .call-screen.active { display: flex; }
         .video-grid { width: 100%; flex: 1; display: flex; flex-direction: column; gap: 10px; justify-content: center; align-items: center; position: relative; }
-        video { width: 100%; max-height: 45vh; background: #1e293b; border-radius: 12px; object-fit: cover; }
+        video { width: 100%; max-height: 45vh; background: #202c33; border-radius: 12px; object-fit: cover; }
         #localVideo { width: 110px; height: 150px; position: absolute; bottom: 20px; right: 20px; border-radius: 8px; border: 2px solid white; z-index: 10; }
 
         .img-viewer { display: none; position: absolute; inset: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 150; justify-content: center; align-items: center; flex-direction: column; padding: 20px; }
@@ -143,8 +155,8 @@
 
         .modal { display: none; position: absolute; inset: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 110; justify-content: center; align-items: center; }
         .modal.active { display: flex; }
-        .modal-box { background: var(--card); color: var(--text); width: 85%; max-width: 340px; padding: 20px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        .modal-box input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; background: var(--bg); color: var(--text); outline: none; }
+        .modal-box { background: var(--card); color: var(--text); width: 85%; max-width: 340px; padding: 20px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .modal-box input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid var(--border-clr); border-radius: 8px; font-size: 14px; background: var(--bg); color: var(--text); outline: none; }
     </style>
 </head>
 <body>
@@ -153,9 +165,9 @@
         <div class="india-splash" id="indiaSplash">
             <div class="india-badge">
                 <div style="font-size: 40px; margin-bottom: 10px;">🌐</div>
-                <h2 style="color: #FF9933; font-size: 24px; margin-bottom: 6px;">GLOBAL BAAT-CHEET</h2>
-                <p style="font-size: 13px; color: #94a3b8; margin-bottom: 15px;">International Gateway Active...</p>
-                <button type="button" onclick="dismissIndiaSplash()" class="cyber-btn" style="width:100%; cursor:pointer; pointer-events:auto;">Connect Globally ➔</button>
+                <h2 style="color: #00a884; font-size: 24px; margin-bottom: 6px;">BAAT-CHEET</h2>
+                <p style="font-size: 13px; color: var(--sub); margin-bottom: 15px;">WhatsApp Style Menu Active...</p>
+                <button type="button" onclick="dismissIndiaSplash()" class="cyber-btn" style="width:100%; cursor:pointer; pointer-events:auto;">Start Messaging ➔</button>
             </div>
         </div>
 
@@ -164,16 +176,32 @@
             <img id="fullImg" src="" alt="Full">
         </div>
 
-        <!-- Login & OTP Screen -->
+        <div class="status-viewer-modal" id="statusViewerModal">
+            <div>
+                <div class="status-progress-bar"><div class="status-progress-fill" id="statusProgressFill"></div></div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <div class="avatar" id="viewerAvatar" style="width:36px; height:36px; font-size:14px; margin:0;">?</div>
+                        <b id="viewerSenderName" style="font-size:14px;">User</b>
+                    </div>
+                    <span onclick="closeStatusViewer()" style="font-size:24px; cursor:pointer;">✕</span>
+                </div>
+            </div>
+            <div style="flex:1; display:flex; justify-content:center; align-items:center; overflow:hidden; padding:10px;">
+                <img id="viewerImage" src="" style="max-width:100%; max-height:75vh; border-radius:12px; object-fit:contain;">
+            </div>
+            <div style="font-size:12px; color:#aaa; margin-bottom:10px;" id="viewerTime">Just now</div>
+        </div>
+
         <div class="screen hide" id="loginScreen">
             <div class="cyber-card" id="step1PhoneCard">
-                <div class="brand-title">💬 baat-cheet</div>
+                <div class="brand-title">💬 Baat-Cheet</div>
                 <p class="brand-subtitle">Secure OTP Login (5-Min Limit)</p>
                 
                 <input type="text" id="usernameInput" class="cyber-input" placeholder="Apna Naam / Username daalein..." style="margin-bottom:10px;">
 
                 <div style="display:flex; gap:8px; width:100%; margin-bottom:14px;">
-                    <select id="countryCodeSelect" style="padding:12px 8px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(15, 23, 42, 0.8); color:white; font-size:13px; outline:none;">
+                    <select id="countryCodeSelect" style="padding:12px 8px; border-radius:8px; border:1px solid var(--border-clr); background:var(--bg); color:var(--text); font-size:13px; outline:none;">
                         <option value="+91">🇮🇳 +91</option>
                         <option value="+1">🇺🇸 +1</option>
                         <option value="+44">🇬🇧 +44</option>
@@ -189,60 +217,78 @@
                 <div class="brand-title">🔒 Verify OTP</div>
                 <p class="brand-subtitle" id="otpSubText">Enter 4-digit code (Valid for 5 Mins)</p>
                 <input type="text" id="otpInput" class="cyber-input" placeholder="Enter OTP (e.g. 1234)" maxlength="4">
-                <div id="otpTimerDisplay" style="font-size:12px; color:#38bdf8; margin-bottom:14px;">Time left: 05:00</div>
+                <div id="otpTimerDisplay" style="font-size:12px; color:var(--primary); margin-bottom:14px;">Time left: 05:00</div>
                 <button type="button" class="cyber-btn" onclick="verifyOTP()">✅ Verify & Login</button>
             </div>
         </div>
 
         <header>
             <div style="display:flex; align-items:center; gap:6px;">
-                <span style="font-size:18px;">🌍</span>
-                <div style="font-weight:700; font-size:15px; display:flex; align-items:center; gap:4px;">baat-cheet <span style="background:#38bdf8; font-size:9px; padding:1px 5px; border-radius:6px; color:white;" id="headerCountryBadge">GLOBAL</span></div>
+                <div style="font-weight:800; font-size:20px; color:var(--primary); display:flex; align-items:center; gap:4px;">Baat-Cheet</div>
             </div>
-            <div style="display:flex; gap:10px; align-items:center;">
-                <span onclick="openCloudVault()" style="cursor:pointer; font-size:16px;" title="Cloud Vault">☁️</span>
-                <span onclick="openStarredModal()" style="cursor:pointer; font-size:16px;" title="Starred">⭐</span>
-                <span onclick="openWallpaperModal()" style="cursor:pointer; font-size:16px;" title="Wallpaper">🎨</span>
-                <span onclick="openProfileModal()" style="cursor:pointer; font-size:16px;" title="Profile">⚙️</span>
-                <span onclick="toggleDark()" style="cursor:pointer; font-size:18px;" title="Dark / Light Mode">🌙</span>
+            <div style="display:flex; gap:16px; align-items:center; font-size:18px;">
+                <span onclick="openCloudVault()" style="cursor:pointer;" title="Cloud Vault">☁️</span>
+                <span onclick="openStarredModal()" style="cursor:pointer;" title="Starred">⭐</span>
+                <span onclick="openWallpaperModal()" style="cursor:pointer;" title="Wallpaper">🎨</span>
+                <span onclick="toggleDark()" style="cursor:pointer;" title="Dark / Light Mode">🌙</span>
+                <!-- WhatsApp Style Three Dots Menu Toggle -->
+                <span onclick="toggleMenuDropdown(event)" style="cursor:pointer; font-weight:bold; padding:0 4px;" title="Menu">⋮</span>
+            </div>
+
+            <!-- WhatsApp Style Dropdown Menu Content -->
+            <div class="menu-dropdown" id="menuDropdown">
+                <div class="menu-item" onclick="openCreateGroup(); closeMenuDropdown();">New group</div>
+                <div class="menu-item" onclick="openStarredModal(); closeMenuDropdown();">Starred messages</div>
+                <div class="menu-item" onclick="openWallpaperModal(); closeMenuDropdown();">Wallpaper & Themes</div>
+                <div class="menu-item" onclick="openProfileModal(); closeMenuDropdown();">Settings & Profile</div>
+                <div class="menu-item" onclick="logoutApp(); closeMenuDropdown();" style="color:#ef4444;">Logout</div>
             </div>
         </header>
 
         <div class="tabs">
-            <div class="tab active" onclick="switchTab(0)">CHATS</div>
-            <div class="tab" onclick="switchTab(1)">STATUS</div>
-            <div class="tab" onclick="switchTab(2)" title="Global Mesh">MESH 📡</div>
+            <div class="tab active" onclick="switchTab(0)"><span class="tab-icon">💬</span>Chats</div>
+            <div class="tab" onclick="switchTab(1)"><span class="tab-icon">🔄</span>Updates</div>
+            <div class="tab" onclick="switchTab(2)"><span class="tab-icon">👥</span>Communities</div>
+            <div class="tab" onclick="switchTab(3)"><span class="tab-icon">📞</span>Calls</div>
         </div>
 
         <div class="content active" id="sec0">
             <div class="contact-search-box">
-                <input type="text" id="contactSearchInput" placeholder="🔍 Online dost ya @Username khojein..." oninput="filterContacts()">
+                <input type="text" id="contactSearchInput" placeholder="Ask Meta AI or Search..." oninput="filterContacts()">
             </div>
-            <div style="padding:8px; text-align:center; font-size:11px; color:var(--sub); background:rgba(56,189,248,0.1);">🌐 Sirf Online Users Dikh Rahe Hain</div>
+            <div style="padding:6px 16px; font-size:11px; color:var(--sub); background:rgba(0,168,132,0.08);">🔒 Sirf Online Users Dikh Rahe Hain</div>
             <div id="contactList" style="flex:1; overflow-y:auto; width:100%;"></div>
         </div>
 
         <div class="content" id="sec1" style="padding: 16px;">
             <input type="file" id="statusImageInput" accept="image/*" style="display:none;" onchange="uploadPhotoStatus(event)">
-            <div class="item" style="border-radius:12px;" onclick="document.getElementById('statusImageInput').click()">
-                <div class="avatar">➕</div>
-                <div><b>Mera Photo Status (24h)</b><div style="font-size:12px; color:var(--sub);" id="statusText">Tap to upload photo status</div></div>
+            
+            <div style="font-weight:bold; font-size:15px; margin-bottom:10px; color:var(--text);">Status</div>
+            
+            <div class="item" style="border-radius:12px; margin-bottom:15px;" onclick="document.getElementById('statusImageInput').click()">
+                <div class="avatar" style="border: 2px dashed var(--primary);">➕</div>
+                <div><b>My status</b><div style="font-size:12px; color:var(--sub);">Tap to add status update</div></div>
             </div>
-            <div id="statusFeedContainer" style="margin-top: 15px; display:flex; flex-direction:column; gap:10px;"></div>
+
+            <div style="font-size:12px; color:var(--sub); font-weight:bold; margin-bottom:8px;">RECENT UPDATES</div>
+            <div id="statusFeedContainer" style="display:flex; flex-direction:column; gap:8px;"></div>
         </div>
 
         <div class="content" id="sec2" style="padding: 16px; font-size: 13px; color: var(--text);">
-            <h3 style="color:#38bdf8; margin-bottom:8px;">📡 Global Mesh & International Nodes</h3>
-            <p style="color:var(--sub); margin-bottom:14px;">Cross-border aur offline mesh status:</p>
-            <div style="display:flex; flex-direction:column; gap:8px;">
-                <div style="background:var(--card); padding:12px; border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
-                    <div>🌐 Global STUN Relay</div>
-                    <span style="color:#10b981; font-weight:bold; font-size:12px;">Connected (US-East) ✓</span>
-                </div>
-                <div style="background:var(--card); padding:12px; border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
-                    <div>📱 Nearby Bluetooth Mesh</div>
-                    <span style="color:#38bdf8; font-size:12px;">Scanning...</span>
-                </div>
+            <h3 style="color:var(--primary); margin-bottom:8px;">👥 Communities</h3>
+            <p style="color:var(--sub); margin-bottom:14px;">Bring related groups together easily.</p>
+            <div style="background:var(--card); padding:14px; border-radius:12px; border:1px solid var(--border-clr);">
+                <b>Global Community Hub</b>
+                <p style="font-size:12px; color:var(--sub); margin-top:4px;">All community announcements and global rooms sync here.</p>
+            </div>
+        </div>
+
+        <div class="content" id="sec3" style="padding: 16px; font-size: 13px; color: var(--text);">
+            <h3 style="color:var(--primary); margin-bottom:8px;">📞 Recent Calls</h3>
+            <p style="color:var(--sub); margin-bottom:14px;">Secure audio and video call history logs:</p>
+            <div style="background:var(--card); padding:14px; border-radius:12px; border:1px solid var(--border-clr);">
+                <b>Encrypted STUN/TURN Calls</b>
+                <p style="font-size:12px; color:var(--sub); margin-top:4px;">Tap any active online contact in CHATS to place an encrypted call.</p>
             </div>
         </div>
 
@@ -251,9 +297,9 @@
         <div class="modal" id="modal">
             <div class="modal-box">
                 <h3>Global Connection</h3>
-                <button onclick="openAddContact()" style="width:100%; padding:10px; margin:6px 0; background:#38bdf8; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600;">International Dost Jodein (+Code / @ID)</button>
-                <button onclick="openCreateGroup()" style="width:100%; padding:10px; margin:6px 0; background:#0f172a; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600;">Global Group Banayein</button>
-                <button onclick="closeModal()" style="width:100%; padding:8px; margin-top:10px; background:#cbd5e1; border:none; border-radius:8px; cursor:pointer;">Radd</button>
+                <button onclick="openAddContact()" style="width:100%; padding:10px; margin:6px 0; background:var(--primary); color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600;">International Dost Jodein (+Code / @ID)</button>
+                <button onclick="openCreateGroup()" style="width:100%; padding:10px; margin:6px 0; background:var(--card); color:var(--text); border:1px solid var(--border-clr); border-radius:8px; cursor:pointer; font-weight:600;">Global Group Banayein</button>
+                <button onclick="closeModal()" style="width:100%; padding:8px; margin-top:10px; background:transparent; color:var(--sub); border:none; border-radius:8px; cursor:pointer;">Radd</button>
             </div>
         </div>
 
@@ -262,8 +308,8 @@
                 <h3>International Number ya @Username Jodein</h3>
                 <input type="text" id="contactNameInput" placeholder="+1 5550192 ya @username">
                 <div style="display:flex; justify-content:flex-end; gap:8px;">
-                    <button onclick="document.getElementById('contactModal').classList.remove('active')" style="padding:8px 14px; background:#cbd5e1; border:none; border-radius:6px; cursor:pointer;">Radd</button>
-                    <button onclick="saveContact()" style="padding:8px 14px; background:#10b981; color:white; border:none; border-radius:6px; cursor:pointer;">Jodein</button>
+                    <button onclick="document.getElementById('contactModal').classList.remove('active')" style="padding:8px 14px; background:transparent; color:var(--sub); border:none; border-radius:6px; cursor:pointer;">Radd</button>
+                    <button onclick="saveContact()" style="padding:8px 14px; background:var(--primary); color:white; border:none; border-radius:6px; cursor:pointer;">Jodein</button>
                 </div>
             </div>
         </div>
@@ -273,8 +319,8 @@
                 <h3>Global Group Banayein</h3>
                 <input type="text" id="groupNameInput" placeholder="Group ka naam">
                 <div style="display:flex; justify-content:flex-end; gap:8px;">
-                    <button onclick="document.getElementById('groupModal').classList.remove('active')" style="padding:8px 14px; background:#cbd5e1; border:none; border-radius:6px; cursor:pointer;">Radd</button>
-                    <button onclick="saveGroup()" style="padding:8px 14px; background:#10b981; color:white; border:none; border-radius:6px; cursor:pointer;">Create</button>
+                    <button onclick="document.getElementById('groupModal').classList.remove('active')" style="padding:8px 14px; background:transparent; color:var(--sub); border:none; border-radius:6px; cursor:pointer;">Radd</button>
+                    <button onclick="saveGroup()" style="padding:8px 14px; background:var(--primary); color:white; border:none; border-radius:6px; cursor:pointer;">Create</button>
                 </div>
             </div>
         </div>
@@ -295,8 +341,8 @@
                 <button onclick="logoutApp()" style="width:100%; padding:8px; margin-top:6px; background:#334155; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:600;">🚪 Logout / Switch Account</button>
                 <button onclick="deleteMyAccount()" style="width:100%; padding:8px; margin-top:6px; background:#ef4444; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:600;">⚠️ Delete My Account Forever</button>
                 <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:10px;">
-                    <button onclick="document.getElementById('profileModal').classList.remove('active')" style="padding:8px 14px; background:#cbd5e1; border:none; border-radius:6px; cursor:pointer;">Radd</button>
-                    <button onclick="saveProfile()" style="padding:8px 14px; background:#10b981; color:white; border:none; border-radius:6px; cursor:pointer;">Save</button>
+                    <button onclick="document.getElementById('profileModal').classList.remove('active')" style="padding:8px 14px; background:transparent; color:var(--sub); border:none; border-radius:6px; cursor:pointer;">Radd</button>
+                    <button onclick="saveProfile()" style="padding:8px 14px; background:var(--primary); color:white; border:none; border-radius:6px; cursor:pointer;">Save</button>
                 </div>
             </div>
         </div>
@@ -305,10 +351,10 @@
             <div class="modal-box">
                 <h3>👥 Global Group Settings</h3>
                 <input type="text" id="newMemberInput" placeholder="Naye member ka naam">
-                <button onclick="addGroupMember()" style="width:100%; padding:8px; background:#10b981; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:600; margin-top:6px;">Member Jodein</button>
+                <button onclick="addGroupMember()" style="width:100%; padding:8px; background:var(--primary); color:white; border:none; border-radius:6px; cursor:pointer; font-weight:600; margin-top:6px;">Member Jodein</button>
                 <div id="groupMemberList" style="margin-top:12px; font-size:13px; max-height:100px; overflow-y:auto; display:flex; flex-direction:column; gap:4px;"></div>
                 <button onclick="clearChatHistory()" style="width:100%; padding:8px; margin-top:10px; background:#ef4444; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:600;">🗑️ Clear Chat History</button>
-                <button onclick="document.getElementById('groupAdminModal').classList.remove('active')" style="width:100%; padding:8px; margin-top:8px; background:#cbd5e1; border:none; border-radius:8px; cursor:pointer;">Band Karein</button>
+                <button onclick="document.getElementById('groupAdminModal').classList.remove('active')" style="width:100%; padding:8px; margin-top:8px; background:transparent; color:var(--sub); border:none; border-radius:8px; cursor:pointer;">Band Karein</button>
             </div>
         </div>
 
@@ -316,7 +362,7 @@
             <div class="modal-box" style="max-height: 80vh; overflow-y: auto;">
                 <h3>⭐ Starred Messages</h3>
                 <div id="starredListContainer" style="margin-top: 10px; font-size: 13px; display:flex; flex-direction:column; gap:6px;"></div>
-                <button onclick="document.getElementById('starredModal').classList.remove('active')" style="width:100%; padding:8px; margin-top:12px; background:#10b981; color:white; border:none; border-radius:8px; cursor:pointer;">Band Karein</button>
+                <button onclick="document.getElementById('starredModal').classList.remove('active')" style="width:100%; padding:8px; margin-top:12px; background:var(--primary); color:white; border:none; border-radius:8px; cursor:pointer;">Band Karein</button>
             </div>
         </div>
 
@@ -324,7 +370,7 @@
             <div class="modal-box" style="max-height: 80vh; overflow-y: auto;">
                 <h3>📤 Message Kisko Forward Karein?</h3>
                 <div id="forwardListContainer" style="margin-top: 10px; display:flex; flex-direction:column; gap:6px;"></div>
-                <button onclick="document.getElementById('forwardModal').classList.remove('active')" style="width:100%; padding:8px; margin-top:12px; background:#cbd5e1; border:none; border-radius:8px; cursor:pointer;">Radd</button>
+                <button onclick="document.getElementById('forwardModal').classList.remove('active')" style="width:100%; padding:8px; margin-top:12px; background:transparent; color:var(--sub); border:none; border-radius:8px; cursor:pointer;">Radd</button>
             </div>
         </div>
 
@@ -332,13 +378,13 @@
             <div class="modal-box">
                 <h3>Chat Wallpaper & Global Themes</h3>
                 <div style="display:flex; gap:10px; margin:8px 0; justify-content:center;">
-                    <div onclick="setWallpaperColor('#f1f5f9')" style="width:30px; height:30px; background:#f1f5f9; border-radius:50%; cursor:pointer; border:1px solid #cbd5e1;" title="Solid Light"></div>
+                    <div onclick="setWallpaperColor('#f1f5f9')" style="width:30px; height:30px; background:#f1f5f9; border-radius:50%; cursor:pointer; border:1px solid var(--border-clr);" title="Solid Light"></div>
                     <div onclick="setWallpaperColor('#0f172a')" style="width:30px; height:30px; background:#0f172a; border-radius:50%; cursor:pointer;" title="Solid Dark"></div>
                     <div onclick="setWallpaperColor('linear-gradient(135deg, #38bdf8, #0f172a)')" style="width:30px; height:30px; background:linear-gradient(135deg, #38bdf8, #0f172a); border-radius:50%; cursor:pointer;" title="Global Blue Gradient"></div>
                 </div>
                 <input type="file" id="wallpaperFileInput" accept="image/*" style="display:none;" onchange="setCustomWallpaperImage(event)">
-                <button onclick="document.getElementById('wallpaperFileInput').click()" style="width:100%; padding:10px; background:#10b981; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600; margin-top:6px;">📷 Gallery Se Custom Photo</button>
-                <button onclick="document.getElementById('wallpaperModal').classList.remove('active')" style="width:100%; padding:8px; margin-top:8px; background:#cbd5e1; border:none; border-radius:8px; cursor:pointer;">Band Karein</button>
+                <button onclick="document.getElementById('wallpaperFileInput').click()" style="width:100%; padding:10px; background:var(--primary); color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600; margin-top:6px;">📷 Gallery Se Custom Photo</button>
+                <button onclick="document.getElementById('wallpaperModal').classList.remove('active')" style="width:100%; padding:8px; margin-top:8px; background:transparent; color:var(--sub); border:none; border-radius:8px; cursor:pointer;">Band Karein</button>
             </div>
         </div>
 
@@ -353,7 +399,7 @@
         </div>
 
         <div class="media-gallery" id="mediaGalleryScreen">
-            <header style="background:var(--primary); margin-bottom:15px;">
+            <header style="background:var(--nav-bg); margin-bottom:15px;">
                 <div style="display:flex; align-items:center; gap:10px;">
                     <span onclick="closeMediaGallery()" style="cursor:pointer; font-size:20px;">←</span>
                     <div style="font-weight:600; font-size:15px;">Shared Global Cloud Media</div>
@@ -363,7 +409,7 @@
         </div>
 
         <div class="call-screen" id="callScreen">
-            <div style="font-size: 16px; color: #38bdf8; font-weight: bold; margin-top: 10px;" id="callTypeTitle">🌐 SECURE CALL</div>
+            <div style="font-size: 16px; color: var(--primary); font-weight: bold; margin-top: 10px;" id="callTypeTitle">🌐 SECURE CALL</div>
             
             <div id="audioCallView" style="flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:15px;">
                 <div class="avatar" id="callAvatarIcon" style="width:90px; height:90px; font-size:36px;">📞</div>
@@ -392,7 +438,7 @@
                     <div class="avatar" id="chatAvatar" style="width:34px; height:34px; font-size:13px; margin:0;">?</div>
                     <div>
                         <div id="chatName" style="font-weight:600; font-size:15px;" onclick="checkGroupSettings()">Chat</div>
-                        <div id="chatSubStatus" style="font-size:10px; color:#38bdf8;">Global E2EE Active 🌐</div>
+                        <div id="chatSubStatus" style="font-size:10px; color:var(--primary);">Global E2EE Active 🌐</div>
                     </div>
                 </div>
                 <div style="display:flex; gap:10px; font-size:15px; align-items:center;">
@@ -459,7 +505,7 @@
                     <input type="file" id="imgFile" accept="image/*" style="display:none;" onchange="sendImage(event)">
                     <button class="icon-btn" onclick="toggleAttach()">📎</button>
                     <button class="icon-btn" onclick="toggleEmojiPicker()" title="Emoji">😊</button>
-                    <input type="text" id="msgInput" placeholder="Global message likhein..." oninput="handleTyping()" onkeypress="if(event.key=='Enter')sendMsg()">
+                    <input type="text" id="msgInput" placeholder="Message..." oninput="handleTyping()" onkeypress="if(event.key=='Enter')sendMsg()">
                     <button class="send-btn" onclick="sendMsg()">➤</button>
                 </div>
             </div>
@@ -496,6 +542,7 @@
         var unreadCountsMap = {};
         var onlinePresenceMap = {};
         var localStream = null, remoteStream = null, peerConnection = null;
+        var statusTimer = null;
 
         const firebaseConfig = {
             apiKey: "AIzaSyAOVmmhxs2hEXNplaYlyXbL3_LrX6qxp6Q",
@@ -531,7 +578,26 @@
                 document.getElementById('loginScreen').classList.add('hide');
                 startApp();
             }
+
+            // Close dropdown menu when clicking outside
+            window.addEventListener('click', (e) => {
+                let dropdown = document.getElementById('menuDropdown');
+                if(!e.target.closest('header')) {
+                    if(dropdown) dropdown.classList.remove('active');
+                }
+            });
         });
+
+        function toggleMenuDropdown(e) {
+            e.stopPropagation();
+            let dropdown = document.getElementById('menuDropdown');
+            if(dropdown) dropdown.classList.toggle('active');
+        }
+
+        function closeMenuDropdown() {
+            let dropdown = document.getElementById('menuDropdown');
+            if(dropdown) dropdown.classList.remove('active');
+        }
 
         function sendOTP() {
             let usernameInput = document.getElementById('usernameInput');
@@ -647,19 +713,57 @@
                 let data = snap.val() || {};
                 let container = document.getElementById('statusFeedContainer');
                 if(!container) return;
-                container.innerHTML = '<h4 style="font-size:13px; color:var(--sub); margin-bottom:6px;">Recent Status Updates</h4>';
+                container.innerHTML = '';
                 
                 let currentTime = Date.now();
+                let hasStatus = false;
                 for(let sId in data) {
                     let st = data[sId];
                     if(currentTime - st.time < 86400000) {
+                        hasStatus = true;
                         let div = document.createElement('div');
-                        div.style.cssText = "background:var(--card); padding:10px; border-radius:10px; display:flex; flex-direction:column; gap:6px;";
-                        div.innerHTML = `<div style="font-size:12px; font-weight:bold; color:#38bdf8;">👤 ${st.sender}</div><img src="${st.imageUrl}" style="width:100%; max-height:200px; border-radius:8px; object-fit:cover;">`;
+                        div.className = 'item';
+                        div.style.borderRadius = "12px";
+                        div.onclick = () => openStatusViewer(st.sender, st.imageUrl, st.time);
+                        div.innerHTML = `<div style="display:flex; align-items:center;"><div class="avatar">${st.sender[0]}</div><div><b>${st.sender}</b><div style="font-size:12px; color:var(--sub);">Tap to view status</div></div></div>`;
                         container.appendChild(div);
                     }
                 }
+                if(!hasStatus) {
+                    container.innerHTML = '<div style="font-size:12px; color:var(--sub); text-align:center; padding:10px;">No recent updates</div>';
+                }
             });
+        }
+
+        function openStatusViewer(sender, imageUrl, time) {
+            let modal = document.getElementById('statusViewerModal');
+            let img = document.getElementById('viewerImage');
+            let name = document.getElementById('viewerSenderName');
+            let avatar = document.getElementById('viewerAvatar');
+            let timeLbl = document.getElementById('viewerTime');
+            let fillBar = document.getElementById('statusProgressFill');
+
+            img.src = imageUrl;
+            name.innerText = sender;
+            avatar.innerText = sender[0];
+            
+            let d = new Date(time);
+            timeLbl.innerText = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            modal.classList.add('active');
+            fillBar.style.width = '0%';
+            setTimeout(() => { fillBar.style.width = '100%'; }, 50);
+
+            if(statusTimer) clearTimeout(statusTimer);
+            statusTimer = setTimeout(() => {
+                closeStatusViewer();
+            }, 5000);
+        }
+
+        function closeStatusViewer() {
+            let modal = document.getElementById('statusViewerModal');
+            modal.classList.remove('active');
+            if(statusTimer) clearTimeout(statusTimer);
         }
 
         async function getCryptoKey() {
@@ -781,7 +885,7 @@
         function openCloudVault() { openChat("☁️ Cloud Vault (Notes)"); }
         function startTicTacToe() {
             document.getElementById('attachMenu').classList.remove('active');
-            let gameHtml = `<div class="poll-box" style="text-align:center;"><div style="font-weight:600; margin-bottom:6px;">🎮 Tic-Tac-Toe Game Match</div><div style="font-size:12px; color:var(--sub); margin-bottom:6px;">${myName} started a challenge!</div><div style="font-size:13px; color:#38bdf8; font-weight:bold;">Tap chat to play!</div></div>`;
+            let gameHtml = `<div class="poll-box" style="text-align:center;"><div style="font-weight:600; margin-bottom:6px;">🎮 Tic-Tac-Toe Game Match</div><div style="font-size:12px; color:var(--sub); margin-bottom:6px;">${myName} started a challenge!</div><div style="font-size:13px; color:var(--primary); font-weight:bold;">Tap chat to play!</div></div>`;
             if(dbRef) {
                 encryptMessage(gameHtml).then(enc => {
                     dbRef.push({text: enc, sender: myName, isHtml: true, seen: false, seenBy: { [myName]: true }, deleted: false, edited: false, time: Date.now()});
@@ -803,7 +907,7 @@
             document.getElementById('attachMenu').classList.remove('active');
             let photoUrl = prompt("View Once photo ka URL daalein:", "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?q=80&w=400");
             if(!photoUrl) return;
-            let viewOnceHtml = `<div onclick="openViewOnce('${photoUrl}')" style="background:rgba(0,0,0,0.15); padding:10px; border-radius:8px; cursor:pointer; text-align:center; border:1px dashed #38bdf8;"><div style="font-size:20px;">🔒</div><div style="font-size:13px; font-weight:bold; color:#38bdf8;">View Once Media</div><div style="font-size:10px; color:var(--sub);">Tap to view (Screenshot Protected)</div></div>`;
+            let viewOnceHtml = `<div onclick="openViewOnce('${photoUrl}')" style="background:rgba(0,0,0,0.15); padding:10px; border-radius:8px; cursor:pointer; text-align:center; border:1px dashed var(--primary);"><div style="font-size:20px;">🔒</div><div style="font-size:13px; font-weight:bold; color:var(--primary);">View Once Media</div><div style="font-size:10px; color:var(--sub);">Tap to view (Screenshot Protected)</div></div>`;
             encryptMessage(viewOnceHtml).then(enc => {
                 if(dbRef) dbRef.push({text: enc, sender: myName, isHtml: true, seen: false, seenBy: { [myName]: true }, deleted: false, edited: false, time: Date.now()});
             });
@@ -918,7 +1022,7 @@
 
                                 callRef.child('candidates').on('child_added', cSnap => {
                                     let candidate = new RTCIceCandidate(cSnap.val());
-                                    peerConnection.addIceCandidate(candidate);
+                                    if(peerConnection) peerConnection.addIceCandidate(candidate);
                                 });
                             }).catch(e => { ringtone.pause(); alert("Mic/Camera error: " + e); });
                         } else {
@@ -948,7 +1052,7 @@
             });
 
             if(onlineOnlyList.length <= 1) {
-                list.innerHTML = `<div style="text-align:center; padding:30px; color:var(--sub); font-size:13px;">Abhi koi doosra user online nahi hai. 🌐<br><small>Dusre browser/device se login karke check karein.</small></div>`;
+                list.innerHTML = `<div style="text-align:center; padding:40px 20px; color:var(--sub); font-size:13px;">Abhi koi doosra user online nahi hai. 🌐<br><small>Dusre browser/device se login karke check karein.</small></div>`;
                 return;
             }
 
@@ -965,8 +1069,8 @@
                 let lastMsg = lastMessagesMap[c.name] || statusTextCustom;
                 let badge = isBlocked ? '🚫 Blocked' : lastMsg;
                 let unreadCount = unreadCountsMap[c.name] || 0;
-                let verifiedTick = (c.is_verified !== false) ? ' <span style="color:#38bdf8; font-size:13px;" title="Global Verified">✓</span>' : '';
-                let handleLabel = c.username ? `<span style="font-size:11px; color:#38bdf8; margin-left:6px;">${c.username}</span>` : '';
+                let verifiedTick = (c.is_verified !== false) ? ' <span style="color:#00a884; font-size:13px;" title="Global Verified">✓</span>' : '';
+                let handleLabel = c.username ? `<span style="font-size:11px; color:var(--sub); margin-left:6px;">${c.username}</span>` : '';
                 
                 div.innerHTML = `<div style="display:flex; align-items:center; overflow:hidden;"><div class="avatar">${c.name[0]}<div class="online-dot ${isOnline ? 'active':''}"></div></div><div style="overflow:hidden;"><b>${c.name}</b>${verifiedTick} ${handleLabel}<div style="font-size:12px; color:var(--sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px;">${badge}</div></div></div><div class="unread-badge ${unreadCount > 0 ? 'active':''}">${unreadCount}</div>`;
                 list.appendChild(div);
@@ -1084,7 +1188,7 @@
             } else {
                 starredMessages.forEach(m => {
                     let d = document.createElement('div');
-                    d.style.cssText = "background:var(--bg); padding:8px; border-radius:6px; border-left:3px solid #38bdf8;";
+                    d.style.cssText = "background:var(--bg); padding:8px; border-radius:6px; border-left:3px solid var(--primary);";
                     d.innerHTML = `<b>${m.sender}:</b> ${m.text}`;
                     container.appendChild(d);
                 });
@@ -1098,7 +1202,7 @@
             container.innerHTML = '';
             contacts.forEach(c => {
                 let btn = document.createElement('button');
-                btn.style.cssText = "width:100%; padding:10px; background:var(--bg); border:1px solid #cbd5e1; border-radius:8px; cursor:pointer; text-align:left; font-weight:600; color:var(--text);";
+                btn.style.cssText = "width:100%; padding:10px; background:var(--bg); border:1px solid var(--border-clr); border-radius:8px; cursor:pointer; text-align:left; font-weight:600; color:var(--text);";
                 btn.innerText = "➡️ " + c.name + (c.username ? ` (${c.username})` : '');
                 btn.onclick = () => forwardMessageToChat(c.name);
                 container.appendChild(btn);
@@ -1199,13 +1303,13 @@
 
         function openChat(name) {
             activeChat = name; 
-            document.getElementById('chatName').innerText = name + " 🌐";
+            document.getElementById('chatName').innerText = name;
             document.getElementById('chatAvatar').innerText = name[0];
             document.getElementById('chatScreen').classList.add('open');
             document.getElementById('msgList').innerHTML = `<div style="text-align:center; font-size:11px; color:var(--sub);">🌐 Global Cross-Border Encrypted Chat</div>`;
             allMessagesCache = [];
             
-            document.getElementById('chatSubStatus').innerText = `🌍 International STUN Node Active`;
+            document.getElementById('chatSubStatus').innerText = `online`;
 
             let cObj = contacts.find(c => c.name === name);
             let key = "";
@@ -1270,7 +1374,7 @@
                     let seenCount = Object.keys(d.seenBy || {}).length;
                     if(tickElem) {
                         if(seenCount > 1) {
-                            tickElem.innerHTML = '✓✓ <span style="color:#38bdf8;">✓</span>';
+                            tickElem.innerHTML = '✓✓ <span style="color:#53bdeb;">✓</span>';
                         } else {
                             tickElem.innerHTML = '✓✓';
                         }
@@ -1284,9 +1388,10 @@
                 let typingBubble = document.getElementById('typingIndicatorBubble');
                 if(status && status !== myName) {
                     typingBubble.classList.add('active');
-                    document.getElementById('chatSubStatus').innerText = status + " typing...";
+                    document.getElementById('chatSubStatus').innerText = "typing...";
                 } else {
                     typingBubble.classList.remove('active');
+                    document.getElementById('chatSubStatus').innerText = "online";
                 }
             });
         }
@@ -1435,7 +1540,7 @@
                 alert("Upload error: " + err);
             }, async () => {
                 let downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
-                let fileHtml = `📁 <b>Global Document:</b> <a href="${downloadURL}" target="_blank" style="color:#38bdf8;">${file.name}</a> (${(file.size/1024).toFixed(1)} KB)`;
+                let fileHtml = `📁 <b>Global Document:</b> <a href="${downloadURL}" target="_blank" style="color:var(--primary);">${file.name}</a> (${(file.size/1024).toFixed(1)} KB)`;
                 let enc = await encryptMessage(fileHtml);
                 dbRef.push({text: enc, sender: myName, isHtml: true, seen: false, seenBy: { [myName]: true }, deleted: false, edited: false, time: Date.now()});
             });
@@ -1465,7 +1570,7 @@
                         <div class="wave-bar" style="animation-delay: 0.4s;"></div>
                     </div>
                     <div style="display:flex; align-items:center; gap:6px; margin-top:2px;">
-                        <button onclick="playCustomAudio('${uniqueId}', this)" style="background:#38bdf8; color:white; border:none; border-radius:50%; width:26px; height:26px; cursor:pointer; font-size:11px;">▶</button>
+                        <button onclick="playCustomAudio('${uniqueId}', this)" style="background:var(--primary); color:white; border:none; border-radius:50%; width:26px; height:26px; cursor:pointer; font-size:11px;">▶</button>
                         <input type="range" id="range_${uniqueId}" value="0" max="100" style="width:70px; cursor:pointer;" oninput="seekAudio('${uniqueId}', this)">
                         <span id="time_${uniqueId}" style="font-size:9px; color:var(--sub);">0:00</span>
                     </div>`;
@@ -1606,7 +1711,7 @@
 
             if(sender && sender !== myName) {
                 let senderTag = document.createElement('div');
-                senderTag.style.cssText = "font-size:10px; font-weight:bold; color:#38bdf8; margin-bottom:2px;";
+                senderTag.style.cssText = "font-size:10px; font-weight:bold; color:var(--primary); margin-bottom:2px;";
                 senderTag.innerText = sender + " 🌐";
                 box.appendChild(senderTag);
             }
@@ -1640,7 +1745,7 @@
 
             if(!isDeleted) {
                 let seenCount = Object.keys(seenBy || {}).length;
-                let tickSymbol = seenCount > 1 ? '✓✓ <span style="color:#38bdf8;">✓</span>' : '✓✓';
+                let tickSymbol = seenCount > 1 ? '✓✓ <span style="color:#53bdeb;">✓</span>' : '✓✓';
                 let dateObj = new Date(msgTime || Date.now());
                 let timeString = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
@@ -1736,7 +1841,7 @@
 
                 callRef.child('answer').on('value', async snap => {
                     let ans = snap.val();
-                    if (ans && !peerConnection.currentRemoteDescription) {
+                    if (ans && peerConnection && !peerConnection.currentRemoteDescription) {
                         await peerConnection.setRemoteDescription(new RTCSessionDescription(ans));
                         if(type === 'audio') {
                             document.getElementById('callTypeTitle').innerText = "📞 GLOBAL HD AUDIO CALL (Connected)";
@@ -1746,7 +1851,7 @@
 
                 callRef.child('candidates').on('child_added', snap => {
                     let candidate = new RTCIceCandidate(snap.val());
-                    peerConnection.addIceCandidate(candidate);
+                    if(peerConnection) peerConnection.addIceCandidate(candidate);
                 });
 
             } catch (err) { alert("Call error: " + err); endCall(); }
@@ -1766,6 +1871,11 @@
                 peerConnection = null;
             }
             document.getElementById('callScreen').classList.remove('active');
+
+            let lVid = document.getElementById('localVideo');
+            let rVid = document.getElementById('remoteVideo');
+            if(lVid) lVid.srcObject = null;
+            if(rVid) rVid.srcObject = null;
 
             if(activeCallKey) {
                 db.ref("calls/" + activeCallKey).remove().then(() => {
@@ -1798,6 +1908,12 @@
                 peerConnection = null;
             }
             document.getElementById('callScreen').classList.remove('active');
+
+            let lVid = document.getElementById('localVideo');
+            let rVid = document.getElementById('remoteVideo');
+            if(lVid) lVid.srcObject = null;
+            if(rVid) rVid.srcObject = null;
+
             activeCallKey = null;
         }
 
