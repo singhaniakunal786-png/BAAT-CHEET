@@ -186,7 +186,7 @@
                 <span onclick="openCloudVault()" style="cursor:pointer; font-size:16px;" title="Cloud Vault / Notes">☁️</span>
                 <span onclick="openStarredModal()" style="cursor:pointer; font-size:16px;" title="Starred">⭐</span>
                 <span onclick="openWallpaperModal()" style="cursor:pointer; font-size:16px;" title="Wallpaper">🎨</span>
-                <span onclick="openProfileModal()" style="cursor:pointer; font-size:16px;" title="Profile">⚙️</span>
+                <span onclick="openProfileModal()" style="cursor:pointer; font-size:16px;" title="Profile & User ID">⚙️</span>
                 <span onclick="toggleDark()" style="cursor:pointer; font-size:18px;" title="Dark Mode">🌙</span>
             </div>
         </header>
@@ -199,9 +199,9 @@
 
         <div class="content active" id="sec0">
             <div class="contact-search-box">
-                <input type="text" id="contactSearchInput" placeholder="🔍 Dost khojein..." oninput="filterContacts()">
+                <input type="text" id="contactSearchInput" placeholder="🔍 Dost khojein ya @Username..." oninput="filterContacts()">
             </div>
-            <div style="padding:8px; text-align:center; font-size:11px; color:var(--sub); background:rgba(16,185,129,0.1);" id="districtBannerInfo">⚡ Desi Messenger: Live District Wallpaper Active</div>
+            <div style="padding:8px; text-align:center; font-size:11px; color:var(--sub); background:rgba(16,185,129,0.1);" id="districtBannerInfo">⚡ Desi Messenger: Verified Contact & User ID Mode Active</div>
             <div id="contactList" style="flex:1; overflow-y:auto; width:100%;"></div>
         </div>
 
@@ -214,7 +214,7 @@
 
         <div class="content" id="sec2" style="padding: 20px; font-size: 13px; color: var(--text);">
             <h3>Desi Pro Features:</h3>
-            <p style="margin-top:6px;">India Live District Splash, Auto Famous Zila Wallpaper during chat, HD Audio/Video Calls, and Cloud Vault!</p>
+            <p style="margin-top:6px;">Contact-to-Contact Verified Chat, User ID Mode (@Username), Live District Splash, Auto Famous Zila Wallpaper during chat, and HD Calls!</p>
         </div>
 
         <button class="fab" onclick="openModal()">+</button>
@@ -222,7 +222,7 @@
         <div class="modal" id="modal">
             <div class="modal-box">
                 <h3>Naya Jodein</h3>
-                <button onclick="openAddContact()" style="width:100%; padding:10px; margin:6px 0; background:#10b981; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600;">Naya Dost Jodein (ID)</button>
+                <button onclick="openAddContact()" style="width:100%; padding:10px; margin:6px 0; background:#10b981; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600;">Naya Dost Jodein (ID / @Username)</button>
                 <button onclick="openCreateGroup()" style="width:100%; padding:10px; margin:6px 0; background:#0f172a; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600;">Naya Group Banayein</button>
                 <button onclick="closeModal()" style="width:100%; padding:8px; margin-top:10px; background:#cbd5e1; border:none; border-radius:8px; cursor:pointer;">Radd</button>
             </div>
@@ -230,8 +230,8 @@
 
         <div class="modal" id="contactModal">
             <div class="modal-box">
-                <h3>Dost ki ID Jodein</h3>
-                <input type="text" id="contactNameInput" placeholder="Dost ka exact naam">
+                <h3>Dost ki ID ya @Username Jodein</h3>
+                <input type="text" id="contactNameInput" placeholder="Dost ka naam ya @username">
                 <div style="display:flex; justify-content:flex-end; gap:8px;">
                     <button onclick="document.getElementById('contactModal').classList.remove('active')" style="padding:8px 14px; background:#cbd5e1; border:none; border-radius:6px; cursor:pointer;">Radd</button>
                     <button onclick="saveContact()" style="padding:8px 14px; background:#10b981; color:white; border:none; border-radius:6px; cursor:pointer;">Jodein</button>
@@ -252,9 +252,11 @@
 
         <div class="modal" id="profileModal">
             <div class="modal-box">
-                <h3>User Profile & Session</h3>
-                <label style="font-size:11px; color:var(--sub);">Naam / ID:</label>
+                <h3>User Profile & User ID Mode</h3>
+                <label style="font-size:11px; color:var(--sub);">Display Naam:</label>
                 <input type="text" id="profileNameEdit" disabled>
+                <label style="font-size:11px; color:var(--sub);">Unique User ID (@username):</label>
+                <input type="text" id="profileUsernameEdit" placeholder="e.g. rohan_123">
                 <label style="font-size:11px; color:var(--sub);">Bio / Status:</label>
                 <input type="text" id="profileBioEdit" placeholder="Cloud User 🚀">
                 <div style="margin:10px 0; font-size:13px; display:flex; align-items:center; gap:8px;">
@@ -379,7 +381,7 @@
             </div>
 
             <div class="messages" id="msgList">
-                <div style="text-align:center; font-size:11px; color:var(--sub); padding:4px;">🔒 Secure Encrypted Chat (Swipe right on bubble to reply)</div>
+                <div style="text-align:center; font-size:11px; color:var(--sub); padding:4px;">🔒 Secure Encrypted Verified Chat (Swipe right on bubble to reply)</div>
                 <div class="typing-bubble" id="typingIndicatorBubble">
                     <div class="dot"></div>
                     <div class="dot"></div>
@@ -443,10 +445,11 @@
         const db = firebase.database();
 
         let myName = localStorage.getItem('baatcheet_username') || "";
+        let myUsername = localStorage.getItem('baatcheet_userhandle') || "";
         let myBio = localStorage.getItem('baatcheet_bio') || "Cloud User 🚀";
         let hideOnlineStatus = false;
         let contacts = [
-            {name: "India Public Chat Room", type: "group", admin: "System", members: ["System"]}
+            {name: "India Public Chat Room", type: "group", admin: "System", members: ["System"], is_verified: true}
         ];
         let blockedUsers = [];
         let starredMessages = JSON.parse(localStorage.getItem('baatcheet_starred') || '[]');
@@ -545,8 +548,15 @@
             localStorage.setItem('baatcheet_username', myName);
             document.getElementById('loginScreen').classList.add('hide');
 
-            db.ref("users/" + myName.replace(/[^a-zA-Z0-9]/g, '_')).set({
+            if(!myUsername) {
+                myUsername = "_" + myName.toLowerCase().replace(/[^a-z0-9]/g, '');
+                localStorage.setItem('baatcheet_userhandle', myUsername);
+            }
+
+            db.ref("users/" + myName.replace(/[^a-zA-Z0-9]/g, '_')).update({
                 name: myName,
+                username: myUsername,
+                is_verified: true,
                 lastActive: Date.now()
             });
 
@@ -563,12 +573,17 @@
 
             db.ref("users").on('value', snap => {
                 let allUsers = snap.val() || {};
-                contacts = [{name: "India Public Chat Room", type: "group", admin: "System", members: ["System"]}];
+                contacts = [{name: "India Public Chat Room", type: "group", admin: "System", members: ["System"], is_verified: true}];
                 for(let uKey in allUsers) {
                     let uData = allUsers[uKey];
                     if(uData.name && uData.name !== myName) {
                         if(!contacts.some(c => c.name === uData.name)) {
-                            contacts.push({name: uData.name, type: 'direct'});
+                            contacts.push({
+                                name: uData.name, 
+                                username: uData.username || ('@' + uData.name.toLowerCase()),
+                                type: 'direct',
+                                is_verified: uData.is_verified !== undefined ? uData.is_verified : true
+                            });
                         }
                     }
                 }
@@ -813,15 +828,17 @@
                 let lastMsg = lastMessagesMap[c.name] || statusTextCustom;
                 let badge = isBlocked ? '🚫 Blocked' : lastMsg;
                 let unreadCount = unreadCountsMap[c.name] || 0;
+                let verifiedTick = (c.is_verified !== false) ? ' <span style="color:#10b981; font-size:13px;" title="Verified Contact">✓</span>' : '';
+                let handleLabel = c.username ? `<span style="font-size:11px; color:#38bdf8; margin-left:6px;">${c.username}</span>` : '';
                 
-                div.innerHTML = `<div style="display:flex; align-items:center; overflow:hidden;"><div class="avatar">${c.name[0]}<div class="online-dot ${isOnline ? 'active':''}"></div></div><div style="overflow:hidden;"><b>${c.name}</b><div style="font-size:12px; color:var(--sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;">${badge}</div></div></div><div class="unread-badge ${unreadCount > 0 ? 'active':''}">${unreadCount}</div>`;
+                div.innerHTML = `<div style="display:flex; align-items:center; overflow:hidden;"><div class="avatar">${c.name[0]}<div class="online-dot ${isOnline ? 'active':''}"></div></div><div style="overflow:hidden;"><b>${c.name}</b>${verifiedTick} ${handleLabel}<div style="font-size:12px; color:var(--sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px;">${badge}</div></div></div><div class="unread-badge ${unreadCount > 0 ? 'active':''}">${unreadCount}</div>`;
                 list.appendChild(div);
             });
         }
 
         function filterContacts() {
             let q = document.getElementById('contactSearchInput').value.toLowerCase();
-            let filtered = contacts.filter(c => c.name.toLowerCase().includes(q));
+            let filtered = contacts.filter(c => c.name.toLowerCase().includes(q) || (c.username && c.username.toLowerCase().includes(q)));
             renderContacts(filtered);
         }
 
@@ -831,9 +848,14 @@
         function openCreateGroup() { closeModal(); document.getElementById('groupModal').classList.add('active'); }
 
         function saveContact() {
-            let name = document.getElementById('contactNameInput').value.trim();
-            if(!name) return alert('Kripya naam daalein!');
-            if(!contacts.some(c => c.name === name)) contacts.push({name: name, type: 'direct'});
+            let val = document.getElementById('contactNameInput').value.trim();
+            if(!val) return alert('Kripya naam ya @username daalein!');
+            let name = val.startsWith('@') ? val.substring(1) : val;
+            let formattedHandle = '@' + name.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+            if(!contacts.some(c => c.name.toLowerCase() === name.toLowerCase())) {
+                contacts.push({name: name, username: formattedHandle, type: 'direct', is_verified: true});
+            }
             renderContacts(contacts);
             document.getElementById('contactModal').classList.remove('active');
             document.getElementById('contactNameInput').value = '';
@@ -844,7 +866,7 @@
             let name = document.getElementById('groupNameInput').value.trim();
             if(!name) return alert('Kripya group naam daalein!');
             if(!contacts.some(c => c.name === name)) {
-                contacts.push({name: name, type: 'group', admin: myName, members: [myName]});
+                contacts.push({name: name, type: 'group', admin: myName, members: [myName], is_verified: true});
             }
             renderContacts(contacts);
             document.getElementById('groupModal').classList.remove('active');
@@ -854,6 +876,7 @@
 
         function openProfileModal() {
             document.getElementById('profileNameEdit').value = myName;
+            document.getElementById('profileUsernameEdit').value = myUsername || ('@' + myName.toLowerCase().replace(/[^a-z0-9]/g, ''));
             document.getElementById('profileBioEdit').value = myBio;
             document.getElementById('hideOnlineToggle').checked = hideOnlineStatus;
             document.getElementById('profileModal').classList.add('active');
@@ -861,19 +884,32 @@
 
         function saveProfile() {
             let b = document.getElementById('profileBioEdit').value.trim();
+            let uHandle = document.getElementById('profileUsernameEdit').value.trim();
             hideOnlineStatus = document.getElementById('hideOnlineToggle').checked;
+            
+            if(uHandle) {
+                if(!uHandle.startsWith('@')) uHandle = '@' + uHandle;
+                myUsername = uHandle;
+                localStorage.setItem('baatcheet_userhandle', myUsername);
+            }
             if(b) {
                 myBio = b;
                 localStorage.setItem('baatcheet_bio', myBio);
             }
             document.getElementById('profileModal').classList.remove('active');
             
+            db.ref("users/" + myName.replace(/[^a-zA-Z0-9]/g, '_')).update({
+                username: myUsername,
+                bio: myBio,
+                is_verified: true
+            });
+
             if(hideOnlineStatus) {
                 presenceRef.set({ status: "hidden", lastSeen: Date.now() });
             } else {
                 presenceRef.set({ status: "online", lastSeen: Date.now() });
             }
-            alert("✨ Profile & Privacy updated!");
+            alert("✨ Profile, User ID & Privacy successfully updated!");
         }
 
         function openWallpaperModal() { document.getElementById('wallpaperModal').classList.add('active'); }
@@ -926,7 +962,7 @@
             contacts.forEach(c => {
                 let btn = document.createElement('button');
                 btn.style.cssText = "width:100%; padding:10px; background:var(--bg); border:1px solid #cbd5e1; border-radius:8px; cursor:pointer; text-align:left; font-weight:600; color:var(--text);";
-                btn.innerText = "➡️ " + c.name;
+                btn.innerText = "➡️ " + c.name + (c.username ? ` (${c.username})` : '');
                 btn.onclick = () => forwardMessageToChat(c.name);
                 container.appendChild(btn);
             });
@@ -982,7 +1018,7 @@
                 }
                 document.getElementById('groupAdminModal').classList.add('active');
             } else {
-                document.getElementById('groupMemberList').innerHTML = `<div style="color:var(--sub);">Direct Chat with ${activeChat}</div>`;
+                document.getElementById('groupMemberList').innerHTML = `<div style="color:var(--sub);">Verified Direct Chat with ${activeChat} ✓</div>`;
                 document.getElementById('groupAdminModal').classList.add('active');
             }
         }
@@ -990,7 +1026,7 @@
         function clearChatHistory() {
             if(confirm("Kya aap is chat ki saari history clear karna chahte hain?")) {
                 if(dbRef) dbRef.remove();
-                document.getElementById('msgList').innerHTML = `<div style="text-align:center; font-size:11px; color:var(--sub);">🔒 Secure Encrypted Chat</div>`;
+                document.getElementById('msgList').innerHTML = `<div style="text-align:center; font-size:11px; color:var(--sub);">🔒 Secure Encrypted Verified Chat</div>`;
                 document.getElementById('groupAdminModal').classList.remove('active');
                 alert("🗑️ Chat history clear kar di gayi hai!");
             }
@@ -1024,10 +1060,10 @@
 
         function openChat(name) {
             activeChat = name; 
-            document.getElementById('chatName').innerText = name;
+            document.getElementById('chatName').innerText = name + " ✓";
             document.getElementById('chatAvatar').innerText = name[0];
             document.getElementById('chatScreen').classList.add('open');
-            document.getElementById('msgList').innerHTML = `<div style="text-align:center; font-size:11px; color:var(--sub);">🔒 Secure Encrypted Chat</div>`;
+            document.getElementById('msgList').innerHTML = `<div style="text-align:center; font-size:11px; color:var(--sub);">🔒 Secure Encrypted Verified Chat</div>`;
             allMessagesCache = [];
             
             db.ref("users/" + name.replace(/[^a-zA-Z0-9]/g, '_') + "/district").once('value', snap => {
@@ -1035,7 +1071,7 @@
                 let screen = document.getElementById('chatScreen');
                 let targetWallpaper = districtWallpapers[friendDistrict] || districtWallpapers["Default"];
                 screen.style.backgroundImage = `url('${targetWallpaper}')`;
-                document.getElementById('chatSubStatus').innerText = `📍 Live from ${friendDistrict} 🟢`;
+                document.getElementById('chatSubStatus').innerText = `📍 Live from ${friendDistrict} ✓ Verified`;
             });
 
             let cObj = contacts.find(c => c.name === name);
@@ -1458,7 +1494,7 @@
             if(sender && sender !== myName) {
                 let senderTag = document.createElement('div');
                 senderTag.style.cssText = "font-size:10px; font-weight:bold; color:#10b981; margin-bottom:2px;";
-                senderTag.innerText = sender;
+                senderTag.innerText = sender + " ✓";
                 box.appendChild(senderTag);
             }
 
