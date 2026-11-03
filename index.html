@@ -30,12 +30,10 @@
         
         .app { width: 100%; height: 100%; max-width: 480px; max-height: 100vh; background: var(--bg); display: flex; flex-direction: column; position: relative; box-shadow: 0 0 40px rgba(0,0,0,0.9); transition: 0.3s; overflow: hidden; }
         
-        /* India District Intro Splash Screen */
         .india-splash { position: absolute; inset: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #FF9933 0%, #ffffff 50%, #138808 100%); z-index: 999; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 30px; transition: opacity 0.5s ease; }
         .india-splash.hide { opacity: 0; pointer-events: none; display: none; }
         .india-badge { background: rgba(15, 23, 42, 0.95); border: 2px solid rgba(255,255,255,0.2); border-radius: 24px; padding: 35px 25px; width: 100%; max-width: 360px; color: white; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
 
-        /* Login Screen */
         .screen { position: absolute; inset: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1e293b 0%, #090d16 100%); z-index: 500; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; text-align: center; color: white; overflow: hidden; }
         .screen.hide { display: none; }
         
@@ -154,7 +152,6 @@
 <body class="dark">
     <div class="app">
         
-        <!-- India District Welcome Splash -->
         <div class="india-splash" id="indiaSplash">
             <div class="india-badge">
                 <div style="font-size: 40px; margin-bottom: 10px;">🌐</div>
@@ -169,7 +166,6 @@
             <img id="fullImg" src="" alt="Full">
         </div>
 
-        <!-- Login Screen with Country Code Support -->
         <div class="screen" id="loginScreen">
             <div class="cyber-card">
                 <div class="brand-title">💬 baat-cheet</div>
@@ -184,8 +180,7 @@
                     </select>
                     <input type="text" id="userNameInput" class="cyber-input" placeholder="Naam ya Number..." style="margin-bottom:0;" onkeypress="if(event.key=='Enter')startApp()">
                 </div>
-                <!-- 100% Working Safe Trigger Button -->
-                <button type="button" class="cyber-btn" id="startBtn" onclick="try { startApp(); } catch(e) { alert('Error: ' + e.message); }">🚀 Global App Shuru Karein</button>
+                <button type="button" class="cyber-btn" id="startBtn" onclick="startApp()">🚀 Global App Shuru Karein</button>
             </div>
         </div>
 
@@ -464,21 +459,7 @@
     </div>
 
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyAOVmmhxs2hEXNplaYlyXbL3_LrX6qxp6Q",
-            authDomain: "baatainapp.firebaseapp.com",
-            databaseURL: "https://baatainapp-default-rtdb.firebaseio.com/",
-            projectId: "baatainapp",
-            storageBucket: "baatainapp.firebasestorage.app",
-            messagingSenderId: "497675635158",
-            appId: "1:497675635158:web:8e2e729895097144017c77",
-            measurementId: "G-CWTRP946KP"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-        const storage = firebase.storage();
-        const messaging = firebase.messaging().catch(() => {});
-
+        // --- GLOBAL VARIABLES DECLARED SAFELY AT THE TOP ---
         let myName = localStorage.getItem('baatcheet_username') || "";
         let myCountryCode = localStorage.getItem('baatcheet_countrycode') || "+91";
         let myUsername = localStorage.getItem('baatcheet_userhandle') || "";
@@ -501,6 +482,22 @@
         let onlinePresenceMap = {};
         let isCallRecordingActive = false;
         let callRecorder, callAudioChunks = [];
+        let localStream, remoteStream, peerConnection;
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAOVmmhxs2hEXNplaYlyXbL3_LrX6qxp6Q",
+            authDomain: "baatainapp.firebaseapp.com",
+            databaseURL: "https://baatainapp-default-rtdb.firebaseio.com/",
+            projectId: "baatainapp",
+            storageBucket: "baatainapp.firebasestorage.app",
+            messagingSenderId: "497675635158",
+            appId: "1:497675635158:web:8e2e729895097144017c77",
+            measurementId: "G-CWTRP946KP"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const storage = firebase.storage();
+        const messaging = firebase.messaging().catch(() => {});
 
         async function getCryptoKey() {
             if (cryptoKey) return cryptoKey;
@@ -557,7 +554,6 @@
             splash.classList.add('hide');
         }
 
-        let localStream, remoteStream, peerConnection;
         const globalServers = {
             iceServers: [
                 { urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302', 'stun:stun.services.mozilla.com'] }
