@@ -467,7 +467,6 @@
     </div>
 
     <script>
-        // --- Global STUN Servers Initialized First to Fix Reference Error ---
         const globalServers = {
             iceServers: [
                 { urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302', 'stun:stun.services.mozilla.com'] }
@@ -496,8 +495,6 @@
         var lastMessagesMap = {};
         var unreadCountsMap = {};
         var onlinePresenceMap = {};
-        var isCallRecordingActive = false;
-        var callRecorder, callAudioChunks = [];
         var localStream, remoteStream, peerConnection;
 
         const firebaseConfig = {
@@ -527,7 +524,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            document.body.classList.remove('dark'); // Force default light mode
+            document.body.classList.remove('dark');
 
             if(myName) {
                 document.getElementById('indiaSplash').classList.add('hide');
@@ -536,7 +533,6 @@
             }
         });
 
-        // --- Secure Demo OTP Management with Username & Blank Number Input ---
         function sendOTP() {
             let usernameInput = document.getElementById('usernameInput');
             let phoneElem = document.getElementById('phoneInput');
@@ -612,22 +608,18 @@
             startApp();
         }
 
-        // --- Account Deletion Feature ---
         function deleteMyAccount() {
-            if (confirm("⚠️ Kya aap apna account permanently delete karna chahte hain? Yeh action wapas nahi ho sakta!")) {
+            if (confirm("⚠️ Kya aap apna account permanently delete karna chahte hain?")) {
                 let userKey = myName.replace(/[^a-zA-Z0-9+_]/g, '_');
                 db.ref("users/" + userKey).remove().then(() => {
                     db.ref("presence/" + userKey).remove();
                     localStorage.clear();
-                    alert("🗑️ Aapka account safalpurvak delete kar diya gaya hai.");
+                    alert("🗑️ Aapka account delete ho gaya hai.");
                     location.reload();
-                }).catch(err => {
-                    alert("Error deleting account: " + err);
                 });
             }
         }
 
-        // --- Photo Status Feature ---
         function uploadPhotoStatus(e) {
             let file = e.target.files[0];
             if (!file) return;
@@ -771,7 +763,6 @@
                 presenceRef.set({ status: "online", lastSeen: Date.now() });
                 presenceRef.onDisconnect().set({ status: "offline", lastSeen: Date.now() });
                 
-                // Keep presence alive every 10 seconds
                 setInterval(() => {
                     if(myName) presenceRef.update({ status: "online", lastSeen: Date.now() });
                 }, 10000);
@@ -907,7 +898,6 @@
 
                                 let callRef = db.ref("calls/" + callKey);
                                 
-                                // Listen if call is ended from remote side
                                 callRef.on('value', snapSnap => {
                                     if(!snapSnap.exists()) {
                                         endCallRemotely();
@@ -951,7 +941,6 @@
         function renderContacts(listToRender) {
             let list = document.getElementById('contactList'); list.innerHTML = '';
             
-            // Filter to show ONLY currently online users (active in last 20 seconds) or Global Room
             let onlineOnlyList = listToRender.filter(c => {
                 if(c.type === 'group') return true;
                 let pKey = c.name.replace(/[^a-zA-Z0-9+_]/g, '_');
@@ -1732,7 +1721,6 @@
 
                 let callRef = db.ref("calls/" + callKey);
                 
-                // Listen if call is ended from remote side
                 callRef.on('value', snapSnap => {
                     if(!snapSnap.exists()) {
                         endCallRemotely();
