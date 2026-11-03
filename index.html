@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-    <title>बात-चीत (Baat-Cheet) - India's Ultra-Secure Messenger</title>
+    <title>बात-चीत (Baat-Cheet) - Global & Secure International Messenger</title>
     <meta name="theme-color" content="#090d16">
-    <meta name="description" content="Ultimate Next-Gen Desi Messenger with True E2EE, Cloud Storage & Push Notifications">
+    <meta name="description" content="Ultimate Global Desi Messenger with International Calling, True E2EE & Cloud Storage">
     
     <link rel="manifest" href="manifest.json">
 
@@ -157,10 +157,10 @@
         <!-- India District Welcome Splash -->
         <div class="india-splash" id="indiaSplash">
             <div class="india-badge">
-                <div style="font-size: 40px; margin-bottom: 10px;">🇮🇳</div>
-                <h2 style="color: #FF9933; font-size: 24px; margin-bottom: 6px;">INDIA</h2>
-                <p style="font-size: 13px; color: #94a3b8; margin-bottom: 15px;" id="detectedDistrictText">Aapka District detect ho raha hai...</p>
-                <button onclick="dismissIndiaSplash()" style="background:#10b981; color:white; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer; width:100%;">Aage Badhein ➔</button>
+                <div style="font-size: 40px; margin-bottom: 10px;">🌐</div>
+                <h2 style="color: #FF9933; font-size: 24px; margin-bottom: 6px;">GLOBAL BAAT-CHEET</h2>
+                <p style="font-size: 13px; color: #94a3b8; margin-bottom: 15px;" id="detectedDistrictText">International Gateway Active...</p>
+                <button onclick="dismissIndiaSplash()" style="background:#10b981; color:white; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer; width:100%;">Connect Globally ➔</button>
             </div>
         </div>
 
@@ -169,20 +169,29 @@
             <img id="fullImg" src="" alt="Full">
         </div>
 
-        <!-- Login Screen -->
+        <!-- Login Screen with Country Code Support -->
         <div class="screen" id="loginScreen">
             <div class="cyber-card">
                 <div class="brand-title">💬 baat-cheet</div>
-                <p class="brand-subtitle">India's Ultra-Secure Messenger<br>True AES-GCM E2EE & Cloud Media</p>
-                <input type="text" id="userNameInput" class="cyber-input" placeholder="Apna Unique Naam Daalein..." onkeypress="if(event.key=='Enter')startApp()">
-                <button class="cyber-btn" onclick="startApp()">🚀 App Shuru Karein</button>
+                <p class="brand-subtitle">Global International Messenger<br>+91, +1, +44 Worldwide Support</p>
+                <div style="display:flex; gap:8px; width:100%; margin-bottom:18px;">
+                    <select id="countryCodeSelect" style="padding:14px 10px; border-radius:14px; border:1px solid rgba(255,255,255,0.15); background:rgba(15, 23, 42, 0.8); color:white; font-size:14px; outline:none;">
+                        <option value="+91">🇮🇳 +91 (India)</option>
+                        <option value="+1">🇺🇸 +1 (USA)</option>
+                        <option value="+44">🇬🇧 +44 (UK)</option>
+                        <option value="+971">🇦🇪 +971 (UAE)</option>
+                        <option value="+61">🇦🇺 +61 (Aus)</option>
+                    </select>
+                    <input type="text" id="userNameInput" class="cyber-input" placeholder="Naam ya ID..." style="margin-bottom:0;" onkeypress="if(event.key=='Enter')startApp()">
+                </div>
+                <button class="cyber-btn" onclick="startApp()">🚀 Global App Shuru Karein</button>
             </div>
         </div>
 
         <header>
             <div style="display:flex; align-items:center; gap:6px;">
-                <span style="font-size:18px;">💬</span>
-                <div style="font-weight:700; font-size:15px; display:flex; align-items:center; gap:4px;">baat-cheet <span style="background:#10b981; font-size:9px; padding:1px 5px; border-radius:6px; color:white;">PRO+</span></div>
+                <span style="font-size:18px;">🌍</span>
+                <div style="font-weight:700; font-size:15px; display:flex; align-items:center; gap:4px;">baat-cheet <span style="background:#38bdf8; font-size:9px; padding:1px 5px; border-radius:6px; color:white;" id="headerCountryBadge">GLOBAL</span></div>
             </div>
             <div style="display:flex; gap:10px; align-items:center;">
                 <span onclick="openCloudVault()" style="cursor:pointer; font-size:16px;" title="Cloud Vault / Notes">☁️</span>
@@ -196,14 +205,14 @@
         <div class="tabs">
             <div class="tab active" onclick="switchTab(0)">CHATS</div>
             <div class="tab" onclick="switchTab(1)">STATUS</div>
-            <div class="tab" onclick="switchTab(2)" title="Offline Mesh">MESH 📡</div>
+            <div class="tab" onclick="switchTab(2)" title="Global Mesh">MESH 📡</div>
         </div>
 
         <div class="content active" id="sec0">
             <div class="contact-search-box">
-                <input type="text" id="contactSearchInput" placeholder="🔍 Dost khojein ya @Username..." oninput="filterContacts()">
+                <input type="text" id="contactSearchInput" placeholder="🔍 International dost ya @Username khojein..." oninput="filterContacts()">
             </div>
-            <div style="padding:8px; text-align:center; font-size:11px; color:var(--sub); background:rgba(16,185,129,0.1);">🔒 True AES-GCM E2EE & Cloud Storage Active</div>
+            <div style="padding:8px; text-align:center; font-size:11px; color:var(--sub); background:rgba(56,189,248,0.1);">🌐 Global STUN/TURN & International Code Support Active</div>
             <div id="contactList" style="flex:1; overflow-y:auto; width:100%;"></div>
         </div>
 
@@ -215,16 +224,16 @@
         </div>
 
         <div class="content" id="sec2" style="padding: 16px; font-size: 13px; color: var(--text);">
-            <h3 style="color:#10b981; margin-bottom:8px;">📡 Bluetooth Mesh (Offline Mode)</h3>
-            <p style="color:var(--sub); margin-bottom:14px;">Bina internet ke aas-paas ke users se connect karein:</p>
+            <h3 style="color:#38bdf8; margin-bottom:8px;">📡 Global Mesh & International Nodes</h3>
+            <p style="color:var(--sub); margin-bottom:14px;">Cross-border aur offline mesh status:</p>
             <div style="display:flex; flex-direction:column; gap:8px;">
                 <div style="background:var(--card); padding:12px; border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
-                    <div>📱 Priya's Phone</div>
-                    <span style="color:#10b981; font-weight:bold; font-size:12px;">Connected ✓</span>
+                    <div>🌐 Global STUN Relay</div>
+                    <span style="color:#10b981; font-weight:bold; font-size:12px;">Connected (US-East) ✓</span>
                 </div>
                 <div style="background:var(--card); padding:12px; border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
-                    <div>🛵 Kabir ki bike</div>
-                    <span style="color:#f59e0b; font-size:12px;">Pairing...</span>
+                    <div>📱 Nearby Bluetooth Mesh</div>
+                    <span style="color:#38bdf8; font-size:12px;">Scanning...</span>
                 </div>
             </div>
         </div>
@@ -233,17 +242,17 @@
 
         <div class="modal" id="modal">
             <div class="modal-box">
-                <h3>Naya Jodein</h3>
-                <button onclick="openAddContact()" style="width:100%; padding:10px; margin:6px 0; background:#10b981; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600;">Naya Dost Jodein (ID / @Username)</button>
-                <button onclick="openCreateGroup()" style="width:100%; padding:10px; margin:6px 0; background:#0f172a; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600;">Naya Group Banayein</button>
+                <h3>Global Connection</h3>
+                <button onclick="openAddContact()" style="width:100%; padding:10px; margin:6px 0; background:#38bdf8; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600;">International Dost Jodein (+Code / @ID)</button>
+                <button onclick="openCreateGroup()" style="width:100%; padding:10px; margin:6px 0; background:#0f172a; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600;">Global Group Banayein</button>
                 <button onclick="closeModal()" style="width:100%; padding:8px; margin-top:10px; background:#cbd5e1; border:none; border-radius:8px; cursor:pointer;">Radd</button>
             </div>
         </div>
 
         <div class="modal" id="contactModal">
             <div class="modal-box">
-                <h3>Dost ki ID ya @Username Jodein</h3>
-                <input type="text" id="contactNameInput" placeholder="Dost ka naam ya @username">
+                <h3>International Number ya @Username Jodein</h3>
+                <input type="text" id="contactNameInput" placeholder="+1 5550192 ya @username">
                 <div style="display:flex; justify-content:flex-end; gap:8px;">
                     <button onclick="document.getElementById('contactModal').classList.remove('active')" style="padding:8px 14px; background:#cbd5e1; border:none; border-radius:6px; cursor:pointer;">Radd</button>
                     <button onclick="saveContact()" style="padding:8px 14px; background:#10b981; color:white; border:none; border-radius:6px; cursor:pointer;">Jodein</button>
@@ -253,7 +262,7 @@
 
         <div class="modal" id="groupModal">
             <div class="modal-box">
-                <h3>Custom Group Banayein</h3>
+                <h3>Global Group Banayein</h3>
                 <input type="text" id="groupNameInput" placeholder="Group ka naam">
                 <div style="display:flex; justify-content:flex-end; gap:8px;">
                     <button onclick="document.getElementById('groupModal').classList.remove('active')" style="padding:8px 14px; background:#cbd5e1; border:none; border-radius:6px; cursor:pointer;">Radd</button>
@@ -264,13 +273,13 @@
 
         <div class="modal" id="profileModal">
             <div class="modal-box">
-                <h3>User Profile & E2EE Security</h3>
-                <label style="font-size:11px; color:var(--sub);">Display Naam:</label>
+                <h3>Global Profile & Country Code</h3>
+                <label style="font-size:11px; color:var(--sub);">Country & Naam:</label>
                 <input type="text" id="profileNameEdit" disabled>
                 <label style="font-size:11px; color:var(--sub);">Unique User ID (@username):</label>
-                <input type="text" id="profileUsernameEdit" placeholder="e.g. rohan_123">
+                <input type="text" id="profileUsernameEdit" placeholder="e.g. rohan_global">
                 <label style="font-size:11px; color:var(--sub);">Bio / Status:</label>
-                <input type="text" id="profileBioEdit" placeholder="Cloud User 🚀">
+                <input type="text" id="profileBioEdit" placeholder="Global Traveller 🚀">
                 <div style="margin:10px 0; font-size:13px; display:flex; align-items:center; gap:8px;">
                     <input type="checkbox" id="hideOnlineToggle" style="width:16px; height:16px;">
                     <label for="hideOnlineToggle">Hide Online Status</label>
@@ -285,7 +294,7 @@
 
         <div class="modal" id="groupAdminModal">
             <div class="modal-box">
-                <h3>👥 Group Settings & History</h3>
+                <h3>👥 Global Group Settings</h3>
                 <input type="text" id="newMemberInput" placeholder="Naye member ka naam">
                 <button onclick="addGroupMember()" style="width:100%; padding:8px; background:#10b981; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:600; margin-top:6px;">Member Jodein</button>
                 <div id="groupMemberList" style="margin-top:12px; font-size:13px; max-height:100px; overflow-y:auto; display:flex; flex-direction:column; gap:4px;"></div>
@@ -312,11 +321,11 @@
 
         <div class="modal" id="wallpaperModal">
             <div class="modal-box">
-                <h3>Chat Wallpaper & Famous Districts</h3>
+                <h3>Chat Wallpaper & Global Themes</h3>
                 <div style="display:flex; gap:10px; margin:8px 0; justify-content:center;">
                     <div onclick="setWallpaperColor('#f1f5f9')" style="width:30px; height:30px; background:#f1f5f9; border-radius:50%; cursor:pointer; border:1px solid #cbd5e1;" title="Solid Light"></div>
                     <div onclick="setWallpaperColor('#0f172a')" style="width:30px; height:30px; background:#0f172a; border-radius:50%; cursor:pointer;" title="Solid Dark"></div>
-                    <div onclick="setWallpaperColor('linear-gradient(135deg, #FF9933, #138808)')" style="width:30px; height:30px; background:linear-gradient(135deg, #FF9933, #138808); border-radius:50%; cursor:pointer;" title="Tiranga Gradient"></div>
+                    <div onclick="setWallpaperColor('linear-gradient(135deg, #38bdf8, #0f172a)')" style="width:30px; height:30px; background:linear-gradient(135deg, #38bdf8, #0f172a); border-radius:50%; cursor:pointer;" title="Global Blue Gradient"></div>
                 </div>
                 <input type="file" id="wallpaperFileInput" accept="image/*" style="display:none;" onchange="setCustomWallpaperImage(event)">
                 <button onclick="document.getElementById('wallpaperFileInput').click()" style="width:100%; padding:10px; background:#10b981; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600; margin-top:6px;">📷 Gallery Se Custom Photo</button>
@@ -338,18 +347,18 @@
             <header style="background:var(--primary); margin-bottom:15px;">
                 <div style="display:flex; align-items:center; gap:10px;">
                     <span onclick="closeMediaGallery()" style="cursor:pointer; font-size:20px;">←</span>
-                    <div style="font-weight:600; font-size:15px;">Shared Cloud Media Gallery</div>
+                    <div style="font-weight:600; font-size:15px;">Shared Global Cloud Media</div>
                 </div>
             </header>
             <div id="mediaGalleryContainer" style="flex:1; overflow-y:auto; display:grid; grid-template-columns: repeat(3, 1fr); gap:8px;"></div>
         </div>
 
         <div class="call-screen" id="callScreen">
-            <div style="font-size: 16px; color: #34d399; font-weight: bold; margin-top: 10px;" id="callTypeTitle">🔒 DESI SECURE CALL</div>
+            <div style="font-size: 16px; color: #38bdf8; font-weight: bold; margin-top: 10px;" id="callTypeTitle">🌐 GLOBAL STUN/TURN SECURE CALL</div>
             
             <div id="audioCallView" style="flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:15px;">
                 <div class="avatar" id="callAvatarIcon" style="width:90px; height:90px; font-size:36px;">📞</div>
-                <div style="font-size:18px; font-weight:600;" id="callUserNameDisplay">Ringing...</div>
+                <div style="font-size:18px; font-weight:600;" id="callUserNameDisplay">Connecting Worldwide...</div>
             </div>
 
             <div class="video-grid" id="videoGridContainer" style="display:none;">
@@ -372,22 +381,22 @@
         </div>
 
         <div class="chat-screen" id="chatScreen">
-            <div class="network-banner" id="networkBanner">⚠️ Waiting for network... Reconnecting</div>
+            <div class="network-banner" id="networkBanner">⚠️ Waiting for network... Global Gateway Connecting</div>
             <header>
                 <div style="display:flex; align-items:center; gap:10px;">
                     <span onclick="closeChat()" style="cursor:pointer; font-size:20px;">←</span>
                     <div class="avatar" id="chatAvatar" style="width:34px; height:34px; font-size:13px; margin:0;">?</div>
                     <div>
                         <div id="chatName" style="font-weight:600; font-size:15px;" onclick="checkGroupSettings()">Chat</div>
-                        <div id="chatSubStatus" style="font-size:10px; color:#34d399;">True E2EE Active 🔒</div>
+                        <div id="chatSubStatus" style="font-size:10px; color:#38bdf8;">Global E2EE Active 🌐</div>
                     </div>
                 </div>
                 <div style="display:flex; gap:10px; font-size:15px; align-items:center;">
                     <span onclick="startTicTacToe()" style="cursor:pointer;" title="Play Tic-Tac-Toe Game">🎮</span>
                     <span onclick="toggleSearchBox()" style="cursor:pointer;" title="Search">🔍</span>
                     <span onclick="openMediaGallery()" style="cursor:pointer;" title="Gallery">🖼️</span>
-                    <span onclick="startAudioCall()" style="cursor:pointer;" title="Audio">📞</span>
-                    <span onclick="startVideoCall()" style="cursor:pointer;" title="Video">📹</span>
+                    <span onclick="startAudioCall()" style="cursor:pointer;" title="International Audio Call">📞</span>
+                    <span onclick="startVideoCall()" style="cursor:pointer;" title="International Video Call">📹</span>
                     <span onclick="toggleBlockContact()" style="cursor:pointer;" title="Block/Unblock" id="blockIconBtn">🚫</span>
                 </div>
             </header>
@@ -403,7 +412,7 @@
             </div>
 
             <div class="messages" id="msgList">
-                <div style="text-align:center; font-size:11px; color:var(--sub); padding:4px;">🔒 True AES-GCM End-to-End Encrypted Chat</div>
+                <div style="text-align:center; font-size:11px; color:var(--sub); padding:4px;">🌐 Global Cross-Border Encrypted Chat</div>
                 <div class="typing-bubble" id="typingIndicatorBubble">
                     <div class="dot"></div>
                     <div class="dot"></div>
@@ -445,7 +454,7 @@
                 <div class="input-bar">
                     <input type="file" id="imgFile" accept="image/*" style="display:none;" onchange="sendImage(event)">
                     <button class="icon-btn" onclick="toggleAttach()">📎</button>
-                    <input type="text" id="msgInput" placeholder="Secure message likhein..." oninput="handleTyping()" onkeypress="if(event.key=='Enter')sendMsg()">
+                    <input type="text" id="msgInput" placeholder="Global message likhein..." oninput="handleTyping()" onkeypress="if(event.key=='Enter')sendMsg()">
                     <button class="icon-btn" onclick="toggleEmojiPicker()">😊</button>
                     <button class="send-btn" onclick="sendMsg()">➤</button>
                 </div>
@@ -470,12 +479,13 @@
         const messaging = firebase.messaging().catch(() => {});
 
         let myName = localStorage.getItem('baatcheet_username') || "";
+        let myCountryCode = localStorage.getItem('baatcheet_countrycode') || "+91";
         let myUsername = localStorage.getItem('baatcheet_userhandle') || "";
-        let myBio = localStorage.getItem('baatcheet_bio') || "Cloud User 🚀";
+        let myBio = localStorage.getItem('baatcheet_bio') || "Global Traveller 🚀";
         let hideOnlineStatus = false;
         let cryptoKey = null;
         let contacts = [
-            {name: "India Public Chat Room", type: "group", admin: "System", members: ["System"], is_verified: true}
+            {name: "Global International Room", type: "group", admin: "System", members: ["System"], is_verified: true, country: "🌐"}
         ];
         let blockedUsers = [];
         let starredMessages = JSON.parse(localStorage.getItem('baatcheet_starred') || '[]');
@@ -496,10 +506,10 @@
             if (cryptoKey) return cryptoKey;
             const enc = new TextEncoder();
             const keyMaterial = await window.subtle.importKey(
-                "raw", enc.encode("BaatCheetMasterSecret2026"), { name: "PBKDF2" }, false, ["deriveKey"]
+                "raw", enc.encode("BaatCheetGlobalSecret2026"), { name: "PBKDF2" }, false, ["deriveKey"]
             );
             cryptoKey = await window.subtle.deriveKey(
-                { name: "PBKDF2", salt: enc.encode("BaatCheetSaltSecure"), iterations: 100000, hash: "SHA-256" },
+                { name: "PBKDF2", salt: enc.encode("BaatCheetGlobalSalt"), iterations: 100000, hash: "SHA-256" },
                 keyMaterial, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]
             );
             return cryptoKey;
@@ -540,33 +550,23 @@
             }
         });
 
-        function detectUserLocationAndWallpaper() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(position => {
-                    let lat = position.coords.latitude;
-                    let lon = position.coords.longitude;
-                    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
-                        .then(res => res.json())
-                        .then(data => {
-                            let district = data.address.city || data.address.state_district || data.address.county || "New Delhi";
-                            if(myName) {
-                                db.ref("users/" + myName.replace(/[^a-zA-Z0-9]/g, '_') + "/district").set(district);
-                            }
-                            let districtTextElem = document.getElementById('detectedDistrictText');
-                            if(districtTextElem) districtTextElem.innerText = `🇮🇳 Namaste! Aapka District: ${district}`;
-                        }).catch(() => {});
-                }, () => {});
-            }
-        }
-
         function dismissIndiaSplash() {
             let splash = document.getElementById('indiaSplash');
             splash.classList.add('hide');
-            detectUserLocationAndWallpaper();
         }
 
+        // --- Global WebRTC STUN/TURN Servers for International Calls ---
         let localStream, remoteStream, peerConnection;
-        const servers = { iceServers: [{ urls: ['stun:stun1.l.google.com:19302', 'stun:stun2.l.google.com:19302'] }] };
+        const globalServers = {
+            iceServers: [
+                { urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302', 'stun:stun.services.mozilla.com'] },
+                {
+                    urls: 'turn:global-turn-relay.baatcheet.app:3478',
+                    username: 'globalUser2026',
+                    credential: 'globalSecurePassword'
+                }
+            ]
+        };
 
         let savedWallpaper = localStorage.getItem('baatcheet_wallpaper');
         if(savedWallpaper) {
@@ -586,37 +586,29 @@
 
         function startApp() {
             let uName = document.getElementById('userNameInput').value.trim();
-            if(!uName) return alert("Kripya apna naam ya ID daalein!");
-            myName = uName;
+            let cCode = document.getElementById('countryCodeSelect') ? document.getElementById('countryCodeSelect').value : "+91";
+            if(!uName) return alert("Kripya apna naam daalein!");
+            
+            myName = cCode + " " + uName;
+            myCountryCode = cCode;
             localStorage.setItem('baatcheet_username', myName);
+            localStorage.setItem('baatcheet_countrycode', myCountryCode);
             document.getElementById('loginScreen').classList.add('hide');
+            let badgeElem = document.getElementById('headerCountryBadge');
+            if(badgeElem) badgeElem.innerText = cCode + " GLOBAL";
 
             if(!myUsername) {
-                myUsername = "_" + myName.toLowerCase().replace(/[^a-z0-9]/g, '');
+                myUsername = "_" + uName.toLowerCase().replace(/[^a-z0-9]/g, '');
                 localStorage.setItem('baatcheet_userhandle', myUsername);
             }
 
-            db.ref("users/" + myName.replace(/[^a-zA-Z0-9]/g, '_')).update({
+            db.ref("users/" + myName.replace(/[^a-zA-Z0-9+_]/g, '_')).update({
                 name: myName,
+                countryCode: myCountryCode,
                 username: myUsername,
                 is_verified: true,
                 lastActive: Date.now()
             });
-
-            detectUserLocationAndWallpaper();
-
-            // Request FCM Notification permission for background push alerts
-            if (navigator.serviceWorker) {
-                navigator.serviceWorker.register('firebase-messaging-sw.js').then(registration => {
-                    messaging && messaging.requestPermission().then(() => {
-                        messaging.getToken({ vapidKey: 'BPr..._FCM_KEY' }).then(token => {
-                            if(token) {
-                                db.ref("users/" + myName.replace(/[^a-zA-Z0-9]/g, '_') + "/fcmToken").set(token);
-                            }
-                        }).catch(() => {});
-                    }).catch(() => {});
-                }).catch(() => {});
-            }
 
             db.ref("presence").on('value', snap => {
                 let presData = snap.val() || {};
@@ -629,7 +621,7 @@
 
             db.ref("users").on('value', snap => {
                 let allUsers = snap.val() || {};
-                contacts = [{name: "India Public Chat Room", type: "group", admin: "System", members: ["System"], is_verified: true}];
+                contacts = [{name: "Global International Room", type: "group", admin: "System", members: ["System"], is_verified: true, country: "🌐"}];
                 for(let uKey in allUsers) {
                     let uData = allUsers[uKey];
                     if(uData.name && uData.name !== myName) {
@@ -647,7 +639,7 @@
                 fetchChatMetadata();
             });
             
-            presenceRef = db.ref("presence/" + myName.replace(/[^a-zA-Z0-9]/g, '_'));
+            presenceRef = db.ref("presence/" + myName.replace(/[^a-zA-Z0-9+_]/g, '_'));
             presenceRef.set({ status: "online", lastSeen: Date.now() });
             presenceRef.onDisconnect().set({ status: "offline", lastSeen: Date.now() });
 
@@ -663,7 +655,7 @@
         function openCloudVault() { openChat("☁️ Cloud Vault (Notes)"); }
         function startTicTacToe() {
             document.getElementById('attachMenu').classList.remove('active');
-            let gameHtml = `<div class="poll-box" style="text-align:center;"><div style="font-weight:600; margin-bottom:6px;">🎮 Tic-Tac-Toe Game Match</div><div style="font-size:12px; color:var(--sub); margin-bottom:6px;">${myName} started a challenge!</div><div style="font-size:13px; color:#10b981; font-weight:bold;">Tap chat to play!</div></div>`;
+            let gameHtml = `<div class="poll-box" style="text-align:center;"><div style="font-weight:600; margin-bottom:6px;">🎮 Tic-Tac-Toe Game Match</div><div style="font-size:12px; color:var(--sub); margin-bottom:6px;">${myName} started a challenge!</div><div style="font-size:13px; color:#38bdf8; font-weight:bold;">Tap chat to play!</div></div>`;
             if(dbRef) {
                 encryptMessage(gameHtml).then(enc => {
                     dbRef.push({text: enc, sender: myName, isHtml: true, seen: false, seenBy: { [myName]: true }, deleted: false, edited: false, time: Date.now()});
@@ -685,7 +677,7 @@
             document.getElementById('attachMenu').classList.remove('active');
             let photoUrl = prompt("View Once photo ka URL daalein:", "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?q=80&w=400");
             if(!photoUrl) return;
-            let viewOnceHtml = `<div onclick="openViewOnce('${photoUrl}')" style="background:rgba(0,0,0,0.15); padding:10px; border-radius:8px; cursor:pointer; text-align:center; border:1px dashed #10b981;"><div style="font-size:20px;">🔒</div><div style="font-size:13px; font-weight:bold; color:#10b981;">View Once Media</div><div style="font-size:10px; color:var(--sub);">Tap to view (Screenshot Protected)</div></div>`;
+            let viewOnceHtml = `<div onclick="openViewOnce('${photoUrl}')" style="background:rgba(0,0,0,0.15); padding:10px; border-radius:8px; cursor:pointer; text-align:center; border:1px dashed #38bdf8;"><div style="font-size:20px;">🔒</div><div style="font-size:13px; font-weight:bold; color:#38bdf8;">View Once Media</div><div style="font-size:10px; color:var(--sub);">Tap to view (Screenshot Protected)</div></div>`;
             encryptMessage(viewOnceHtml).then(enc => {
                 if(dbRef) dbRef.push({text: enc, sender: myName, isHtml: true, seen: false, seenBy: { [myName]: true }, deleted: false, edited: false, time: Date.now()});
             });
@@ -702,10 +694,10 @@
             contacts.forEach(c => {
                 let key = "";
                 if(c.type === 'group') {
-                    key = "chat_" + c.name.replace(/[^a-zA-Z0-9]/g, '_');
+                    key = "chat_" + c.name.replace(/[^a-zA-Z0-9+_]/g, '_');
                 } else {
                     let sortedNames = [myName, c.name].sort();
-                    key = "chat_" + sortedNames[0].replace(/[^a-zA-Z0-9]/g, '_') + "_" + sortedNames[1].replace(/[^a-zA-Z0-9]/g, '_');
+                    key = "chat_" + sortedNames[0].replace(/[^a-zA-Z0-9+_]/g, '_') + "_" + sortedNames[1].replace(/[^a-zA-Z0-9+_]/g, '_');
                 }
                 db.ref(key).on('value', async snap => {
                     let val = snap.val() || {};
@@ -736,24 +728,24 @@
                 let callKey = snap.key;
                 let data = snap.val();
                 if(data && data.offer && data.caller !== myName && !peerConnection) {
-                    if(callKey.includes(myName.replace(/[^a-zA-Z0-9]/g, '_')) || callKey === "India_Public_Chat_Room") {
+                    if(callKey.includes(myName.replace(/[^a-zA-Z0-9+_]/g, '_')) || callKey === "Global_International_Room") {
                         let ringtone = document.getElementById('ringtoneAudioElement');
                         ringtone.play().catch(e => console.log(e));
 
-                        if(confirm(data.caller + " se live " + (data.callType || 'video') + " call aa rahi hai? Accept karein?")) {
+                        if(confirm(data.caller + " se International " + (data.callType || 'video') + " call aa rahi hai? Accept karein?")) {
                             ringtone.pause();
                             ringtone.currentTime = 0;
                             activeCallKey = callKey;
                             document.getElementById('callScreen').classList.add('active');
                             
                             if(data.callType === 'audio') {
-                                document.getElementById('callTypeTitle').innerText = "📞 LIVE HD AUDIO CALL (Connected)";
+                                document.getElementById('callTypeTitle').innerText = "📞 GLOBAL HD AUDIO CALL (Connected)";
                                 document.getElementById('audioCallView').style.display = 'flex';
                                 document.getElementById('videoGridContainer').style.display = 'none';
                                 document.getElementById('callUserNameDisplay').innerText = data.caller;
                                 document.getElementById('callAvatarIcon').innerText = data.caller[0];
                             } else {
-                                document.getElementById('callTypeTitle').innerText = "📹 LIVE HD VIDEO CALL (Connected)";
+                                document.getElementById('callTypeTitle').innerText = "📹 GLOBAL HD VIDEO CALL (Connected)";
                                 document.getElementById('audioCallView').style.display = 'none';
                                 document.getElementById('videoGridContainer').style.display = 'flex';
                             }
@@ -764,7 +756,7 @@
                                 localStream = stream;
                                 if(data.callType === 'video') document.getElementById('localVideo').srcObject = localStream;
 
-                                peerConnection = new RTCPeerConnection(servers);
+                                peerConnection = new RTCPeerConnection(globalServers);
                                 localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
 
                                 peerConnection.ontrack = event => {
@@ -818,13 +810,13 @@
                 div.onclick = () => openChat(c.name);
                 let isBlocked = blockedUsers.includes(c.name);
                 
-                let pKey = c.name.replace(/[^a-zA-Z0-9]/g, '_');
+                let pKey = c.name.replace(/[^a-zA-Z0-9+_]/g, '_');
                 let pData = onlinePresenceMap[pKey];
                 let isOnline = false;
-                let statusTextCustom = c.type === 'group' ? '👥 Group Chat' : 'Offline ⚪';
+                let statusTextCustom = c.type === 'group' ? '👥 Global Room' : 'Offline ⚪';
 
                 if(c.type === 'group') {
-                    statusTextCustom = '👥 Group Chat';
+                    statusTextCustom = '👥 Global Room';
                 } else if(pData && pData.status === 'online' && (Date.now() - pData.lastSeen < 30000)) {
                     isOnline = true;
                     statusTextCustom = 'Online 🟢';
@@ -836,7 +828,7 @@
                 let lastMsg = lastMessagesMap[c.name] || statusTextCustom;
                 let badge = isBlocked ? '🚫 Blocked' : lastMsg;
                 let unreadCount = unreadCountsMap[c.name] || 0;
-                let verifiedTick = (c.is_verified !== false) ? ' <span style="color:#10b981; font-size:13px;" title="Verified Contact">✓</span>' : '';
+                let verifiedTick = (c.is_verified !== false) ? ' <span style="color:#38bdf8; font-size:13px;" title="Global Verified">✓</span>' : '';
                 let handleLabel = c.username ? `<span style="font-size:11px; color:#38bdf8; margin-left:6px;">${c.username}</span>` : '';
                 
                 div.innerHTML = `<div style="display:flex; align-items:center; overflow:hidden;"><div class="avatar">${c.name[0]}<div class="online-dot ${isOnline ? 'active':''}"></div></div><div style="overflow:hidden;"><b>${c.name}</b>${verifiedTick} ${handleLabel}<div style="font-size:12px; color:var(--sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px;">${badge}</div></div></div><div class="unread-badge ${unreadCount > 0 ? 'active':''}">${unreadCount}</div>`;
@@ -857,7 +849,7 @@
 
         function saveContact() {
             let val = document.getElementById('contactNameInput').value.trim();
-            if(!val) return alert('Kripya naam ya @username daalein!');
+            if(!val) return alert('Kripya international number ya @username daalein!');
             let name = val.startsWith('@') ? val.substring(1) : val;
             let formattedHandle = '@' + name.toLowerCase().replace(/[^a-z0-9]/g, '');
 
@@ -884,7 +876,7 @@
 
         function openProfileModal() {
             document.getElementById('profileNameEdit').value = myName;
-            document.getElementById('profileUsernameEdit').value = myUsername || ('@' + myName.toLowerCase().replace(/[^a-z0-9]/g, ''));
+            document.getElementById('profileUsernameEdit').value = myUsername || ('@' + myName.toLowerCase().replace(/[^a-z0-9+_]/g, ''));
             document.getElementById('profileBioEdit').value = myBio;
             document.getElementById('hideOnlineToggle').checked = hideOnlineStatus;
             document.getElementById('profileModal').classList.add('active');
@@ -906,7 +898,7 @@
             }
             document.getElementById('profileModal').classList.remove('active');
             
-            db.ref("users/" + myName.replace(/[^a-zA-Z0-9]/g, '_')).update({
+            db.ref("users/" + myName.replace(/[^a-zA-Z0-9+_]/g, '_')).update({
                 username: myUsername,
                 bio: myBio,
                 is_verified: true
@@ -917,7 +909,7 @@
             } else {
                 presenceRef.set({ status: "online", lastSeen: Date.now() });
             }
-            alert("✨ Profile & True E2EE Security updated!");
+            alert("✨ Global Profile successfully updated!");
         }
 
         function openWallpaperModal() { document.getElementById('wallpaperModal').classList.add('active'); }
@@ -955,7 +947,7 @@
             } else {
                 starredMessages.forEach(m => {
                     let d = document.createElement('div');
-                    d.style.cssText = "background:var(--bg); padding:8px; border-radius:6px; border-left:3px solid #10b981;";
+                    d.style.cssText = "background:var(--bg); padding:8px; border-radius:6px; border-left:3px solid #38bdf8;";
                     d.innerHTML = `<b>${m.sender}:</b> ${m.text}`;
                     container.appendChild(d);
                 });
@@ -981,10 +973,10 @@
             let cObj = contacts.find(c => c.name === targetChat);
             let targetKey = "";
             if(cObj && cObj.type === 'group') {
-                targetKey = "chat_" + targetChat.replace(/[^a-zA-Z0-9]/g, '_');
+                targetKey = "chat_" + targetChat.replace(/[^a-zA-Z0-9+_]/g, '_');
             } else {
                 let sortedNames = [myName, targetChat].sort();
-                targetKey = "chat_" + sortedNames[0].replace(/[^a-zA-Z0-9]/g, '_') + "_" + sortedNames[1].replace(/[^a-zA-Z0-9]/g, '_');
+                targetKey = "chat_" + sortedNames[0].replace(/[^a-zA-Z0-9+_]/g, '_') + "_" + sortedNames[1].replace(/[^a-zA-Z0-9+_]/g, '_');
             }
 
             encryptMessage("📤 (Forwarded) " + messageToForward).then(enc => {
@@ -1028,7 +1020,7 @@
                 }
                 document.getElementById('groupAdminModal').classList.add('active');
             } else {
-                document.getElementById('groupMemberList').innerHTML = `<div style="color:var(--sub);">E2EE Direct Chat with ${activeChat} ✓</div>`;
+                document.getElementById('groupMemberList').innerHTML = `<div style="color:var(--sub);">Global Secure Chat with ${activeChat} 🌐</div>`;
                 document.getElementById('groupAdminModal').classList.add('active');
             }
         }
@@ -1036,7 +1028,7 @@
         function clearChatHistory() {
             if(confirm("Kya aap is chat ki saari history clear karna chahte hain?")) {
                 if(dbRef) dbRef.remove();
-                document.getElementById('msgList').innerHTML = `<div style="text-align:center; font-size:11px; color:var(--sub);">🔒 True AES-GCM Encrypted Chat</div>`;
+                document.getElementById('msgList').innerHTML = `<div style="text-align:center; font-size:11px; color:var(--sub);">🌐 Global Encrypted Chat</div>`;
                 document.getElementById('groupAdminModal').classList.remove('active');
                 alert("🗑️ Chat history clear kar di gayi hai!");
             }
@@ -1070,24 +1062,21 @@
 
         function openChat(name) {
             activeChat = name; 
-            document.getElementById('chatName').innerText = name + " ✓";
+            document.getElementById('chatName').innerText = name + " 🌐";
             document.getElementById('chatAvatar').innerText = name[0];
             document.getElementById('chatScreen').classList.add('open');
-            document.getElementById('msgList').innerHTML = `<div style="text-align:center; font-size:11px; color:var(--sub);">🔒 True AES-GCM Encrypted Chat</div>`;
+            document.getElementById('msgList').innerHTML = `<div style="text-align:center; font-size:11px; color:var(--sub);">🌐 Global Cross-Border Encrypted Chat</div>`;
             allMessagesCache = [];
             
-            db.ref("users/" + name.replace(/[^a-zA-Z0-9]/g, '_') + "/district").once('value', snap => {
-                let friendDistrict = snap.val() || "New Delhi";
-                document.getElementById('chatSubStatus').innerText = `📍 Live from ${friendDistrict} ✓ E2EE`;
-            });
+            document.getElementById('chatSubStatus').innerText = `🌍 International STUN Node Active`;
 
             let cObj = contacts.find(c => c.name === name);
             let key = "";
             if(cObj && cObj.type === 'group') {
-                key = "chat_" + name.replace(/[^a-zA-Z0-9]/g, '_');
+                key = "chat_" + name.replace(/[^a-zA-Z0-9+_]/g, '_');
             } else {
                 let sortedNames = [myName, name].sort();
-                key = "chat_" + sortedNames[0].replace(/[^a-zA-Z0-9]/g, '_') + "_" + sortedNames[1].replace(/[^a-zA-Z0-9]/g, '_');
+                key = "chat_" + sortedNames[0].replace(/[^a-zA-Z0-9+_]/g, '_') + "_" + sortedNames[1].replace(/[^a-zA-Z0-9+_]/g, '_');
             }
 
             if(dbRef) dbRef.off();
@@ -1281,13 +1270,12 @@
             dbRef.child(key).update({ text: finalEncrypted, edited: true });
         }
 
-        // --- Firebase Storage Cloud Media Upload ---
         async function sendImage(e) {
             let file = e.target.files[0]; if(!file) return;
             let storageRef = storage.ref(`chats/${activeChat}/${Date.now()}_${file.name}`);
             let uploadTask = storageRef.put(file);
             
-            alert("☁️ Uploading media to Firebase Cloud...");
+            alert("☁️ Uploading media to Global Cloud...");
             uploadTask.on('state_changed', null, (err) => {
                 alert("Upload error: " + err);
             }, async () => {
@@ -1305,12 +1293,12 @@
             let storageRef = storage.ref(`documents/${activeChat}/${Date.now()}_${file.name}`);
             let uploadTask = storageRef.put(file);
             
-            alert("☁️ Uploading document to Cloud Storage...");
+            alert("☁️ Uploading document to Global Storage...");
             uploadTask.on('state_changed', null, (err) => {
                 alert("Upload error: " + err);
             }, async () => {
                 let downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
-                let fileHtml = `📁 <b>Cloud Document:</b> <a href="${downloadURL}" target="_blank" style="color:#10b981;">${file.name}</a> (${(file.size/1024).toFixed(1)} KB)`;
+                let fileHtml = `📁 <b>Global Document:</b> <a href="${downloadURL}" target="_blank" style="color:#38bdf8;">${file.name}</a> (${(file.size/1024).toFixed(1)} KB)`;
                 let enc = await encryptMessage(fileHtml);
                 dbRef.push({text: enc, sender: myName, isHtml: true, seen: false, seenBy: { [myName]: true }, deleted: false, edited: false, time: Date.now()});
             });
@@ -1331,7 +1319,7 @@
                     let audioUrl = await snapshot.ref.getDownloadURL();
                     
                     let uniqueId = 'audio_' + Date.now();
-                    let voiceHtml = `🎵 <b>Cloud Voice Note</b>
+                    let voiceHtml = `🎵 <b>Global Voice Note</b>
                     <audio id="${uniqueId}" src="${audioUrl}" style="display:none;"></audio>
                     <div class="wave-bars">
                         <div class="wave-bar" style="animation-delay: 0.1s;"></div>
@@ -1340,7 +1328,7 @@
                         <div class="wave-bar" style="animation-delay: 0.4s;"></div>
                     </div>
                     <div style="display:flex; align-items:center; gap:6px; margin-top:2px;">
-                        <button onclick="playCustomAudio('${uniqueId}', this)" style="background:#10b981; color:white; border:none; border-radius:50%; width:26px; height:26px; cursor:pointer; font-size:11px;">▶</button>
+                        <button onclick="playCustomAudio('${uniqueId}', this)" style="background:#38bdf8; color:white; border:none; border-radius:50%; width:26px; height:26px; cursor:pointer; font-size:11px;">▶</button>
                         <input type="range" id="range_${uniqueId}" value="0" max="100" style="width:70px; cursor:pointer;" oninput="seekAudio('${uniqueId}', this)">
                         <span id="time_${uniqueId}" style="font-size:9px; color:var(--sub);">0:00</span>
                     </div>`;
@@ -1402,10 +1390,10 @@
             let cObj = contacts.find(c => c.name === activeChat);
             let key = "";
             if(cObj && cObj.type === 'group') {
-                key = "chat_" + activeChat.replace(/[^a-zA-Z0-9]/g, '_');
+                key = "chat_" + activeChat.replace(/[^a-zA-Z0-9+_]/g, '_');
             } else {
                 let sortedNames = [myName, activeChat].sort();
-                key = "chat_" + sortedNames[0].replace(/[^a-zA-Z0-9]/g, '_') + "_" + sortedNames[1].replace(/[^a-zA-Z0-9]/g, '_');
+                key = "chat_" + sortedNames[0].replace(/[^a-zA-Z0-9+_]/g, '_') + "_" + sortedNames[1].replace(/[^a-zA-Z0-9+_]/g, '_');
             }
             db.ref(key + "/" + msgKey + "/reactions/" + emoji).transaction(val => (val || 0) + 1);
         }
@@ -1419,10 +1407,10 @@
             let cObj = contacts.find(c => c.name === activeChat);
             let key = "";
             if(cObj && cObj.type === 'group') {
-                key = "chat_" + activeChat.replace(/[^a-zA-Z0-9]/g, '_');
+                key = "chat_" + activeChat.replace(/[^a-zA-Z0-9+_]/g, '_');
             } else {
                 let sortedNames = [myName, activeChat].sort();
-                key = "chat_" + sortedNames[0].replace(/[^a-zA-Z0-9]/g, '_') + "_" + sortedNames[1].replace(/[^a-zA-Z0-9]/g, '_');
+                key = "chat_" + sortedNames[0].replace(/[^a-zA-Z0-9+_]/g, '_') + "_" + sortedNames[1].replace(/[^a-zA-Z0-9+_]/g, '_');
             }
             db.ref("pinned_" + key).set(txt);
             alert("📌 Message pin kar diya gaya hai!");
@@ -1432,10 +1420,10 @@
             let cObj = contacts.find(c => c.name === activeChat);
             let key = "";
             if(cObj && cObj.type === 'group') {
-                key = "chat_" + activeChat.replace(/[^a-zA-Z0-9]/g, '_');
+                key = "chat_" + activeChat.replace(/[^a-zA-Z0-9+_]/g, '_');
             } else {
                 let sortedNames = [myName, activeChat].sort();
-                key = "chat_" + sortedNames[0].replace(/[^a-zA-Z0-9]/g, '_') + "_" + sortedNames[1].replace(/[^a-zA-Z0-9]/g, '_');
+                key = "chat_" + sortedNames[0].replace(/[^a-zA-Z0-9+_]/g, '_') + "_" + sortedNames[1].replace(/[^a-zA-Z0-9+_]/g, '_');
             }
             db.ref("pinned_" + key).remove();
         }
@@ -1481,8 +1469,8 @@
 
             if(sender && sender !== myName) {
                 let senderTag = document.createElement('div');
-                senderTag.style.cssText = "font-size:10px; font-weight:bold; color:#10b981; margin-bottom:2px;";
-                senderTag.innerText = sender + " 🔒";
+                senderTag.style.cssText = "font-size:10px; font-weight:bold; color:#38bdf8; margin-bottom:2px;";
+                senderTag.innerText = sender + " 🌐";
                 box.appendChild(senderTag);
             }
 
@@ -1551,13 +1539,13 @@
             document.getElementById('callScreen').classList.add('active');
             
             if(type === 'audio') {
-                document.getElementById('callTypeTitle').innerText = "📞 LIVE HD AUDIO CALL (Ringing...)";
+                document.getElementById('callTypeTitle').innerText = "📞 GLOBAL HD AUDIO CALL (Ringing...)";
                 document.getElementById('audioCallView').style.display = 'flex';
                 document.getElementById('videoGridContainer').style.display = 'none';
                 document.getElementById('callUserNameDisplay').innerText = activeChat;
                 document.getElementById('callAvatarIcon').innerText = activeChat[0];
             } else {
-                document.getElementById('callTypeTitle').innerText = "📹 LIVE HD VIDEO CALL";
+                document.getElementById('callTypeTitle').innerText = "📹 GLOBAL HD VIDEO CALL";
                 document.getElementById('audioCallView').style.display = 'none';
                 document.getElementById('videoGridContainer').style.display = 'flex';
             }
@@ -1567,10 +1555,10 @@
             let cObj = contacts.find(c => c.name === activeChat);
             let callKey = "";
             if(cObj && cObj.type === 'group') {
-                callKey = activeChat.replace(/[^a-zA-Z0-9]/g, '_');
+                callKey = activeChat.replace(/[^a-zA-Z0-9+_]/g, '_');
             } else {
                 let sortedNames = [myName, activeChat].sort();
-                callKey = sortedNames[0].replace(/[^a-zA-Z0-9]/g, '_') + "_" + sortedNames[1].replace(/[^a-zA-Z0-9]/g, '_');
+                callKey = sortedNames[0].replace(/[^a-zA-Z0-9+_]/g, '_') + "_" + sortedNames[1].replace(/[^a-zA-Z0-9+_]/g, '_');
             }
             activeCallKey = callKey;
 
@@ -1578,7 +1566,7 @@
                 localStream = await navigator.mediaDevices.getUserMedia(constraints);
                 if(type === 'video') document.getElementById('localVideo').srcObject = localStream;
 
-                peerConnection = new RTCPeerConnection(servers);
+                peerConnection = new RTCPeerConnection(globalServers);
                 localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
 
                 peerConnection.ontrack = event => {
@@ -1587,7 +1575,7 @@
                         let remoteAudio = document.getElementById('remoteAudioElement');
                         remoteAudio.srcObject = remoteStream;
                         remoteAudio.play().catch(e => console.log(e));
-                        document.getElementById('callTypeTitle').innerText = "📞 LIVE HD AUDIO CALL (Connected)";
+                        document.getElementById('callTypeTitle').innerText = "📞 GLOBAL HD AUDIO CALL (Connected)";
                     } else {
                         document.getElementById('remoteVideo').srcObject = remoteStream;
                     }
@@ -1607,7 +1595,7 @@
                     if (ans && !peerConnection.currentRemoteDescription) {
                         await peerConnection.setRemoteDescription(new RTCSessionDescription(ans));
                         if(type === 'audio') {
-                            document.getElementById('callTypeTitle').innerText = "📞 LIVE HD AUDIO CALL (Connected)";
+                            document.getElementById('callTypeTitle').innerText = "📞 GLOBAL HD AUDIO CALL (Connected)";
                         }
                     }
                 });
@@ -1632,7 +1620,7 @@
         function toggleAudioOutput() {
             let remoteAudio = document.getElementById('remoteAudioElement');
             isSpeakerOn = !isSpeakerOn;
-            document.getElementById('speakerToggleBtn').style.background = isSpeakerOn ? "#10b981" : "#334155";
+            document.getElementById('speakerToggleBtn').style.background = isSpeakerOn ? "#38bdf8" : "#334155";
             alert(isSpeakerOn ? "🔊 Speaker ON" : "👂 Earpiece ON");
         }
 
@@ -1669,10 +1657,10 @@
                 let cObj = contacts.find(c => c.name === activeChat);
                 let callKey = "";
                 if(cObj && cObj.type === 'group') {
-                    callKey = activeChat.replace(/[^a-zA-Z0-9]/g, '_');
+                    callKey = activeChat.replace(/[^a-zA-Z0-9+_]/g, '_');
                 } else {
                     let sortedNames = [myName, activeChat].sort();
-                    callKey = sortedNames[0].replace(/[^a-zA-Z0-9]/g, '_') + "_" + sortedNames[1].replace(/[^a-zA-Z0-9]/g, '_');
+                    callKey = sortedNames[0].replace(/[^a-zA-Z0-9+_]/g, '_') + "_" + sortedNames[1].replace(/[^a-zA-Z0-9+_]/g, '_');
                 }
                 db.ref("calls/" + callKey).remove();
             }
