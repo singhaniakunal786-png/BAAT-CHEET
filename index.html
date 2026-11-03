@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-    <title>बात-चीत (Baat-Cheet) - Secure OTP Login Messenger</title>
+    <title>बात-चीत (Baat-Cheet) - Secure Messenger with Account Delete & Photo Status</title>
     <meta name="theme-color" content="#090d16">
-    <meta name="description" content="Ultimate Global Desi Messenger with 5-Minute OTP Verification">
+    <meta name="description" content="Ultimate Global Desi Messenger with Account Deletion & Photo Status">
     
     <link rel="manifest" href="manifest.json">
 
@@ -165,7 +165,7 @@
             <img id="fullImg" src="" alt="Full">
         </div>
 
-        <!-- Stable Demo OTP Screen (Zero Errors, 100% Free & Fast) -->
+        <!-- Login & OTP Verification Screen -->
         <div class="screen" id="loginScreen">
             <div class="cyber-card" id="step1PhoneCard">
                 <div class="brand-title">💬 baat-cheet</div>
@@ -178,7 +178,7 @@
                         <option value="+971">🇦🇪 +971</option>
                         <option value="+61">🇦🇺 +61</option>
                     </select>
-                    <input type="text" id="phoneInput" class="cyber-input" value="8700404021" placeholder="Mobile Number..." style="margin-bottom:0;" onkeypress="if(event.key=='Enter')sendOTP()">
+                    <input type="text" id="phoneInput" class="cyber-input" value="8700404029" placeholder="Mobile Number..." style="margin-bottom:0;" onkeypress="if(event.key=='Enter')sendOTP()">
                 </div>
                 <button type="button" class="cyber-btn" onclick="sendOTP()">📩 Send OTP</button>
             </div>
@@ -513,11 +513,11 @@
         const storage = firebase.storage();
         const messaging = firebase.messaging().catch(() => {});
 
-        // --- Stable Demo OTP Management with 5-Minute Limitation ---
+        // --- OTP Management with 5-Minute Limitation ---
         function sendOTP() {
             let phoneElem = document.getElementById('phoneInput');
             let phone = phoneElem ? phoneElem.value.trim() : "";
-            let cCode = document.getElementById('countryCodeSelect') ? document.getElementById('countryCodeSelect'].value : "+91";
+            let cCode = document.getElementById('countryCodeSelect') ? document.getElementById('countryCodeSelect').value : "+91";
 
             if(!phone || phone.length < 6) {
                 alert("Kripya sahi mobile number daalein!");
@@ -529,7 +529,7 @@
             myName = cCode + " " + phone;
             myCountryCode = cCode;
 
-            alert("📲 Secure OTP Generated: [" + generatedOtp + "]");
+            alert("📲 Demo OTP Sent to " + myName + ": [" + generatedOtp + "]");
 
             document.getElementById('step1PhoneCard').style.display = 'none';
             document.getElementById('step2OtpCard').style.display = 'flex';
@@ -632,6 +632,7 @@
                 let currentTime = Date.now();
                 for(let sId in data) {
                     let st = data[sId];
+                    // Keep status active for 24 hours (86400000 ms)
                     if(currentTime - st.time < 86400000) {
                         let div = document.createElement('div');
                         div.style.cssText = "background:var(--card); padding:10px; border-radius:10px; display:flex; flex-direction:column; gap:6px;";
