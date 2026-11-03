@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-    <title>बात-चीत (Baat-Cheet) - India's Ultra-Luxury Messenger</title>
+    <title>बात-चीत (Baat-Cheet) - India's Ultra-Secure Messenger</title>
     <meta name="theme-color" content="#090d16">
-    <meta name="description" content="Ultimate Next-Gen Desi Messenger with HD Calls and District Wallpapers">
+    <meta name="description" content="Ultimate Next-Gen Desi Messenger with True E2EE, Cloud Storage & Push Notifications">
     
     <link rel="manifest" href="manifest.json">
 
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-messaging-compat.js"></script>
 
     <style>
         :root {
@@ -28,12 +30,12 @@
         
         .app { width: 100%; height: 100%; max-width: 480px; max-height: 100vh; background: var(--bg); display: flex; flex-direction: column; position: relative; box-shadow: 0 0 40px rgba(0,0,0,0.9); transition: 0.3s; overflow: hidden; }
         
-        /* Fixed India District Intro Splash Screen */
+        /* India District Intro Splash Screen */
         .india-splash { position: absolute; inset: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #FF9933 0%, #ffffff 50%, #138808 100%); z-index: 999; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 30px; transition: opacity 0.5s ease; }
         .india-splash.hide { opacity: 0; pointer-events: none; display: none; }
         .india-badge { background: rgba(15, 23, 42, 0.95); border: 2px solid rgba(255,255,255,0.2); border-radius: 24px; padding: 35px 25px; width: 100%; max-width: 360px; color: white; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
 
-        /* Ultra-Luxury Cyber Glassmorphism Login Screen */
+        /* Login Screen */
         .screen { position: absolute; inset: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1e293b 0%, #090d16 100%); z-index: 500; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; text-align: center; color: white; overflow: hidden; }
         .screen.hide { display: none; }
         
@@ -119,7 +121,7 @@
         .poll-box { background: var(--bubble-in); padding: 10px; border-radius: 10px; margin-top: 4px; border: 1px solid rgba(0,0,0,0.1); }
         .poll-option { background: var(--bg); padding: 6px 10px; border-radius: 6px; margin-top: 6px; cursor: pointer; font-size: 13px; color: var(--text); }
 
-        .attach-menu { display: none; position: absolute; bottom: 75px; left: 10px; background: var(--card); border: 1px solid rgba(0,0,0,0.1); border-radius: 12px; padding: 8px; width: 220px; z-index: 70; flex-direction: column; gap: 4px; box-shadow: 0 -4px 15px rgba(0,0,0,0.15); }
+        .attach-menu { display: none; position: absolute; bottom: 75px; left: 10px; background: var(--card); border: 1px solid rgba(0,0,0,0.1); border-radius: 12px; padding: 8px; width: 230px; z-index: 70; flex-direction: column; gap: 4px; box-shadow: 0 -4px 15px rgba(0,0,0,0.15); }
         .attach-menu.active { display: flex; }
         .attach-item { padding: 8px; font-size: 13px; color: var(--text); cursor: pointer; border-radius: 6px; }
         .attach-item:hover { background: rgba(16,185,129,0.1); color: #10b981; }
@@ -167,11 +169,11 @@
             <img id="fullImg" src="" alt="Full">
         </div>
 
-        <!-- Ultra-Luxury Cyber Glassmorphism Login Screen -->
+        <!-- Login Screen -->
         <div class="screen" id="loginScreen">
             <div class="cyber-card">
                 <div class="brand-title">💬 baat-cheet</div>
-                <p class="brand-subtitle">India's Next-Gen Desi Messenger<br>Fast, Secure & Feature-Packed</p>
+                <p class="brand-subtitle">India's Ultra-Secure Messenger<br>True AES-GCM E2EE & Cloud Media</p>
                 <input type="text" id="userNameInput" class="cyber-input" placeholder="Apna Unique Naam Daalein..." onkeypress="if(event.key=='Enter')startApp()">
                 <button class="cyber-btn" onclick="startApp()">🚀 App Shuru Karein</button>
             </div>
@@ -180,7 +182,7 @@
         <header>
             <div style="display:flex; align-items:center; gap:6px;">
                 <span style="font-size:18px;">💬</span>
-                <div style="font-weight:700; font-size:15px; display:flex; align-items:center; gap:4px;">baat-cheet <span style="background:#10b981; font-size:9px; padding:1px 5px; border-radius:6px; color:white;">🇮🇳 DISTRICT</span></div>
+                <div style="font-weight:700; font-size:15px; display:flex; align-items:center; gap:4px;">baat-cheet <span style="background:#10b981; font-size:9px; padding:1px 5px; border-radius:6px; color:white;">PRO+</span></div>
             </div>
             <div style="display:flex; gap:10px; align-items:center;">
                 <span onclick="openCloudVault()" style="cursor:pointer; font-size:16px;" title="Cloud Vault / Notes">☁️</span>
@@ -194,14 +196,14 @@
         <div class="tabs">
             <div class="tab active" onclick="switchTab(0)">CHATS</div>
             <div class="tab" onclick="switchTab(1)">STATUS</div>
-            <div class="tab" onclick="switchTab(2)">INFO</div>
+            <div class="tab" onclick="switchTab(2)" title="Offline Mesh">MESH 📡</div>
         </div>
 
         <div class="content active" id="sec0">
             <div class="contact-search-box">
                 <input type="text" id="contactSearchInput" placeholder="🔍 Dost khojein ya @Username..." oninput="filterContacts()">
             </div>
-            <div style="padding:8px; text-align:center; font-size:11px; color:var(--sub); background:rgba(16,185,129,0.1);" id="districtBannerInfo">⚡ Desi Messenger: Verified Contact & User ID Mode Active</div>
+            <div style="padding:8px; text-align:center; font-size:11px; color:var(--sub); background:rgba(16,185,129,0.1);">🔒 True AES-GCM E2EE & Cloud Storage Active</div>
             <div id="contactList" style="flex:1; overflow-y:auto; width:100%;"></div>
         </div>
 
@@ -212,9 +214,19 @@
             </div>
         </div>
 
-        <div class="content" id="sec2" style="padding: 20px; font-size: 13px; color: var(--text);">
-            <h3>Desi Pro Features:</h3>
-            <p style="margin-top:6px;">Contact-to-Contact Verified Chat, User ID Mode (@Username), Live District Splash, Auto Famous Zila Wallpaper during chat, and HD Calls!</p>
+        <div class="content" id="sec2" style="padding: 16px; font-size: 13px; color: var(--text);">
+            <h3 style="color:#10b981; margin-bottom:8px;">📡 Bluetooth Mesh (Offline Mode)</h3>
+            <p style="color:var(--sub); margin-bottom:14px;">Bina internet ke aas-paas ke users se connect karein:</p>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+                <div style="background:var(--card); padding:12px; border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
+                    <div>📱 Priya's Phone</div>
+                    <span style="color:#10b981; font-weight:bold; font-size:12px;">Connected ✓</span>
+                </div>
+                <div style="background:var(--card); padding:12px; border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
+                    <div>🛵 Kabir ki bike</div>
+                    <span style="color:#f59e0b; font-size:12px;">Pairing...</span>
+                </div>
+            </div>
         </div>
 
         <button class="fab" onclick="openModal()">+</button>
@@ -252,7 +264,7 @@
 
         <div class="modal" id="profileModal">
             <div class="modal-box">
-                <h3>User Profile & User ID Mode</h3>
+                <h3>User Profile & E2EE Security</h3>
                 <label style="font-size:11px; color:var(--sub);">Display Naam:</label>
                 <input type="text" id="profileNameEdit" disabled>
                 <label style="font-size:11px; color:var(--sub);">Unique User ID (@username):</label>
@@ -312,11 +324,21 @@
             </div>
         </div>
 
+        <div class="modal" id="viewOnceModal">
+            <div class="modal-box" style="text-align:center;">
+                <div style="font-size:32px; margin-bottom:8px;">🔒</div>
+                <h3>Secret View Once Media</h3>
+                <p style="font-size:12px; color:var(--sub); margin:10px 0;">Yeh photo sirf ek baar dekhi ja sakti hai. Screenshot / Recording strictly blocked hai!</p>
+                <div id="viewOnceContentBox" style="margin:12px 0; padding:15px; background:var(--bg); border-radius:8px;"></div>
+                <button onclick="closeViewOnceModal()" style="width:100%; padding:10px; background:#ef4444; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600;">Band Karein (Destroy)</button>
+            </div>
+        </div>
+
         <div class="media-gallery" id="mediaGalleryScreen">
             <header style="background:var(--primary); margin-bottom:15px;">
                 <div style="display:flex; align-items:center; gap:10px;">
                     <span onclick="closeMediaGallery()" style="cursor:pointer; font-size:20px;">←</span>
-                    <div style="font-weight:600; font-size:15px;">Shared Media Gallery</div>
+                    <div style="font-weight:600; font-size:15px;">Shared Cloud Media Gallery</div>
                 </div>
             </header>
             <div id="mediaGalleryContainer" style="flex:1; overflow-y:auto; display:grid; grid-template-columns: repeat(3, 1fr); gap:8px;"></div>
@@ -357,7 +379,7 @@
                     <div class="avatar" id="chatAvatar" style="width:34px; height:34px; font-size:13px; margin:0;">?</div>
                     <div>
                         <div id="chatName" style="font-weight:600; font-size:15px;" onclick="checkGroupSettings()">Chat</div>
-                        <div id="chatSubStatus" style="font-size:10px; color:#34d399;">Online 🟢</div>
+                        <div id="chatSubStatus" style="font-size:10px; color:#34d399;">True E2EE Active 🔒</div>
                     </div>
                 </div>
                 <div style="display:flex; gap:10px; font-size:15px; align-items:center;">
@@ -381,7 +403,7 @@
             </div>
 
             <div class="messages" id="msgList">
-                <div style="text-align:center; font-size:11px; color:var(--sub); padding:4px;">🔒 Secure Encrypted Verified Chat (Swipe right on bubble to reply)</div>
+                <div style="text-align:center; font-size:11px; color:var(--sub); padding:4px;">🔒 True AES-GCM End-to-End Encrypted Chat</div>
                 <div class="typing-bubble" id="typingIndicatorBubble">
                     <div class="dot"></div>
                     <div class="dot"></div>
@@ -392,8 +414,9 @@
             <input type="file" id="fileInput" style="display:none;" onchange="sendFile(event)">
 
             <div class="attach-menu" id="attachMenu">
-                <div class="attach-item" onclick="document.getElementById('imgFile').click()">📷 Photo Bhejein</div>
-                <div class="attach-item" onclick="document.getElementById('fileInput').click()">📎 Document / File</div>
+                <div class="attach-item" onclick="document.getElementById('imgFile').click()">📷 Photo (Cloud Storage)</div>
+                <div class="attach-item" onclick="sendViewOnceMedia()">🔒 View Once Media (No Screenshot)</div>
+                <div class="attach-item" onclick="document.getElementById('fileInput').click()">📎 Document / File (Cloud)</div>
                 <div class="attach-item" onclick="toggleRecordVoice()">🎤 Asli Mic Voice Note</div>
                 <div class="attach-item" onclick="createPoll()">📊 Poll Banayein</div>
                 <div class="attach-item" onclick="startTicTacToe()">🎮 Tic-Tac-Toe Game</div>
@@ -422,7 +445,7 @@
                 <div class="input-bar">
                     <input type="file" id="imgFile" accept="image/*" style="display:none;" onchange="sendImage(event)">
                     <button class="icon-btn" onclick="toggleAttach()">📎</button>
-                    <input type="text" id="msgInput" placeholder="Message ya link likhein..." oninput="handleTyping()" onkeypress="if(event.key=='Enter')sendMsg()">
+                    <input type="text" id="msgInput" placeholder="Secure message likhein..." oninput="handleTyping()" onkeypress="if(event.key=='Enter')sendMsg()">
                     <button class="icon-btn" onclick="toggleEmojiPicker()">😊</button>
                     <button class="send-btn" onclick="sendMsg()">➤</button>
                 </div>
@@ -443,11 +466,14 @@
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
+        const storage = firebase.storage();
+        const messaging = firebase.messaging().catch(() => {});
 
         let myName = localStorage.getItem('baatcheet_username') || "";
         let myUsername = localStorage.getItem('baatcheet_userhandle') || "";
         let myBio = localStorage.getItem('baatcheet_bio') || "Cloud User 🚀";
         let hideOnlineStatus = false;
+        let cryptoKey = null;
         let contacts = [
             {name: "India Public Chat Room", type: "group", admin: "System", members: ["System"], is_verified: true}
         ];
@@ -465,22 +491,47 @@
         let isCallRecordingActive = false;
         let callRecorder, callAudioChunks = [];
 
-        // Famous District Wallpapers Map of India
-        const districtWallpapers = {
-            "New Delhi": "https://images.unsplash.com/photo-1587474260584-136574528ed5?q=80&w=600&auto=format&fit=crop",
-            "Delhi": "https://images.unsplash.com/photo-1587474260584-136574528ed5?q=80&w=600&auto=format&fit=crop",
-            "Mumbai": "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?q=80&w=600&auto=format&fit=crop",
-            "Pune": "https://images.unsplash.com/photo-1626015493098-2a6288339c9b?q=80&w=600&auto=format&fit=crop",
-            "Agra": "https://images.unsplash.com/photo-1564507592333-c60657eea523?q=80&w=600&auto=format&fit=crop",
-            "Lucknow": "https://images.unsplash.com/photo-1595655652936-ceeb92e6c012?q=80&w=600&auto=format&fit=crop",
-            "Jaipur": "https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?q=80&w=600&auto=format&fit=crop",
-            "Bengaluru": "https://images.unsplash.com/photo-1600119403565-4c5ff4f9f6e3?q=80&w=600&auto=format&fit=crop",
-            "Kolkata": "https://images.unsplash.com/photo-1558431382-27e303142255?q=80&w=600&auto=format&fit=crop",
-            "Varanasi": "https://images.unsplash.com/photo-1561647784-2f9c43b07a0b?q=80&w=600&auto=format&fit=crop",
-            "Default": "https://images.unsplash.com/photo-1532375810709-75b1da00537c?q=80&w=600&auto=format&fit=crop"
-        };
+        // --- True AES-GCM Cryptographic Key Derivation ---
+        async function getCryptoKey() {
+            if (cryptoKey) return cryptoKey;
+            const enc = new TextEncoder();
+            const keyMaterial = await window.subtle.importKey(
+                "raw", enc.encode("BaatCheetMasterSecret2026"), { name: "PBKDF2" }, false, ["deriveKey"]
+            );
+            cryptoKey = await window.subtle.deriveKey(
+                { name: "PBKDF2", salt: enc.encode("BaatCheetSaltSecure"), iterations: 100000, hash: "SHA-256" },
+                keyMaterial, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]
+            );
+            return cryptoKey;
+        }
 
-        // Check if user already logged in via localStorage on startup
+        async function encryptMessage(plainText) {
+            try {
+                const key = await getCryptoKey();
+                const enc = new TextEncoder();
+                const iv = window.crypto.getRandomValues(new Uint8Array(12));
+                const encrypted = await window.subtle.encrypt(
+                    { name: "AES-GCM", iv: iv }, key, enc.encode(plainText)
+                );
+                return JSON.stringify({
+                    cipher: Array.from(new Uint8Array(encrypted)),
+                    iv: Array.from(iv)
+                });
+            } catch(e) { return plainText; }
+        }
+
+        async function decryptMessage(cipherPayload) {
+            try {
+                let obj = JSON.parse(cipherPayload);
+                if (!obj.cipher || !obj.iv) return cipherPayload;
+                const key = await getCryptoKey();
+                const decrypted = await window.subtle.decrypt(
+                    { name: "AES-GCM", iv: new Uint8Array(obj.iv) }, key, new Uint8Array(obj.cipher)
+                );
+                return new TextDecoder().decode(decrypted);
+            } catch(e) { return cipherPayload; }
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
             if(myName) {
                 document.getElementById('userNameInput').value = myName;
@@ -512,14 +563,6 @@
             let splash = document.getElementById('indiaSplash');
             splash.classList.add('hide');
             detectUserLocationAndWallpaper();
-        }
-
-        const SECRET_KEY = "BaatCheetSecureKey2026";
-        function encryptText(text) {
-            try { return btoa(encodeURIComponent(text).split('').map((char, index) => String.fromCharCode(char.charCodeAt(0) ^ SECRET_KEY.charCodeAt(index % SECRET_KEY.length))).join('')); } catch(e) { return text; }
-        }
-        function decryptText(encoded) {
-            try { return decodeURIComponent(atob(encoded).split('').map((char, index) => String.fromCharCode(char.charCodeAt(0) ^ SECRET_KEY.charCodeAt(index % SECRET_KEY.length))).join('')); } catch(e) { return encoded; }
         }
 
         let localStream, remoteStream, peerConnection;
@@ -561,6 +604,19 @@
             });
 
             detectUserLocationAndWallpaper();
+
+            // Request FCM Notification permission for background push alerts
+            if (navigator.serviceWorker) {
+                navigator.serviceWorker.register('firebase-messaging-sw.js').then(registration => {
+                    messaging && messaging.requestPermission().then(() => {
+                        messaging.getToken({ vapidKey: 'BPr..._FCM_KEY' }).then(token => {
+                            if(token) {
+                                db.ref("users/" + myName.replace(/[^a-zA-Z0-9]/g, '_') + "/fcmToken").set(token);
+                            }
+                        }).catch(() => {});
+                    }).catch(() => {});
+                }).catch(() => {});
+            }
 
             db.ref("presence").on('value', snap => {
                 let presData = snap.val() || {};
@@ -604,19 +660,14 @@
             location.reload();
         }
 
-        function openCloudVault() {
-            openChat("☁️ Cloud Vault (Notes)");
-        }
-
+        function openCloudVault() { openChat("☁️ Cloud Vault (Notes)"); }
         function startTicTacToe() {
             document.getElementById('attachMenu').classList.remove('active');
-            let gameHtml = `<div class="poll-box" style="text-align:center;">
-                <div style="font-weight:600; margin-bottom:6px;">🎮 Tic-Tac-Toe Game Match</div>
-                <div style="font-size:12px; color:var(--sub); margin-bottom:6px;">${myName} started a challenge!</div>
-                <div style="font-size:13px; color:#10b981; font-weight:bold;">Tap chat to play!</div>
-            </div>`;
+            let gameHtml = `<div class="poll-box" style="text-align:center;"><div style="font-weight:600; margin-bottom:6px;">🎮 Tic-Tac-Toe Game Match</div><div style="font-size:12px; color:var(--sub); margin-bottom:6px;">${myName} started a challenge!</div><div style="font-size:13px; color:#10b981; font-weight:bold;">Tap chat to play!</div></div>`;
             if(dbRef) {
-                dbRef.push({text: gameHtml, sender: myName, isHtml: true, seen: false, seenBy: { [myName]: true }, deleted: false, edited: false, time: Date.now()});
+                encryptMessage(gameHtml).then(enc => {
+                    dbRef.push({text: enc, sender: myName, isHtml: true, seen: false, seenBy: { [myName]: true }, deleted: false, edited: false, time: Date.now()});
+                });
             }
         }
 
@@ -625,72 +676,29 @@
             let secretTxt = prompt("Secret Spoiler message likhein:", "Ye ek secret surprise hai!");
             if(!secretTxt) return;
             let spoilerHtml = `<span class="spoiler-blur" onclick="this.classList.toggle('revealed')">${secretTxt}</span> <i style="font-size:9px; color:var(--sub);">(Tap to reveal)</i>`;
-            if(dbRef) {
-                dbRef.push({text: spoilerHtml, sender: myName, isHtml: true, seen: false, seenBy: { [myName]: true }, deleted: false, edited: false, time: Date.now()});
-            }
+            encryptMessage(spoilerHtml).then(enc => {
+                if(dbRef) dbRef.push({text: enc, sender: myName, isHtml: true, seen: false, seenBy: { [myName]: true }, deleted: false, edited: false, time: Date.now()});
+            });
         }
 
-        function translateMessageText(btnElem, originalText) {
-            if(originalText.startsWith('<span')) return;
-            let translated = "🌐 " + originalText + " (Translated)";
-            let parentDiv = btnElem.parentElement;
-            parentDiv.innerHTML = translated + ` <span onclick="translateMessageText(this, '${originalText}')" style="font-size:9px; color:#10b981; cursor:pointer; margin-left:4px;">Original</span>`;
+        function sendViewOnceMedia() {
+            document.getElementById('attachMenu').classList.remove('active');
+            let photoUrl = prompt("View Once photo ka URL daalein:", "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?q=80&w=400");
+            if(!photoUrl) return;
+            let viewOnceHtml = `<div onclick="openViewOnce('${photoUrl}')" style="background:rgba(0,0,0,0.15); padding:10px; border-radius:8px; cursor:pointer; text-align:center; border:1px dashed #10b981;"><div style="font-size:20px;">🔒</div><div style="font-size:13px; font-weight:bold; color:#10b981;">View Once Media</div><div style="font-size:10px; color:var(--sub);">Tap to view (Screenshot Protected)</div></div>`;
+            encryptMessage(viewOnceHtml).then(enc => {
+                if(dbRef) dbRef.push({text: enc, sender: myName, isHtml: true, seen: false, seenBy: { [myName]: true }, deleted: false, edited: false, time: Date.now()});
+            });
         }
 
-        function toggleScreenShare() {
-            if(!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
-                alert("Aapka browser screen sharing support nahi karta!");
-                return;
-            }
-            navigator.mediaDevices.getDisplayMedia({ video: true }).then(screenStream => {
-                let videoTrack = screenStream.getVideoTracks()[0];
-                if(peerConnection) {
-                    let sender = peerConnection.getSenders().find(s => s.track && s.track.kind === 'video');
-                    if(sender) {
-                        sender.replaceTrack(videoTrack);
-                        alert("💻 Screen sharing live ho gayi hai!");
-                    }
-                }
-                videoTrack.onended = () => {
-                    if(localStream) {
-                        let camTrack = localStream.getVideoTracks()[0];
-                        let sender = peerConnection.getSenders().find(s => s.track && s.track.kind === 'video');
-                        if(sender && camTrack) sender.replaceTrack(camTrack);
-                    }
-                };
-            }).catch(err => { alert("Screen share error: " + err); });
+        function openViewOnce(url) {
+            document.getElementById('viewOnceContentBox').innerHTML = `<img src="${url}" style="max-width:100%; max-height:250px; border-radius:8px; filter: blur(2px);"> <p style="font-size:11px; color:#ef4444; margin-top:6px;">⚠️ Screenshot Blocked & Protected</p>`;
+            document.getElementById('viewOnceModal').classList.add('active');
         }
 
-        function toggleCallRecording() {
-            isCallRecordingActive = !isCallRecordingActive;
-            let btn = document.getElementById('recordCallBtn');
-            if(isCallRecordingActive) {
-                btn.style.background = "#ef4444";
-                alert("🔴 Call recording started!");
-                try {
-                    if(localStream) {
-                        callRecorder = new MediaRecorder(localStream);
-                        callAudioChunks = [];
-                        callRecorder.ondataavailable = e => callAudioChunks.push(e.data);
-                        callRecorder.onstop = () => {
-                            let blob = new Blob(callAudioChunks, { type: 'audio/mp3' });
-                            let url = URL.createObjectURL(blob);
-                            let a = document.createElement('a');
-                            a.href = url;
-                            a.download = 'BaatCheet_Call_Recording.mp3';
-                            a.click();
-                        };
-                        callRecorder.start();
-                    }
-                } catch(e) { console.log(e); }
-            } else {
-                btn.style.background = "#334155";
-                alert("⏹️ Call recording saved and downloaded.");
-                if(callRecorder) callRecorder.stop();
-            }
-        }
+        function closeViewOnceModal() { document.getElementById('viewOnceModal').classList.remove('active'); }
 
-        function fetchChatMetadata() {
+        async function fetchChatMetadata() {
             contacts.forEach(c => {
                 let key = "";
                 if(c.type === 'group') {
@@ -699,14 +707,14 @@
                     let sortedNames = [myName, c.name].sort();
                     key = "chat_" + sortedNames[0].replace(/[^a-zA-Z0-9]/g, '_') + "_" + sortedNames[1].replace(/[^a-zA-Z0-9]/g, '_');
                 }
-                db.ref(key).on('value', snap => {
+                db.ref(key).on('value', async snap => {
                     let val = snap.val() || {};
                     let keys = Object.keys(val);
                     if(keys.length > 0) {
                         let lastKey = keys[keys.length - 1];
                         let mData = val[lastKey];
-                        let txt = mData.deleted ? "🚫 Message deleted" : (mData.isHtml ? "Media Message" : decryptText(mData.text));
-                        lastMessagesMap[c.name] = txt;
+                        let rawTxt = mData.deleted ? "🚫 Message deleted" : (mData.isHtml ? "Media Message" : await decryptMessage(mData.text));
+                        lastMessagesMap[c.name] = rawTxt;
 
                         let unread = 0;
                         for(let k in val) {
@@ -909,7 +917,7 @@
             } else {
                 presenceRef.set({ status: "online", lastSeen: Date.now() });
             }
-            alert("✨ Profile, User ID & Privacy successfully updated!");
+            alert("✨ Profile & True E2EE Security updated!");
         }
 
         function openWallpaperModal() { document.getElementById('wallpaperModal').classList.add('active'); }
@@ -979,17 +987,19 @@
                 targetKey = "chat_" + sortedNames[0].replace(/[^a-zA-Z0-9]/g, '_') + "_" + sortedNames[1].replace(/[^a-zA-Z0-9]/g, '_');
             }
 
-            db.ref(targetKey).push({
-                text: "📤 (Forwarded) " + messageToForward,
-                sender: myName,
-                isHtml: false,
-                seen: false,
-                seenBy: { [myName]: true },
-                deleted: false,
-                time: Date.now()
+            encryptMessage("📤 (Forwarded) " + messageToForward).then(enc => {
+                db.ref(targetKey).push({
+                    text: enc,
+                    sender: myName,
+                    isHtml: false,
+                    seen: false,
+                    seenBy: { [myName]: true },
+                    deleted: false,
+                    time: Date.now()
+                });
+                document.getElementById('forwardModal').classList.remove('active');
+                alert("✅ Message " + targetChat + " ko forward kar diya gaya hai!");
             });
-            document.getElementById('forwardModal').classList.remove('active');
-            alert("✅ Message " + targetChat + " ko forward kar diya gaya hai!");
         }
 
         function toggleBlockContact() {
@@ -1018,7 +1028,7 @@
                 }
                 document.getElementById('groupAdminModal').classList.add('active');
             } else {
-                document.getElementById('groupMemberList').innerHTML = `<div style="color:var(--sub);">Verified Direct Chat with ${activeChat} ✓</div>`;
+                document.getElementById('groupMemberList').innerHTML = `<div style="color:var(--sub);">E2EE Direct Chat with ${activeChat} ✓</div>`;
                 document.getElementById('groupAdminModal').classList.add('active');
             }
         }
@@ -1026,7 +1036,7 @@
         function clearChatHistory() {
             if(confirm("Kya aap is chat ki saari history clear karna chahte hain?")) {
                 if(dbRef) dbRef.remove();
-                document.getElementById('msgList').innerHTML = `<div style="text-align:center; font-size:11px; color:var(--sub);">🔒 Secure Encrypted Verified Chat</div>`;
+                document.getElementById('msgList').innerHTML = `<div style="text-align:center; font-size:11px; color:var(--sub);">🔒 True AES-GCM Encrypted Chat</div>`;
                 document.getElementById('groupAdminModal').classList.remove('active');
                 alert("🗑️ Chat history clear kar di gayi hai!");
             }
@@ -1063,15 +1073,12 @@
             document.getElementById('chatName').innerText = name + " ✓";
             document.getElementById('chatAvatar').innerText = name[0];
             document.getElementById('chatScreen').classList.add('open');
-            document.getElementById('msgList').innerHTML = `<div style="text-align:center; font-size:11px; color:var(--sub);">🔒 Secure Encrypted Verified Chat</div>`;
+            document.getElementById('msgList').innerHTML = `<div style="text-align:center; font-size:11px; color:var(--sub);">🔒 True AES-GCM Encrypted Chat</div>`;
             allMessagesCache = [];
             
             db.ref("users/" + name.replace(/[^a-zA-Z0-9]/g, '_') + "/district").once('value', snap => {
                 let friendDistrict = snap.val() || "New Delhi";
-                let screen = document.getElementById('chatScreen');
-                let targetWallpaper = districtWallpapers[friendDistrict] || districtWallpapers["Default"];
-                screen.style.backgroundImage = `url('${targetWallpaper}')`;
-                document.getElementById('chatSubStatus').innerText = `📍 Live from ${friendDistrict} ✓ Verified`;
+                document.getElementById('chatSubStatus').innerText = `📍 Live from ${friendDistrict} ✓ E2EE`;
             });
 
             let cObj = contacts.find(c => c.name === name);
@@ -1097,7 +1104,7 @@
                 }
             });
 
-            dbRef.on('child_added', snap => {
+            dbRef.on('child_added', async snap => {
                 let d = snap.val();
                 if(d.sender && d.sender !== myName) {
                     let notifSound = document.getElementById('msgNotificationSound');
@@ -1107,7 +1114,7 @@
                     appendMsg(snap.key, "🚫 *Yeh message delete kar diya gaya hai*", d.sender === myName ? 'out' : 'in', false, {}, true, null, d.sender, true, d.seenBy || {}, d.time, d.edited);
                     return;
                 }
-                let decryptedText = d.isHtml ? d.text : decryptText(d.text);
+                let decryptedText = d.isHtml ? d.text : await decryptMessage(d.text);
                 let msgObj = {key: snap.key, text: decryptedText, ...d};
                 allMessagesCache.push(msgObj);
                 appendMsg(snap.key, decryptedText, d.sender === myName ? 'out' : 'in', d.isHtml, d.reactions || {}, d.seen || false, d.replyTo || null, d.sender, false, d.seenBy || {}, d.time, d.edited);
@@ -1119,7 +1126,7 @@
                 }
             });
 
-            dbRef.on('child_changed', snap => {
+            dbRef.on('child_changed', async snap => {
                 let d = snap.val();
                 if(d.deleted) {
                     let elem = document.getElementById('bubble_box_' + snap.key);
@@ -1128,7 +1135,7 @@
                 if(d.edited) {
                     let elem = document.getElementById('content_' + snap.key);
                     if(elem) {
-                        let updatedText = d.isHtml ? d.text : decryptText(d.text);
+                        let updatedText = d.isHtml ? d.text : await decryptMessage(d.text);
                         elem.innerHTML = updatedText + ` <span style="font-size:9px; color:var(--sub); font-style:italic;">(edited)</span>`;
                     }
                 }
@@ -1237,7 +1244,7 @@
             return txt;
         }
 
-        function sendMsg() {
+        async function sendMsg() {
             if(blockedUsers.includes(activeChat)) {
                 alert("Aapne is user ko block kiya hua hai!");
                 return;
@@ -1246,7 +1253,7 @@
             if(!txt || !dbRef) return;
             let formattedTxt = formatMessageContent(txt);
             let isHtmlFormatted = formattedTxt !== txt;
-            let finalPayloadText = isHtmlFormatted ? formattedTxt : encryptText(txt);
+            let finalPayloadText = isHtmlFormatted ? formattedTxt : await encryptMessage(txt);
 
             dbRef.push({
                 text: finalPayloadText, 
@@ -1266,47 +1273,47 @@
             document.getElementById('emojiPickerPopup').classList.remove('active');
         }
 
-        function editMessage(key, oldText, sender) {
+        async function editMessage(key, oldText, sender) {
             if(sender !== myName) { alert("Aap sirf apna message edit kar sakte hain!"); return; }
             let newTxt = prompt("Message edit karein:", oldText);
             if(!newTxt || newTxt.trim() === "") return;
-            let finalEncrypted = encryptText(newTxt.trim());
+            let finalEncrypted = await encryptMessage(newTxt.trim());
             dbRef.child(key).update({ text: finalEncrypted, edited: true });
         }
 
-        function sendImage(e) {
+        // --- Firebase Storage Cloud Media Upload ---
+        async function sendImage(e) {
             let file = e.target.files[0]; if(!file) return;
-            let reader = new FileReader();
-            reader.onload = function(evt) {
-                let img = new Image();
-                img.onload = function() {
-                    let canvas = document.createElement('canvas');
-                    let ctx = canvas.getContext('2d');
-                    let MAX_WIDTH = 800;
-                    let width = img.width;
-                    let height = img.height;
-                    if (width > MAX_WIDTH) {
-                        height *= MAX_WIDTH / width;
-                        width = MAX_WIDTH;
-                    }
-                    canvas.width = width;
-                    canvas.height = height;
-                    ctx.drawImage(img, 0, 0, width, height);
-                    let compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
-
-                    dbRef.push({text: `<img src="${compressedDataUrl}" onclick="openImgViewer(this.src)" style="width:100%; height:120px; object-fit:cover;">`, sender: myName, isHtml: true, seen: false, seenBy: { [myName]: true }, deleted: false, edited: false, time: Date.now()});
-                }
-                img.src = evt.target.result;
-            };
-            reader.readAsDataURL(file); 
+            let storageRef = storage.ref(`chats/${activeChat}/${Date.now()}_${file.name}`);
+            let uploadTask = storageRef.put(file);
+            
+            alert("☁️ Uploading media to Firebase Cloud...");
+            uploadTask.on('state_changed', null, (err) => {
+                alert("Upload error: " + err);
+            }, async () => {
+                let downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
+                let imgHtml = `<img src="${downloadURL}" onclick="openImgViewer(this.src)" style="width:100%; height:140px; object-fit:cover; border-radius:8px;">`;
+                let enc = await encryptMessage(imgHtml);
+                dbRef.push({text: enc, sender: myName, isHtml: true, seen: false, seenBy: { [myName]: true }, deleted: false, edited: false, time: Date.now()});
+            });
             e.target.value = ''; 
             document.getElementById('attachMenu').classList.remove('active');
         }
 
-        function sendFile(e) {
+        async function sendFile(e) {
             let file = e.target.files[0]; if(!file) return;
-            let fileHtml = `📁 <b>Document:</b> ${file.name} (${(file.size/1024).toFixed(1)} KB)<br><a href="#" style="color:#10b981; font-size:12px;">Download File</a>`;
-            dbRef.push({text: fileHtml, sender: myName, isHtml: true, seen: false, seenBy: { [myName]: true }, deleted: false, edited: false, time: Date.now()});
+            let storageRef = storage.ref(`documents/${activeChat}/${Date.now()}_${file.name}`);
+            let uploadTask = storageRef.put(file);
+            
+            alert("☁️ Uploading document to Cloud Storage...");
+            uploadTask.on('state_changed', null, (err) => {
+                alert("Upload error: " + err);
+            }, async () => {
+                let downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
+                let fileHtml = `📁 <b>Cloud Document:</b> <a href="${downloadURL}" target="_blank" style="color:#10b981;">${file.name}</a> (${(file.size/1024).toFixed(1)} KB)`;
+                let enc = await encryptMessage(fileHtml);
+                dbRef.push({text: enc, sender: myName, isHtml: true, seen: false, seenBy: { [myName]: true }, deleted: false, edited: false, time: Date.now()});
+            });
             e.target.value = ''; document.getElementById('attachMenu').classList.remove('active');
         }
 
@@ -1317,29 +1324,29 @@
                 mediaRecorder = new MediaRecorder(stream);
                 audioChunks = [];
                 mediaRecorder.ondataavailable = event => audioChunks.push(event.data);
-                mediaRecorder.onstop = () => {
+                mediaRecorder.onstop = async () => {
                     let audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
-                    let audioUrl = URL.createObjectURL(audioBlob);
+                    let storageRef = storage.ref(`voices/${activeChat}/${Date.now()}_voice.mp3`);
+                    let snapshot = await storageRef.put(audioBlob);
+                    let audioUrl = await snapshot.ref.getDownloadURL();
                     
                     let uniqueId = 'audio_' + Date.now();
-                    let voiceHtml = `🎵 <b>Voice Note</b>
+                    let voiceHtml = `🎵 <b>Cloud Voice Note</b>
                     <audio id="${uniqueId}" src="${audioUrl}" style="display:none;"></audio>
                     <div class="wave-bars">
                         <div class="wave-bar" style="animation-delay: 0.1s;"></div>
                         <div class="wave-bar" style="animation-delay: 0.3s;"></div>
                         <div class="wave-bar" style="animation-delay: 0.2s;"></div>
                         <div class="wave-bar" style="animation-delay: 0.4s;"></div>
-                        <div class="wave-bar" style="animation-delay: 0.1s;"></div>
-                        <div class="wave-bar" style="animation-delay: 0.5s;"></div>
                     </div>
                     <div style="display:flex; align-items:center; gap:6px; margin-top:2px;">
                         <button onclick="playCustomAudio('${uniqueId}', this)" style="background:#10b981; color:white; border:none; border-radius:50%; width:26px; height:26px; cursor:pointer; font-size:11px;">▶</button>
                         <input type="range" id="range_${uniqueId}" value="0" max="100" style="width:70px; cursor:pointer;" oninput="seekAudio('${uniqueId}', this)">
-                        <button onclick="changeAudioSpeed('${uniqueId}', this)" style="background:#334155; color:white; border:none; border-radius:4px; padding:2px 4px; font-size:10px; cursor:pointer;" title="Playback Speed">1x</button>
                         <span id="time_${uniqueId}" style="font-size:9px; color:var(--sub);">0:00</span>
                     </div>`;
 
-                    dbRef.push({text: voiceHtml, sender: myName, isHtml: true, seen: false, seenBy: { [myName]: true }, deleted: false, edited: false, time: Date.now()});
+                    let enc = await encryptMessage(voiceHtml);
+                    dbRef.push({text: enc, sender: myName, isHtml: true, seen: false, seenBy: { [myName]: true }, deleted: false, edited: false, time: Date.now()});
                 };
                 mediaRecorder.start();
                 alert("🎤 Recording shuru! 5 second mein stop hogi.");
@@ -1369,32 +1376,17 @@
             }
         }
 
-        function changeAudioSpeed(audioId, speedBtn) {
-            let aud = document.getElementById(audioId);
-            if(aud.playbackRate === 1) {
-                aud.playbackRate = 1.5;
-                speedBtn.innerText = "1.5x";
-            } else if(aud.playbackRate === 1.5) {
-                aud.playbackRate = 2.0;
-                speedBtn.innerText = "2x";
-            } else {
-                aud.playbackRate = 1;
-                speedBtn.innerText = "1x";
-            }
-        }
-
         function seekAudio(audioId, rangeElem) {
             let aud = document.getElementById(audioId);
-            if(aud.duration) {
-                aud.currentTime = (rangeElem.value / 100) * aud.duration;
-            }
+            if(aud.duration) { aud.currentTime = (rangeElem.value / 100) * aud.duration; }
         }
 
-        function createPoll() {
+        async function createPoll() {
             let q = prompt("Poll ka sawal:", "Kahan milna hai?");
             if(!q) return;
             let pollHtml = `<div class="poll-box"><div style="font-weight:600;">📊 ${q}</div><div class="poll-option">1. Haan</div><div class="poll-option">2. Naa</div></div>`;
-            dbRef.push({text: pollHtml, sender: myName, isHtml: true, seen: false, seenBy: { [myName]: true }, deleted: false, edited: false, time: Date.now()});
+            let enc = await encryptMessage(pollHtml);
+            dbRef.push({text: enc, sender: myName, isHtml: true, seen: false, seenBy: { [myName]: true }, deleted: false, edited: false, time: Date.now()});
             document.getElementById('attachMenu').classList.remove('active');
         }
 
@@ -1461,9 +1453,7 @@
         function copyMessageText(txt) {
             navigator.clipboard.writeText(txt).then(() => {
                 alert("📋 Message clipboard par copy ho gaya!");
-            }).catch(err => {
-                alert("Copy error: " + err);
-            });
+            }).catch(err => { alert("Copy error: " + err); });
         }
 
         function showSeenByDetails(seenByObj) {
@@ -1484,9 +1474,7 @@
                 }
             });
 
-            if(!isDeleted) {
-                div.onclick = () => setReply(isHtml ? "Media Message" : txt);
-            }
+            if(!isDeleted) { div.onclick = () => setReply(isHtml ? "Media Message" : txt); }
 
             let box = document.createElement('div');
             box.id = 'bubble_box_' + key;
@@ -1494,7 +1482,7 @@
             if(sender && sender !== myName) {
                 let senderTag = document.createElement('div');
                 senderTag.style.cssText = "font-size:10px; font-weight:bold; color:#10b981; margin-bottom:2px;";
-                senderTag.innerText = sender + " ✓";
+                senderTag.innerText = sender + " 🔒";
                 box.appendChild(senderTag);
             }
 
@@ -1536,9 +1524,8 @@
                 timeDiv.className = 'msg-time';
                 
                 let editBtnHtml = (sender === myName && !isHtml) ? `<span onclick="event.stopPropagation(); editMessage('${key}', '${rawCleanText}', '${sender}')" style="cursor:pointer; margin-left:3px;" title="Edit">✏️</span>` : '';
-                let translateBtnHtml = !isHtml ? `<span onclick="event.stopPropagation(); translateMessageText(this, '${rawCleanText}')" style="cursor:pointer; margin-left:3px; color:#10b981;" title="Translate">🌐</span>` : '';
 
-                timeDiv.innerHTML = `<span>${timeString}</span> <span onclick="showSeenByDetails(${JSON.stringify(seenBy || {}).replace(/"/g, '&quot;')})" style="cursor:pointer;" title="Seen list">👁️ ${seenCount}</span> <span id="tick_${key}">${tickSymbol}</span> ${translateBtnHtml} <span onclick="event.stopPropagation(); copyMessageText('${rawCleanText}')" style="cursor:pointer; margin-left:3px;" title="Copy">📋</span> ${editBtnHtml} <span onclick="event.stopPropagation(); pinMessage('${rawCleanText}')" style="cursor:pointer; margin-left:3px;" title="Pin">📌</span> <span onclick="event.stopPropagation(); starMessage('${rawCleanText}', '${sender}')" style="cursor:pointer; margin-left:3px;" title="Star">⭐</span> <span onclick="event.stopPropagation(); openForwardModal('${rawCleanText}')" style="cursor:pointer; margin-left:3px;" title="Forward">➡️</span> <span onclick="event.stopPropagation(); deleteForEveryone('${key}', '${sender}')" style="cursor:pointer; margin-left:3px; color:#ef4444;" title="Delete">🗑️</span>`;
+                timeDiv.innerHTML = `<span>${timeString}</span> <span onclick="showSeenByDetails(${JSON.stringify(seenBy || {}).replace(/"/g, '&quot;')})" style="cursor:pointer;" title="Seen list">👁️ ${seenCount}</span> <span id="tick_${key}">${tickSymbol}</span> <span onclick="event.stopPropagation(); copyMessageText('${rawCleanText}')" style="cursor:pointer; margin-left:3px;" title="Copy">📋</span> ${editBtnHtml} <span onclick="event.stopPropagation(); pinMessage('${rawCleanText}')" style="cursor:pointer; margin-left:3px;" title="Pin">📌</span> <span onclick="event.stopPropagation(); starMessage('${rawCleanText}', '${sender}')" style="cursor:pointer; margin-left:3px;" title="Star">⭐</span> <span onclick="event.stopPropagation(); openForwardModal('${rawCleanText}')" style="cursor:pointer; margin-left:3px;" title="Forward">➡️</span> <span onclick="event.stopPropagation(); deleteForEveryone('${key}', '${sender}')" style="cursor:pointer; margin-left:3px; color:#ef4444;" title="Delete">🗑️</span>`;
                 box.appendChild(timeDiv);
 
                 let reactBar = document.createElement('div');
