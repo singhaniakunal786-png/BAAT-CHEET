@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-    <title>बात-चीत (Baat-Cheet) - Secure Messenger with Account Delete & Photo Status</title>
+    <title>बात-चीत (Baat-Cheet) - Secure Messenger with Safe Updates</title>
     <meta name="theme-color" content="#090d16">
-    <meta name="description" content="Ultimate Global Desi Messenger with Account Deletion & Photo Status">
+    <meta name="description" content="Ultimate Global Messenger with Photo Status & Secure OTP">
     
     <link rel="manifest" href="manifest.json">
 
@@ -30,9 +30,10 @@
         
         .app { width: 100%; height: 100%; max-width: 480px; max-height: 100vh; background: var(--bg); display: flex; flex-direction: column; position: relative; box-shadow: 0 0 40px rgba(0,0,0,0.9); transition: 0.3s; overflow: hidden; }
         
-        .india-splash { position: absolute; inset: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #FF9933 0%, #ffffff 50%, #138808 100%); z-index: 999; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 30px; transition: opacity 0.5s ease; }
+        /* 100% Clickable Splash Screen */
+        .india-splash { position: absolute; inset: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #FF9933 0%, #ffffff 50%, #138808 100%); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 30px; transition: opacity 0.5s ease; pointer-events: auto; }
         .india-splash.hide { opacity: 0; pointer-events: none; display: none; }
-        .india-badge { background: rgba(15, 23, 42, 0.95); border: 2px solid rgba(255,255,255,0.2); border-radius: 24px; padding: 35px 25px; width: 100%; max-width: 360px; color: white; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+        .india-badge { background: rgba(15, 23, 42, 0.95); border: 2px solid rgba(255,255,255,0.2); border-radius: 24px; padding: 35px 25px; width: 100%; max-width: 360px; color: white; box-shadow: 0 20px 40px rgba(0,0,0,0.6); pointer-events: auto; }
 
         .screen { position: absolute; inset: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1e293b 0%, #090d16 100%); z-index: 500; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; text-align: center; color: white; overflow: hidden; }
         .screen.hide { display: none; }
@@ -45,7 +46,7 @@
         .cyber-input { width: 100%; padding: 14px 18px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.15); background: rgba(15, 23, 42, 0.8); color: white; font-size: 15px; text-align: center; outline: none; margin-bottom: 18px; transition: 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
         .cyber-input:focus { border-color: #10b981; box-shadow: 0 0 15px rgba(16,185,129,0.4), inset 0 2px 4px rgba(0,0,0,0.5); }
 
-        .cyber-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; border-radius: 14px; font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 6px 20px rgba(16,185,129,0.5); transition: 0.2s; letter-spacing: 0.5px; z-index: 600; }
+        .cyber-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; border-radius: 14px; font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 6px 20px rgba(16,185,129,0.5); transition: 0.2s; letter-spacing: 0.5px; z-index: 600; pointer-events: auto; }
         .cyber-btn:active { transform: scale(0.97); }
 
         header { background: var(--primary); color: white; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.2); z-index: 10; width: 100%; }
@@ -151,12 +152,13 @@
 <body class="dark">
     <div class="app">
         
+        <!-- Fully Clickable Splash Screen -->
         <div class="india-splash" id="indiaSplash">
             <div class="india-badge">
                 <div style="font-size: 40px; margin-bottom: 10px;">🌐</div>
                 <h2 style="color: #FF9933; font-size: 24px; margin-bottom: 6px;">GLOBAL BAAT-CHEET</h2>
-                <p style="font-size: 13px; color: #94a3b8; margin-bottom: 15px;" id="detectedDistrictText">International Gateway Active...</p>
-                <button onclick="dismissIndiaSplash()" style="background:#10b981; color:white; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer; width:100%;">Connect Globally ➔</button>
+                <p style="font-size: 13px; color: #94a3b8; margin-bottom: 15px;">International Gateway Active...</p>
+                <button type="button" onclick="dismissIndiaSplash()" class="cyber-btn" style="width:100%; cursor:pointer; pointer-events:auto;">Connect Globally ➔</button>
             </div>
         </div>
 
@@ -165,8 +167,8 @@
             <img id="fullImg" src="" alt="Full">
         </div>
 
-        <!-- Login & OTP Verification Screen -->
-        <div class="screen" id="loginScreen">
+        <!-- Login & OTP Screen -->
+        <div class="screen hide" id="loginScreen">
             <div class="cyber-card" id="step1PhoneCard">
                 <div class="brand-title">💬 baat-cheet</div>
                 <p class="brand-subtitle">Secure OTP Login (5-Min Limit)</p>
@@ -178,7 +180,7 @@
                         <option value="+971">🇦🇪 +971</option>
                         <option value="+61">🇦🇺 +61</option>
                     </select>
-                    <input type="text" id="phoneInput" class="cyber-input" value="8700404029" placeholder="Mobile Number..." style="margin-bottom:0;" onkeypress="if(event.key=='Enter')sendOTP()">
+                    <input type="text" id="phoneInput" class="cyber-input" value="8700404021" placeholder="Mobile Number..." style="margin-bottom:0;" onkeypress="if(event.key=='Enter')sendOTP()">
                 </div>
                 <button type="button" class="cyber-btn" onclick="sendOTP()">📩 Send OTP</button>
             </div>
@@ -198,10 +200,10 @@
                 <div style="font-weight:700; font-size:15px; display:flex; align-items:center; gap:4px;">baat-cheet <span style="background:#38bdf8; font-size:9px; padding:1px 5px; border-radius:6px; color:white;" id="headerCountryBadge">GLOBAL</span></div>
             </div>
             <div style="display:flex; gap:10px; align-items:center;">
-                <span onclick="openCloudVault()" style="cursor:pointer; font-size:16px;" title="Cloud Vault / Notes">☁️</span>
+                <span onclick="openCloudVault()" style="cursor:pointer; font-size:16px;" title="Cloud Vault">☁️</span>
                 <span onclick="openStarredModal()" style="cursor:pointer; font-size:16px;" title="Starred">⭐</span>
                 <span onclick="openWallpaperModal()" style="cursor:pointer; font-size:16px;" title="Wallpaper">🎨</span>
-                <span onclick="openProfileModal()" style="cursor:pointer; font-size:16px;" title="Profile & User ID">⚙️</span>
+                <span onclick="openProfileModal()" style="cursor:pointer; font-size:16px;" title="Profile">⚙️</span>
                 <span onclick="toggleDark()" style="cursor:pointer; font-size:18px;" title="Dark Mode">🌙</span>
             </div>
         </header>
@@ -513,7 +515,23 @@
         const storage = firebase.storage();
         const messaging = firebase.messaging().catch(() => {});
 
-        // --- OTP Management with 5-Minute Limitation ---
+        function dismissIndiaSplash() {
+            let splash = document.getElementById('indiaSplash');
+            splash.classList.add('hide');
+            if(!myName) {
+                document.getElementById('loginScreen').classList.remove('hide');
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            if(myName) {
+                document.getElementById('indiaSplash').classList.add('hide');
+                document.getElementById('loginScreen').classList.add('hide');
+                startApp();
+            }
+        });
+
+        // --- Secure Demo OTP Management with 5-Minute Limitation ---
         function sendOTP() {
             let phoneElem = document.getElementById('phoneInput');
             let phone = phoneElem ? phoneElem.value.trim() : "";
@@ -529,7 +547,7 @@
             myName = cCode + " " + phone;
             myCountryCode = cCode;
 
-            alert("📲 Demo OTP Sent to " + myName + ": [" + generatedOtp + "]");
+            alert("📲 Secure OTP Generated: [" + generatedOtp + "]");
 
             document.getElementById('step1PhoneCard').style.display = 'none';
             document.getElementById('step2OtpCard').style.display = 'flex';
@@ -632,7 +650,6 @@
                 let currentTime = Date.now();
                 for(let sId in data) {
                     let st = data[sId];
-                    // Keep status active for 24 hours (86400000 ms)
                     if(currentTime - st.time < 86400000) {
                         let div = document.createElement('div');
                         div.style.cssText = "background:var(--card); padding:10px; border-radius:10px; display:flex; flex-direction:column; gap:6px;";
@@ -681,18 +698,6 @@
                 );
                 return new TextDecoder().decode(decrypted);
             } catch(e) { return cipherPayload; }
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            if(myName) {
-                document.getElementById('loginScreen').classList.add('hide');
-                startApp();
-            }
-        });
-
-        function dismissIndiaSplash() {
-            let splash = document.getElementById('indiaSplash');
-            splash.classList.add('hide');
         }
 
         const globalServers = {
