@@ -495,7 +495,7 @@
         var lastMessagesMap = {};
         var unreadCountsMap = {};
         var onlinePresenceMap = {};
-        var localStream, remoteStream, peerConnection;
+        var localStream = null, remoteStream = null, peerConnection = null;
 
         const firebaseConfig = {
             apiKey: "AIzaSyAOVmmhxs2hEXNplaYlyXbL3_LrX6qxp6Q",
@@ -937,7 +937,6 @@
             document.querySelector('.fab').style.display = (i === 0) ? 'flex' : 'none';
         }
 
-        // --- Render ONLY Online Users ---
         function renderContacts(listToRender) {
             let list = document.getElementById('contactList'); list.innerHTML = '';
             
@@ -1758,14 +1757,20 @@
             ringtone.pause();
             ringtone.currentTime = 0;
 
-            if(localStream) localStream.getTracks().forEach(track => track.stop());
-            if(peerConnection) peerConnection.close();
-            peerConnection = null;
+            if(localStream) {
+                localStream.getTracks().forEach(track => track.stop());
+                localStream = null;
+            }
+            if(peerConnection) {
+                peerConnection.close();
+                peerConnection = null;
+            }
             document.getElementById('callScreen').classList.remove('active');
 
             if(activeCallKey) {
-                db.ref("calls/" + activeCallKey).remove();
-                activeCallKey = null;
+                db.ref("calls/" + activeCallKey).remove().then(() => {
+                    activeCallKey = null;
+                });
             } else if(activeChat) {
                 let cObj = contacts.find(c => c.name === activeChat);
                 let callKey = "";
@@ -1784,9 +1789,14 @@
             ringtone.pause();
             ringtone.currentTime = 0;
 
-            if(localStream) localStream.getTracks().forEach(track => track.stop());
-            if(peerConnection) peerConnection.close();
-            peerConnection = null;
+            if(localStream) {
+                localStream.getTracks().forEach(track => track.stop());
+                localStream = null;
+            }
+            if(peerConnection) {
+                peerConnection.close();
+                peerConnection = null;
+            }
             document.getElementById('callScreen').classList.remove('active');
             activeCallKey = null;
         }
