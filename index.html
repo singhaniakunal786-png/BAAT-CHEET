@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-    <title>बात-चीत (Baat-Cheet) - Secure OTP Login Messenger</title>
+    <title>बात-चीत (Baat-Cheet) - Secure Messenger with Account Delete & Photo Status</title>
     <meta name="theme-color" content="#090d16">
-    <meta name="description" content="Ultimate Global Desi Messenger with 5-Minute OTP Verification">
+    <meta name="description" content="Ultimate Global Desi Messenger with Account Deletion & Photo Status">
     
     <link rel="manifest" href="manifest.json">
 
@@ -220,11 +220,14 @@
             <div id="contactList" style="flex:1; overflow-y:auto; width:100%;"></div>
         </div>
 
+        <!-- Status Tab with Photo Upload Feature -->
         <div class="content" id="sec1" style="padding: 16px;">
-            <div class="item" style="border-radius:12px;" onclick="addStatus()">
+            <input type="file" id="statusImageInput" accept="image/*" style="display:none;" onchange="uploadPhotoStatus(event)">
+            <div class="item" style="border-radius:12px;" onclick="document.getElementById('statusImageInput').click()">
                 <div class="avatar">➕</div>
-                <div><b>Mera Status (24h)</b><div style="font-size:12px; color:var(--sub);" id="statusText">Tap to upload status</div></div>
+                <div><b>Mera Photo Status (24h)</b><div style="font-size:12px; color:var(--sub);" id="statusText">Tap to upload photo status</div></div>
             </div>
+            <div id="statusFeedContainer" style="margin-top: 15px; display:flex; flex-direction:column; gap:10px;"></div>
         </div>
 
         <div class="content" id="sec2" style="padding: 16px; font-size: 13px; color: var(--text);">
@@ -275,9 +278,10 @@
             </div>
         </div>
 
+        <!-- Profile Modal with Account Deletion Option -->
         <div class="modal" id="profileModal">
             <div class="modal-box">
-                <h3>Global Profile & Country Code</h3>
+                <h3>Global Profile & Account Settings</h3>
                 <label style="font-size:11px; color:var(--sub);">Country & Number:</label>
                 <input type="text" id="profileNameEdit" disabled>
                 <label style="font-size:11px; color:var(--sub);">Unique User ID (@username):</label>
@@ -288,7 +292,8 @@
                     <input type="checkbox" id="hideOnlineToggle" style="width:16px; height:16px;">
                     <label for="hideOnlineToggle">Hide Online Status</label>
                 </div>
-                <button onclick="logoutApp()" style="width:100%; padding:8px; margin-top:6px; background:#ef4444; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:600;">🚪 Logout / Switch Account</button>
+                <button onclick="logoutApp()" style="width:100%; padding:8px; margin-top:6px; background:#334155; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:600;">🚪 Logout / Switch Account</button>
+                <button onclick="deleteMyAccount()" style="width:100%; padding:8px; margin-top:6px; background:#ef4444; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:600;">⚠️ Delete My Account Forever</button>
                 <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:10px;">
                     <button onclick="document.getElementById('profileModal').classList.remove('active')" style="padding:8px 14px; background:#cbd5e1; border:none; border-radius:6px; cursor:pointer;">Radd</button>
                     <button onclick="saveProfile()" style="padding:8px 14px; background:#10b981; color:white; border:none; border-radius:6px; cursor:pointer;">Save</button>
@@ -579,6 +584,65 @@
             startApp();
         }
 
+        // --- Account Deletion Feature ---
+        function deleteMyAccount() {
+            if (confirm("⚠️ Kya aap apna account permanently delete karna chahte hain? Yeh action wapas nahi ho sakta!")) {
+                let userKey = myName.replace(/[^a-zA-Z0-9+_]/g, '_');
+                db.ref("users/" + userKey).remove().then(() => {
+                    db.ref("presence/" + userKey).remove();
+                    localStorage.clear();
+                    alert("🗑️ Aapka account safalpurvak delete kar diya gaya hai.");
+                    location.reload();
+                }).catch(err => {
+                    alert("Error deleting account: " + err);
+                });
+            }
+        }
+
+        // --- Photo Status Feature ---
+        function uploadPhotoStatus(e) {
+            let file = e.target.files[0];
+            if (!file) return;
+            let storageRef = storage.ref(`statuses/${myName.replace(/[^a-zA-Z0-9+_]/g, '_')}_${Date.now()}`);
+            let uploadTask = storageRef.put(file);
+
+            alert("📷 Photo status upload ho raha hai...");
+            uploadTask.on('state_changed', null, (err) => {
+                alert("Status upload error: " + err);
+            }, async () => {
+                let downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
+                db.ref("statuses/" + Date.now()).set({
+                    sender: myName,
+                    imageUrl: downloadURL,
+                    time: Date.now()
+                });
+                alert("✅ Photo status successfully lag gaya!");
+                loadPhotoStatuses();
+            });
+            e.target.value = '';
+        }
+
+        function loadPhotoStatuses() {
+            db.ref("statuses").on('value', snap => {
+                let data = snap.val() || {};
+                let container = document.getElementById('statusFeedContainer');
+                if(!container) return;
+                container.innerHTML = '<h4 style="font-size:13px; color:var(--sub); margin-bottom:6px;">Recent Status Updates</h4>';
+                
+                let currentTime = Date.now();
+                for(let sId in data) {
+                    let st = data[sId];
+                    // Keep status active for 24 hours (86400000 ms)
+                    if(currentTime - st.time < 86400000) {
+                        let div = document.createElement('div');
+                        div.style.cssText = "background:var(--card); padding:10px; border-radius:10px; display:flex; flex-direction:column; gap:6px;";
+                        div.innerHTML = `<div style="font-size:12px; font-weight:bold; color:#38bdf8;">👤 ${st.sender}</div><img src="${st.imageUrl}" style="width:100%; max-height:200px; border-radius:8px; object-fit:cover;">`;
+                        container.appendChild(div);
+                    }
+                }
+            });
+        }
+
         async function getCryptoKey() {
             if (cryptoKey) return cryptoKey;
             const enc = new TextEncoder();
@@ -699,6 +763,7 @@
                 presenceRef.onDisconnect().set({ status: "offline", lastSeen: Date.now() });
             } catch(err) { console.log(err); }
 
+            loadPhotoStatuses();
             setupGlobalCallListener();
         }
 
