@@ -36,12 +36,12 @@
         .screen { position: absolute; inset: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1e293b 0%, #090d16 100%); z-index: 500; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; text-align: center; color: white; overflow: hidden; }
         .screen.hide { display: none; }
         
-        .cyber-card { background: rgba(30, 41, 59, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 24px; padding: 35px 25px; width: 100%; max-width: 380px; box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 15px rgba(16,185,129,0.1); display: flex; flex-direction: column; align-items: center; }
+        .cyber-card { background: rgba(30, 41, 59, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 24px; padding: 30px 20px; width: 100%; max-width: 380px; box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 15px rgba(16,185,129,0.1); display: flex; flex-direction: column; align-items: center; }
         
-        .brand-title { font-size: 30px; font-weight: 800; color: #10b981; margin-bottom: 8px; letter-spacing: 0.5px; text-shadow: 0 0 20px rgba(16,185,129,0.6); }
-        .brand-subtitle { color: #94a3b8; font-size: 13px; margin-bottom: 25px; line-height: 1.4; }
+        .brand-title { font-size: 28px; font-weight: 800; color: #10b981; margin-bottom: 6px; letter-spacing: 0.5px; text-shadow: 0 0 20px rgba(16,185,129,0.6); }
+        .brand-subtitle { color: #94a3b8; font-size: 12px; margin-bottom: 20px; line-height: 1.4; }
         
-        .cyber-input { width: 100%; padding: 14px 18px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.15); background: rgba(15, 23, 42, 0.8); color: white; font-size: 15px; text-align: center; outline: none; margin-bottom: 18px; transition: 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
+        .cyber-input { width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); background: rgba(15, 23, 42, 0.8); color: white; font-size: 14px; text-align: center; outline: none; margin-bottom: 14px; transition: 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
         .cyber-input:focus { border-color: #10b981; box-shadow: 0 0 15px rgba(16,185,129,0.4), inset 0 2px 4px rgba(0,0,0,0.5); }
 
         .cyber-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; border-radius: 14px; font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 6px 20px rgba(16,185,129,0.5); transition: 0.2s; letter-spacing: 0.5px; z-index: 600; pointer-events: auto; }
@@ -147,7 +147,7 @@
         .modal-box input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; background: var(--bg); color: var(--text); outline: none; }
     </style>
 </head>
-<body> <!-- Default Light Mode (No 'dark' class by default) -->
+<body>
     <div class="app">
         
         <div class="india-splash" id="indiaSplash">
@@ -164,20 +164,25 @@
             <img id="fullImg" src="" alt="Full">
         </div>
 
-        <!-- Login & OTP Screen -->
+        <!-- Login & OTP Screen (Blank Number Field + Username Field) -->
         <div class="screen hide" id="loginScreen">
             <div class="cyber-card" id="step1PhoneCard">
                 <div class="brand-title">💬 baat-cheet</div>
                 <p class="brand-subtitle">Secure OTP Login (5-Min Limit)</p>
-                <div style="display:flex; gap:8px; width:100%; margin-bottom:18px;">
-                    <select id="countryCodeSelect" style="padding:14px 10px; border-radius:14px; border:1px solid rgba(255,255,255,0.15); background:rgba(15, 23, 42, 0.8); color:white; font-size:14px; outline:none;">
+                
+                <!-- Username Input Field -->
+                <input type="text" id="usernameInput" class="cyber-input" placeholder="Apna Naam / Username daalein..." style="margin-bottom:10px;">
+
+                <div style="display:flex; gap:8px; width:100%; margin-bottom:14px;">
+                    <select id="countryCodeSelect" style="padding:12px 8px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(15, 23, 42, 0.8); color:white; font-size:13px; outline:none;">
                         <option value="+91">🇮🇳 +91</option>
                         <option value="+1">🇺🇸 +1</option>
                         <option value="+44">🇬🇧 +44</option>
                         <option value="+971">🇦🇪 +971</option>
                         <option value="+61">🇦🇺 +61</option>
                     </select>
-                    <input type="text" id="phoneInput" class="cyber-input" value="8700404021" placeholder="Mobile Number..." style="margin-bottom:0;" onkeypress="if(event.key=='Enter')sendOTP()">
+                    <!-- Default Blank Mobile Number Input -->
+                    <input type="text" id="phoneInput" class="cyber-input" value="" placeholder="Mobile Number..." style="margin-bottom:0;" onkeypress="if(event.key=='Enter')sendOTP()">
                 </div>
                 <button type="button" class="cyber-btn" onclick="sendOTP()">📩 Send OTP</button>
             </div>
@@ -521,8 +526,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            // Force Default Light Mode (Clear any saved forced dark mode unless explicitly toggled)
-            document.body.classList.remove('dark');
+            document.body.classList.remove('dark'); // Force default light mode
 
             if(myName) {
                 document.getElementById('indiaSplash').classList.add('hide');
@@ -531,11 +535,19 @@
             }
         });
 
-        // --- Secure Demo OTP Management with 5-Minute Limitation ---
+        // --- Secure Demo OTP Management with Username & Blank Number Input ---
         function sendOTP() {
+            let usernameInput = document.getElementById('usernameInput');
             let phoneElem = document.getElementById('phoneInput');
+            let uNameVal = usernameInput ? usernameInput.value.trim() : "";
             let phone = phoneElem ? phoneElem.value.trim() : "";
             let cCode = document.getElementById('countryCodeSelect') ? document.getElementById('countryCodeSelect').value : "+91";
+
+            if(!uNameVal) {
+                alert("Kripya apna Naam / Username daalein!");
+                if(usernameInput) usernameInput.focus();
+                return;
+            }
 
             if(!phone || phone.length < 6) {
                 alert("Kripya sahi mobile number daalein!");
@@ -544,14 +556,15 @@
             }
 
             generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
-            myName = cCode + " " + phone;
+            myName = uNameVal; // Chats and profile will display the username instead of number
+            myUsername = "@" + uNameVal.toLowerCase().replace(/[^a-z0-9]/g, '');
             myCountryCode = cCode;
 
-            alert("📲 Secure OTP Generated: [" + generatedOtp + "]");
+            alert("📲 Secure OTP Generated for " + myName + ": [" + generatedOtp + "]");
 
             document.getElementById('step1PhoneCard').style.display = 'none';
             document.getElementById('step2OtpCard').style.display = 'flex';
-            document.getElementById('otpSubText').innerText = "OTP sent to " + myName;
+            document.getElementById('otpSubText').innerText = "OTP sent for " + myName;
 
             startOtpTimer(300);
         }
@@ -589,15 +602,11 @@
             
             localStorage.setItem('baatcheet_username', myName);
             localStorage.setItem('baatcheet_countrycode', myCountryCode);
+            localStorage.setItem('baatcheet_userhandle', myUsername);
             document.getElementById('loginScreen').classList.add('hide');
 
             let badgeElem = document.getElementById('headerCountryBadge');
             if(badgeElem) badgeElem.innerText = myCountryCode + " GLOBAL";
-
-            if(!myUsername) {
-                myUsername = "_" + myName.replace(/[^a-z0-9]/g, '');
-                localStorage.setItem('baatcheet_userhandle', myUsername);
-            }
 
             startApp();
         }
@@ -1792,7 +1801,7 @@
             }
         }
 
-        // --- Manual Theme Toggle & Persistence ---
+        // --- Manual Theme Toggle ---
         function toggleDark() { 
             document.body.classList.toggle('dark');
         }
