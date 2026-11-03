@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-    <title>बात-चीत (Baat-Cheet) - Default Light Theme Messenger</title>
+    <title>बात-चीत (Baat-Cheet) - Secure Messenger</title>
     <meta name="theme-color" content="#f8fafc">
-    <meta name="description" content="Ultimate Global Messenger with Default Light Theme & Toggle Dark Mode">
     
     <link rel="manifest" href="manifest.json">
 
@@ -522,12 +521,8 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            // Theme preference restore (Default is light mode unless user toggled dark)
-            if(localStorage.getItem('baatcheet_dark') === 'true') {
-                document.body.classList.add('dark');
-            } else {
-                document.body.classList.remove('dark');
-            }
+            // Force Default Light Mode (Clear any saved forced dark mode unless explicitly toggled)
+            document.body.classList.remove('dark');
 
             if(myName) {
                 document.getElementById('indiaSplash').classList.add('hide');
@@ -1800,8 +1795,6 @@
         // --- Manual Theme Toggle & Persistence ---
         function toggleDark() { 
             document.body.classList.toggle('dark');
-            let isDark = document.body.classList.contains('dark');
-            localStorage.setItem('baatcheet_dark', isDark);
         }
 
         function addStatus() { let st = prompt("Apna Status likhein:"); if(st) document.getElementById('statusText').innerText = st; }
