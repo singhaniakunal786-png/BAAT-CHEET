@@ -157,6 +157,19 @@
         .modal.active { display: flex; }
         .modal-box { background: var(--card); color: var(--text); width: 85%; max-width: 340px; padding: 20px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
         .modal-box input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid var(--border-clr); border-radius: 8px; font-size: 14px; background: var(--bg); color: var(--text); outline: none; }
+
+        /* Offline Pro Mode */
+        .offline-pro-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:100000;align-items:center;justify-content:center;padding:14px}
+        .offline-pro-modal.active{display:flex}
+        .offline-pro-box{width:100%;max-width:440px;max-height:92vh;overflow:auto;background:var(--card);color:var(--text);border:1px solid var(--border-clr);border-radius:18px;padding:18px;box-shadow:0 16px 50px #0005}
+        .offline-pro-box textarea,.offline-pro-box input{width:100%;padding:10px;border:1px solid var(--border-clr);border-radius:9px;background:var(--bg);color:var(--text);font-size:12px;margin:6px 0;outline:none}
+        .offline-pro-box textarea{min-height:100px;resize:vertical;word-break:break-all}
+        .offline-pro-btn{border:0;border-radius:9px;padding:10px 12px;background:var(--primary);color:white;font-weight:700;font-size:13px;cursor:pointer}
+        .offline-pro-btn.secondary{background:var(--bg);color:var(--text);border:1px solid var(--border-clr)}
+        .offline-chat-log{height:180px;overflow:auto;background:var(--bg);border:1px solid var(--border-clr);border-radius:10px;padding:9px;margin:10px 0;font-size:13px;display:flex;flex-direction:column;gap:7px}
+        .offline-chat-line{padding:7px 10px;border-radius:10px;background:var(--bubble-in);max-width:88%;overflow-wrap:anywhere}
+        .offline-chat-line.mine{align-self:flex-end;background:var(--bubble-out)}
+
     </style>
 </head>
 <body>
@@ -241,6 +254,7 @@
                 <div class="menu-item" onclick="openStarredModal(); closeMenuDropdown();">Starred messages</div>
                 <div class="menu-item" onclick="openWallpaperModal(); closeMenuDropdown();">Wallpaper & Themes</div>
                 <div class="menu-item" onclick="openProfileModal(); closeMenuDropdown();">Settings & Profile</div>
+                <div class="menu-item" onclick="openOfflineProMode(); closeMenuDropdown();">📡 Offline Pro Mode</div>
                 <div class="menu-item" onclick="openLegacyFeatureHub(); closeMenuDropdown();">✨ More Baat-Cheet Features</div>
                 <div class="menu-item" onclick="logoutApp(); closeMenuDropdown();" style="color:#ef4444;">Logout</div>
             </div>
@@ -524,6 +538,41 @@
         </div>
     </div>
 
+
+    <div class="offline-pro-modal" id="offlineProModal" role="dialog" aria-modal="true" aria-label="Offline Pro Mode">
+      <div class="offline-pro-box">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px">
+          <div><div style="font-size:19px;font-weight:800;color:var(--primary)">📡 Offline Pro Mode</div><div style="font-size:11px;color:var(--sub)">Nearby direct chat • Internet not required</div></div>
+          <button class="offline-pro-btn secondary" onclick="closeOfflineProMode()">✕</button>
+        </div>
+        <div style="font-size:12px;color:var(--sub);line-height:1.5;background:rgba(0,168,132,.08);padding:10px;border-radius:9px;margin-bottom:12px">
+          Dono phones ko ek hi local Wi-Fi ya hotspot par rakhein. Internet/mobile data ki zaroorat nahi. Pairing ke liye neeche wala code doosre phone tak manually bhejein.
+        </div>
+        <div style="font-weight:700;font-size:13px">1. Is phone par connection banayein</div>
+        <button class="offline-pro-btn" style="width:100%;margin:7px 0" onclick="offlineCreateOffer()">Create connection code</button>
+        <div style="font-size:11px;color:var(--sub)">Apna code doosre phone ko bhejein:</div>
+        <textarea id="offlineLocalCode" placeholder="Yahan aapka connection code aayega" readonly></textarea>
+        <button class="offline-pro-btn secondary" style="width:100%" onclick="offlineCopyLocalCode()">Copy my code</button>
+        <div style="height:1px;background:var(--border-clr);margin:14px 0"></div>
+        <div style="font-weight:700;font-size:13px">2. Doosre phone ka code daalein</div>
+        <textarea id="offlineRemoteCode" placeholder="Doosre phone se mila code yahan paste karein"></textarea>
+        <div style="display:flex;gap:8px">
+          <button class="offline-pro-btn" style="flex:1" onclick="offlineAcceptCode()">Accept / Create reply</button>
+          <button class="offline-pro-btn secondary" style="flex:1" onclick="offlineFinishPairing()">Finish pairing</button>
+        </div>
+        <div id="offlineProStatus" style="font-size:12px;color:var(--primary);margin:9px 0">Status: Not connected</div>
+        <div style="height:1px;background:var(--border-clr);margin:12px 0"></div>
+        <div style="font-weight:700;font-size:13px">3. Offline messages</div>
+        <div class="offline-chat-log" id="offlineChatLog"><div style="color:var(--sub);text-align:center">Connection hone par chat yahan dikhegi.</div></div>
+        <div style="display:flex;gap:7px">
+          <input id="offlineMessageInput" placeholder="Offline message likhein..." style="flex:1;min-width:0;margin:0" onkeydown="if(event.key==='Enter')offlineSendMessage()">
+          <button class="offline-pro-btn" onclick="offlineSendMessage()">Send</button>
+        </div>
+        <button class="offline-pro-btn secondary" style="width:100%;margin-top:10px" onclick="offlineDisconnect()">Disconnect</button>
+        <div style="font-size:10px;color:var(--sub);line-height:1.45;margin-top:9px">Note: Yeh browser-based direct connection hai, Bluetooth broadcast nahi. Same local network par chalna browser/device support par depend karta hai. Connection code private rakhein aur sirf intended person se exchange karein. Messages is device par locally save hote hain.</div>
+      </div>
+    </div>
+
     <script>
         const globalServers = {
             iceServers: [
@@ -566,10 +615,26 @@
             appId: "1:497675635158:web:8e2e729895097144017c77",
             measurementId: "G-CWTRP946KP"
         };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-        const storage = firebase.storage();
-        const messaging = firebase.messaging().catch(() => {});
+        // Keep the local/offline interface usable when Firebase CDN is unreachable.
+        let db, storage, messaging;
+        try {
+            if (!window.firebase) throw new Error('Firebase SDK unavailable');
+            if (!firebase.apps || !firebase.apps.length) firebase.initializeApp(firebaseConfig);
+            db = firebase.database();
+            storage = firebase.storage();
+            messaging = firebase.messaging().catch(() => {});
+        } catch (firebaseInitError) {
+            console.warn('Baat-Cheet is running in local-only mode:', firebaseInitError);
+            const offlineRef = () => ({
+                on(){ return this; }, off(){}, set(){ return Promise.resolve(); },
+                update(){ return Promise.resolve(); }, remove(){ return Promise.resolve(); },
+                push(){ return { key: 'offline-' + Date.now() }; }, child(){ return offlineRef(); },
+                onDisconnect(){ return { set(){ return Promise.resolve(); } }; }
+            });
+            db = { ref(){ return offlineRef(); } };
+            storage = { ref(){ return { put(){ return { on(){ /* Cloud uploads unavailable offline. */ } }; } }; } };
+            messaging = Promise.resolve(null);
+        }
 
         function dismissIndiaSplash() {
             let splash = document.getElementById('indiaSplash');
@@ -2015,6 +2080,85 @@
             originalOpenProfileModal();
             refreshMyProfilePhotoPreview();
         };
+
+
+        // Offline Pro Mode: direct WebRTC data channel, with no STUN/TURN servers.
+        let offlinePeer = null;
+        let offlineChannel = null;
+        const OFFLINE_HISTORY_KEY = 'baatcheet_offline_history_v1';
+        function openOfflineProMode(){ document.getElementById('offlineProModal').classList.add('active'); offlineRenderHistory(); }
+        function closeOfflineProMode(){ document.getElementById('offlineProModal').classList.remove('active'); }
+        function offlineSetStatus(msg){ const el=document.getElementById('offlineProStatus'); if(el) el.textContent='Status: '+msg; }
+        function offlinePeerSetup(pc){
+          pc.ondatachannel = e => offlineAttachChannel(e.channel);
+          pc.onconnectionstatechange = () => offlineSetStatus(pc.connectionState==='connected'?'Connected — offline chat ready':pc.connectionState);
+          pc.oniceconnectionstatechange = () => { if(pc.iceConnectionState==='failed') offlineSetStatus('Connection failed. Check same Wi-Fi/hotspot and retry.'); };
+        }
+        function offlineAttachChannel(ch){
+          offlineChannel=ch;
+          ch.onopen=()=>offlineSetStatus('Connected — offline chat ready');
+          ch.onclose=()=>offlineSetStatus('Disconnected');
+          ch.onmessage=e=>{ try{const m=JSON.parse(e.data); if(m.type==='chat') offlineStoreMessage(m.text,m.sender||'Nearby user',false);}catch(err){console.warn('Offline message error',err);} };
+        }
+        function offlineWaitIce(pc){
+          if(pc.iceGatheringState==='complete') return Promise.resolve();
+          return new Promise(resolve=>{ const done=()=>{if(pc.iceGatheringState==='complete'){pc.removeEventListener('icegatheringstatechange',done);resolve();}}; pc.addEventListener('icegatheringstatechange',done); setTimeout(()=>{pc.removeEventListener('icegatheringstatechange',done);resolve();},12000); });
+        }
+        async function offlineCreateOffer(){
+          try{
+            offlineDisconnect(false);
+            offlinePeer=new RTCPeerConnection({iceServers:[]}); offlinePeerSetup(offlinePeer);
+            offlineAttachChannel(offlinePeer.createDataChannel('baatcheet-offline',{ordered:true}));
+            const offer=await offlinePeer.createOffer(); await offlinePeer.setLocalDescription(offer); offlineSetStatus('Preparing local connection code…'); await offlineWaitIce(offlinePeer);
+            document.getElementById('offlineLocalCode').value=JSON.stringify(offlinePeer.localDescription);
+            offlineSetStatus('Code ready. Share it with nearby phone.');
+          }catch(e){offlineSetStatus('Could not create code: '+e.message);}
+        }
+        async function offlineAcceptCode(){
+          try{
+            const raw=document.getElementById('offlineRemoteCode').value.trim(); if(!raw) return alert('Pehle doosre phone ka code paste karein.');
+            const desc=JSON.parse(raw); if(desc.type!=='offer'||!desc.sdp) throw new Error('Offer code valid nahi hai.');
+            offlineDisconnect(false); offlinePeer=new RTCPeerConnection({iceServers:[]}); offlinePeerSetup(offlinePeer);
+            await offlinePeer.setRemoteDescription(desc); const answer=await offlinePeer.createAnswer(); await offlinePeer.setLocalDescription(answer); offlineSetStatus('Reply code prepare ho raha hai…'); await offlineWaitIce(offlinePeer);
+            document.getElementById('offlineLocalCode').value=JSON.stringify(offlinePeer.localDescription);
+            offlineSetStatus('Reply code ready. Isse pehle phone ko bhejein.');
+          }catch(e){offlineSetStatus('Code error: '+e.message);}
+        }
+        async function offlineFinishPairing(){
+          try{
+            if(!offlinePeer) return alert('Pehle Create connection code dabayein.');
+            const raw=document.getElementById('offlineRemoteCode').value.trim(); if(!raw) return alert('Doosre phone ka reply code paste karein.');
+            const desc=JSON.parse(raw); if(desc.type!=='answer'||!desc.sdp) throw new Error('Reply code valid nahi hai.');
+            await offlinePeer.setRemoteDescription(desc); offlineSetStatus('Reply accepted. Connecting…');
+          }catch(e){offlineSetStatus('Pairing error: '+e.message);}
+        }
+        function offlineCopyLocalCode(){
+          const v=document.getElementById('offlineLocalCode').value; if(!v) return alert('Pehle connection code banayein.');
+          if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(v).then(()=>alert('Code copied.')).catch(()=>alert('Code ko manually select karke copy karein.'));
+          else {const t=document.getElementById('offlineLocalCode');t.select();document.execCommand('copy');alert('Code copied.');}
+        }
+        function offlineStoreMessage(text,sender,mine){
+          const all=JSON.parse(localStorage.getItem(OFFLINE_HISTORY_KEY)||'[]'); all.push({text,sender,mine,time:Date.now()});
+          try{localStorage.setItem(OFFLINE_HISTORY_KEY,JSON.stringify(all.slice(-300)));}catch(e){console.warn('Offline history storage full',e);}
+          offlineRenderHistory();
+        }
+        function offlineRenderHistory(){
+          const box=document.getElementById('offlineChatLog'); if(!box)return;
+          const all=JSON.parse(localStorage.getItem(OFFLINE_HISTORY_KEY)||'[]'); box.innerHTML='';
+          if(!all.length){box.innerHTML='<div style="color:var(--sub);text-align:center">Abhi koi offline message nahi hai.</div>';return;}
+          all.slice(-100).forEach(m=>{const d=document.createElement('div');d.className='offline-chat-line'+(m.mine?' mine':'');const b=document.createElement('b');b.textContent=m.mine?'You':m.sender;const p=document.createElement('div');p.textContent=m.text;const tm=document.createElement('small');tm.style.color='var(--sub)';tm.textContent=new Date(m.time).toLocaleTimeString();d.append(b,p,tm);box.appendChild(d);}); box.scrollTop=box.scrollHeight;
+        }
+        function offlineSendMessage(){
+          const input=document.getElementById('offlineMessageInput'); const value=input.value.trim(); if(!value)return;
+          if(!offlineChannel||offlineChannel.readyState!=='open'){offlineSetStatus('Not connected. Pair both phones first.');return alert('Offline connection abhi connected nahi hai.');}
+          try{offlineChannel.send(JSON.stringify({type:'chat',text:value,sender:myName||'Nearby user'}));offlineStoreMessage(value,'You',true);input.value='';}
+          catch(e){offlineSetStatus('Send failed: '+e.message);}
+        }
+        function offlineDisconnect(closeModal=true){
+          try{if(offlineChannel)offlineChannel.close();}catch(e){} try{if(offlinePeer)offlinePeer.close();}catch(e){}
+          offlineChannel=null;offlinePeer=null;offlineSetStatus('Not connected');
+          if(closeModal) document.getElementById('offlineLocalCode').value='';
+        }
 
     </script>
 
