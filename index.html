@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="hi">
+<!-- Baat-Cheet blended UI refresh: Simple WhatsApp Style + Glass Green Pro. Existing local and Firebase data are not reset. -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
@@ -211,6 +212,26 @@
         @media(max-width:380px){.profile-hero{align-items:flex-start;margin:12px;padding:11px}.profile-section{margin:10px 12px;padding:11px}.profile-pro-head{padding:16px 14px 12px}.profile-pro-head h3{font-size:19px}.profile-hero-copy>span{font-size:9px}}
 
     </style>
+
+<style id="bc-simple-whatsapp-glass-final">
+/* Simple WhatsApp home + restrained Glass Green Pro finish; existing controls and IDs remain unchanged. */
+:root{--bc-glass:color-mix(in srgb,var(--card) 88%,transparent);--bc-line:color-mix(in srgb,var(--primary) 16%,var(--border-clr));}
+.app{isolation:isolate;background:var(--bg);}
+.app>header{backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+.content{overscroll-behavior:contain;}
+.contact-search-box{background:var(--bg);}
+.contact-search-box input{border:1px solid var(--bc-line)!important;border-radius:16px!important;background:var(--bc-glass)!important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
+.item{border-bottom:1px solid color-mix(in srgb,var(--border-clr) 72%,transparent);}
+.tabs{backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);}
+.tab{min-width:0;}
+.tab.active{color:var(--primary);}
+.fab{border-radius:18px;background:linear-gradient(145deg,color-mix(in srgb,var(--primary) 92%,white),var(--primary));}
+.menu-dropdown{backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-color:var(--bc-line);}
+.bc-card,.pro-card,.bcp-box{border-color:var(--bc-line);}
+button:focus-visible,input:focus-visible,textarea:focus-visible,[role="button"]:focus-visible{outline:2px solid var(--primary);outline-offset:2px;}
+@media(max-width:480px){.app{border-radius:0!important;}.tabs{padding-bottom:max(5px,env(safe-area-inset-bottom));}}
+@media(prefers-reduced-transparency:reduce){.app>header,.tabs,.contact-search-box input,.menu-dropdown{backdrop-filter:none;-webkit-backdrop-filter:none;}}
+</style>
 </head>
 <body>
     <div class="app">
@@ -344,9 +365,9 @@
             
             <div style="font-weight:bold; font-size:15px; margin-bottom:10px; color:var(--text);">Status</div>
             
-            <div class="item" style="border-radius:16px; margin-bottom:12px; padding:16px;" onclick="openStatusComposer()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openStatusComposer()}">
-                <div class="avatar" style="border:2px dashed var(--primary);width:56px;height:56px;font-size:25px;">＋</div>
-                <div style="flex:1;min-width:0"><b>My status</b><div style="font-size:12px;color:var(--sub);">Text ya photo status share karein</div></div>
+            <div class="item" id="myStatusCard" style="border-radius:16px; margin-bottom:12px; padding:16px;" onclick="openMyLatestStatus()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openMyLatestStatus()}">
+                <div class="avatar" id="myStatusAvatar" style="border:2px dashed var(--primary);width:56px;height:56px;font-size:25px;">＋</div>
+                <div style="flex:1;min-width:0"><b>My status</b><div id="myStatusPreview" style="font-size:12px;color:var(--sub);">Text ya photo status share karein</div></div>
                 <button type="button" onclick="event.stopPropagation();openStatusComposer()" style="border:0;border-radius:20px;background:var(--primary);color:white;padding:9px 14px;font-weight:700">Add</button>
             </div>
 
@@ -602,7 +623,8 @@
                     <span onclick="cancelResponse()" style="cursor:pointer; font-weight:bold;">✕</span>
                 </div>
                 <div class="input-bar">
-                    <input type="file" id="imgFile" accept="image/*" style="display:none;" onchange="sendImage(event)">
+                    <input type="file" id="imgFile" accept="image/*,video/*" style="display:none;" onchange="sendImage(event)">
+                    <span id="bcUploadProgress" aria-live="polite" style="font-size:11px;color:var(--sub);"></span>
                     <button class="icon-btn" onclick="toggleAttach()">📎</button>
                     <button class="icon-btn" onclick="toggleEmojiPicker()" title="Emoji">😊</button>
                     <input type="text" id="msgInput" placeholder="Message..." oninput="handleTyping()" onkeypress="if(event.key=='Enter')sendMsg()">
@@ -691,13 +713,16 @@
         };
         // Keep the local/offline interface usable when Firebase CDN is unreachable.
         let db, storage, messaging;
+        window.__bcFirebaseReady = false;
         try {
             if (!window.firebase) throw new Error('Firebase SDK unavailable');
             if (!firebase.apps || !firebase.apps.length) firebase.initializeApp(firebaseConfig);
             db = firebase.database();
             storage = firebase.storage();
+            window.__bcFirebaseReady = true;
             try { messaging = firebase.messaging(); } catch (messagingError) { messaging = null; }
         } catch (firebaseInitError) {
+            window.__bcFirebaseReady = false;
             console.warn('Baat-Cheet is running in local-only mode:', firebaseInitError);
             const offlineRef = () => ({
                 on(){ return this; }, off(){}, set(){ return Promise.resolve(); },
@@ -854,38 +879,54 @@
             const text=(document.getElementById('bcStatusText').value||'').trim();
             const feedback=document.getElementById('bcStatusFeedback');
             if(!text&&!bcPickedStatusFile){feedback.textContent='Pehle status text likhein ya photo add karein.';return;}
-            const now=Date.now(), key=String(now), record={sender:myName||'Baat-Cheet User',text:text,time:now};
+            const now=Date.now(), senderKey=String(myName||'').trim().toLowerCase().replace(/[^a-z0-9+_]/g,'_'), record={sender:myName||'Baat-Cheet User',senderKey:senderKey,text:text,time:now};
             const btn=document.querySelector('#bcStatusComposer button[onclick="publishBaatStatus()"]'); if(btn){btn.disabled=true;btn.textContent='Sharing…';}
             try{
                 if(bcPickedStatusFile){
-                    if(!window.firebase||!firebase.apps||!firebase.apps.length||!storage||!storage.ref){throw new Error('Firebase Storage connect nahi hai. Text status share kar sakte hain; photo ke liye Firebase Storage setup zaroori hai.');}
+                    if(!window.__bcFirebaseReady||!storage||!storage.ref){throw new Error('Firebase Storage connect nahi hai. Internet/Firebase setup check karein. Photo status abhi upload nahi ho sakta.');}
                     const ref=storage.ref('statuses/'+(myName||'user').replace(/[^a-zA-Z0-9+_]/g,'_')+'/'+now+'_'+bcPickedStatusFile.name.replace(/[^a-zA-Z0-9._-]/g,'_'));
                     const snap=await ref.put(bcPickedStatusFile); record.imageUrl=await snap.ref.getDownloadURL();
                 }
-                if(window.firebase&&firebase.apps&&firebase.apps.length&&db&&db.ref){await db.ref('statuses/'+key).set(record);}
-                else {const arr=JSON.parse(localStorage.getItem('bc_local_statuses')||'[]');arr.unshift(record);localStorage.setItem('bc_local_statuses',JSON.stringify(arr.slice(0,30)));}
+                if(window.__bcFirebaseReady&&db&&db.ref){await db.ref('statuses').push().set(record);}
+                else {if(bcPickedStatusFile)throw new Error('Photo status ke liye Firebase connection zaroori hai.');const arr=JSON.parse(localStorage.getItem('bc_local_statuses')||'[]');arr.unshift(record);localStorage.setItem('bc_local_statuses',JSON.stringify(arr.slice(0,30)));}
                 document.getElementById('bcStatusText').value='';document.getElementById('bcStatusPhoto').value='';document.getElementById('bcStatusPhotoName').textContent='';bcPickedStatusFile=null;
-                feedback.textContent='✓ Status is device par save/share ho gaya.';loadPhotoStatuses();
+                feedback.textContent=window.__bcFirebaseReady?'✓ Status sabhi connected users ke liye share ho gaya.':'✓ Status sirf is device par save hua (cloud par nahi).';loadPhotoStatuses();
                 setTimeout(closeStatusComposer,650);
             }catch(err){feedback.textContent='Status share nahi hua: '+(err&&err.message?err.message:'Unknown error');}
             finally{if(btn){btn.disabled=false;btn.textContent='Share status';}}
         };
         function uploadPhotoStatus(e) { const f=e.target.files&&e.target.files[0]; if(!f)return; openStatusComposer(); bcPickedStatusFile=f; document.getElementById('bcStatusPhotoName').textContent='Selected: '+f.name; e.target.value=''; }
 
+        function openMyLatestStatus(){
+            const latest=window.__bcMyLatestStatus;
+            if(latest) openStatusViewer(latest.sender||myName||'Me',latest.imageUrl||'',latest.time,latest.text||'');
+            else openStatusComposer();
+        }
+
         function loadPhotoStatuses() {
             const render=(remoteData)=>{
                 let container=document.getElementById('statusFeedContainer');if(!container)return;container.innerHTML='';
                 let items=[];const now=Date.now();
                 Object.values(remoteData||{}).forEach(st=>{if(st&&st.time&&now-st.time<86400000)items.push(st)});
-                try{JSON.parse(localStorage.getItem('bc_local_statuses')||'[]').forEach(st=>{if(st&&now-st.time<86400000&&!items.some(x=>x.time===st.time))items.push(st)})}catch(e){}
+                try{JSON.parse(localStorage.getItem('bc_local_statuses')||'[]').forEach(st=>{if(st&&st.time&&now-st.time<86400000&&!items.some(x=>x.time===st.time))items.push(st)})}catch(e){}
                 items.sort((a,b)=>b.time-a.time);
-                if(!items.length){container.innerHTML='<div style="font-size:12px;color:var(--sub);text-align:center;padding:14px">No recent updates</div>';return;}
-                items.forEach(st=>{let div=document.createElement('div');div.className='item';div.style.borderRadius='14px';div.style.justifyContent='flex-start';div.style.gap='12px';div.onclick=()=>openStatusViewer(st.sender||'User',st.imageUrl||'',st.time,st.text||'');
+                const myKey=String(myName||'').trim().toLowerCase();
+                const mySenderKey=myKey.replace(/[^a-z0-9+_]/g,'_');
+                const isMine=st=>st.senderKey?String(st.senderKey)===mySenderKey:String(st.sender||'').trim().toLowerCase()===myKey;
+                const mine=items.filter(isMine);
+                const others=items.filter(st=>!isMine(st));
+                const latestMine=mine[0]||null;window.__bcMyLatestStatus=latestMine;
+                const myPreview=document.getElementById('myStatusPreview');
+                const myAvatar=document.getElementById('myStatusAvatar');
+                if(myPreview)myPreview.textContent=latestMine?(latestMine.text||'Photo status · Tap to view'):'Text ya photo status share karein';
+                if(myAvatar){myAvatar.textContent=latestMine?(String(myName||'Me').charAt(0).toUpperCase()):'＋';myAvatar.style.border=latestMine?'3px solid var(--primary)':'2px dashed var(--primary)';}
+                if(!others.length){container.innerHTML='<div style="font-size:12px;color:var(--sub);text-align:center;padding:14px">No recent updates</div>';return;}
+                others.forEach(st=>{let div=document.createElement('div');div.className='item';div.style.borderRadius='14px';div.style.justifyContent='flex-start';div.style.gap='12px';div.onclick=()=>openStatusViewer(st.sender||'User',st.imageUrl||'',st.time,st.text||'');
                     const avatar=document.createElement('div');avatar.className='avatar';avatar.textContent=(st.sender||'U').charAt(0).toUpperCase();
                     const info=document.createElement('div');info.style.minWidth='0';const b=document.createElement('b');b.textContent=st.sender||'User';const sub=document.createElement('div');sub.style.cssText='font-size:12px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:230px';sub.textContent=st.text||'Photo status · Tap to view';info.append(b,sub);div.append(avatar,info);container.appendChild(div);
                 });
             };
-            try{if(window.firebase&&firebase.apps&&firebase.apps.length&&db&&db.ref){db.ref('statuses').off('value',window.__bcStatusListener);window.__bcStatusListener=snap=>render(snap.val()||{});db.ref('statuses').on('value',window.__bcStatusListener);}else render({});}catch(e){console.warn('Status feed:',e);render({});}
+            try{if(window.__bcFirebaseReady&&db&&db.ref){db.ref('statuses').off('value',window.__bcStatusListener);window.__bcStatusListener=snap=>render(snap.val()||{});db.ref('statuses').on('value',window.__bcStatusListener,err=>{console.warn('Status feed permission/network:',err);const f=document.getElementById('bcStatusFeedback');if(f)f.textContent='Status feed load nahi hua: '+(err&&err.message?err.message:'Firebase permission/network error');});}else render({});}catch(e){console.warn('Status feed:',e);render({});}
         }
 
         function openStatusViewer(sender, imageUrl, time, text) {
@@ -966,7 +1007,6 @@
                     name: myName,
                     countryCode: myCountryCode,
                     username: myUsername,
-                    is_verified: true,
                     lastActive: Date.now()
                 });
             } catch(err) { console.log(err); }
@@ -1001,14 +1041,35 @@
             });
             
             try {
+                if (window.__bcPresenceHeartbeat) clearInterval(window.__bcPresenceHeartbeat);
                 presenceRef = db.ref("presence/" + myName.replace(/[^a-zA-Z0-9+_]/g, '_'));
-                presenceRef.set({ status: "online", lastSeen: Date.now() });
-                presenceRef.onDisconnect().set({ status: "offline", lastSeen: Date.now() });
-                
-                setInterval(() => {
-                    if(myName) presenceRef.update({ status: "online", lastSeen: Date.now() });
-                }, 10000);
-            } catch(err) { console.log(err); }
+                const serverNow = (window.firebase && firebase.database && firebase.database.ServerValue)
+                    ? firebase.database.ServerValue.TIMESTAMP : Date.now();
+                presenceRef.set({ status: "online", lastSeen: serverNow });
+                // onDisconnect is evaluated by Firebase when this connection drops.
+                presenceRef.onDisconnect().set({
+                    status: "offline",
+                    lastSeen: (window.firebase && firebase.database && firebase.database.ServerValue)
+                        ? firebase.database.ServerValue.TIMESTAMP : Date.now()
+                });
+                window.__bcPresenceHeartbeat = setInterval(() => {
+                    if (myName && presenceRef && navigator.onLine) {
+                        const stamp = (window.firebase && firebase.database && firebase.database.ServerValue)
+                            ? firebase.database.ServerValue.TIMESTAMP : Date.now();
+                        presenceRef.update({ status: "online", lastSeen: stamp }).catch(err => console.warn('Presence update:', err));
+                    }
+                }, 15000);
+                if (!window.__bcPresenceVisibilityBound) {
+                    document.addEventListener('visibilitychange', () => {
+                        if (document.visibilityState === 'visible' && myName && presenceRef && navigator.onLine) {
+                            const stamp = (window.firebase && firebase.database && firebase.database.ServerValue)
+                                ? firebase.database.ServerValue.TIMESTAMP : Date.now();
+                            presenceRef.update({ status: "online", lastSeen: stamp }).catch(err => console.warn('Presence resume:', err));
+                        }
+                    });
+                    window.__bcPresenceVisibilityBound = true;
+                }
+            } catch(err) { console.warn('Presence setup:', err); }
 
             loadPhotoStatuses();
             setupGlobalCallListener();
@@ -1447,7 +1508,7 @@
             document.getElementById('msgList').innerHTML = `<div style="text-align:center; font-size:11px; color:var(--sub);">🌐 Global Cross-Border Encrypted Chat</div>`;
             allMessagesCache = [];
             
-            document.getElementById('chatSubStatus').innerText = `online`;
+            document.getElementById('chatSubStatus').innerText = 'Connecting…';
 
             let cObj = contacts.find(c => c.name === name);
             let key = "";
@@ -1472,27 +1533,39 @@
                 }
             });
 
-            dbRef.on('child_added', async snap => {
-                let d = snap.val();
-                if(d.sender && d.sender !== myName) {
-                    let notifSound = document.getElementById('msgNotificationSound');
-                    if(notifSound) notifSound.play().catch(e => {});
-                    if(window.bcpNotifyIncoming) window.bcpNotifyIncoming('Baat-Cheet · '+d.sender, d.isHtml ? 'Aapko media message mila hai.' : (String(d.text || 'Naya message').slice(0,110)));
-                }
-                if(d.deleted) {
-                    appendMsg(snap.key, "🚫 *Yeh message delete kar diya gaya hai*", d.sender === myName ? 'out' : 'in', false, {}, true, null, d.sender, true, d.seenBy || {}, d.time, d.edited);
-                    return;
-                }
-                let decryptedText = d.isHtml ? d.text : await decryptMessage(d.text);
-                let msgObj = {key: snap.key, text: decryptedText, ...d};
-                allMessagesCache.push(msgObj);
-                appendMsg(snap.key, decryptedText, d.sender === myName ? 'out' : 'in', d.isHtml, d.reactions || {}, d.seen || false, d.replyTo || null, d.sender, false, d.seenBy || {}, d.time, d.edited);
-                
-                let seenByObj = d.seenBy || {};
-                if(!seenByObj[myName]) {
-                    seenByObj[myName] = true;
-                    dbRef.child(snap.key).update({ seen: true, seenBy: seenByObj });
-                }
+            // Queue incoming events to preserve Firebase order while decrypting.
+            // Capture this chat/ref so late callbacks cannot paint into a different chat.
+            const openedChatName = name;
+            const openedChatRef = dbRef;
+            window.__bcIncomingQueue = Promise.resolve();
+            openedChatRef.on('child_added', snap => {
+                window.__bcIncomingQueue = window.__bcIncomingQueue.then(async () => {
+                    if (activeChat !== openedChatName || dbRef !== openedChatRef) return;
+                    const d = snap.val() || {};
+                    if (d.sender && d.sender !== myName) {
+                        const notifSound = document.getElementById('msgNotificationSound');
+                        if (notifSound) notifSound.play().catch(() => {});
+                        if (window.bcpNotifyIncoming) window.bcpNotifyIncoming('Baat-Cheet · ' + d.sender, d.isHtml ? 'Aapko media message mila hai.' : String(d.text || 'Naya message').slice(0, 110));
+                    }
+                    if (d.deleted) {
+                        appendMsg(snap.key, '🚫 *Yeh message delete kar diya gaya hai*', d.sender === myName ? 'out' : 'in', false, {}, true, null, d.sender, true, d.seenBy || {}, d.time, d.edited);
+                        return;
+                    }
+                    const decryptedText = d.isHtml ? String(d.text || '') : await decryptMessage(d.text || '');
+                    if (activeChat !== openedChatName || dbRef !== openedChatRef) return;
+                    if (!allMessagesCache.some(m => m.key === snap.key)) allMessagesCache.push({ key: snap.key, ...d, text: decryptedText });
+                    appendMsg(snap.key, decryptedText, d.sender === myName ? 'out' : 'in', !!d.isHtml, d.reactions || {}, !!d.seen, d.replyTo || null, d.sender, false, d.seenBy || {}, d.time, d.edited);
+                    const seenByObj = { ...(d.seenBy || {}) };
+                    if (d.sender !== myName && !seenByObj[myName]) {
+                        seenByObj[myName] = true;
+                        try { await openedChatRef.child(snap.key).update({ seen: true, seenBy: seenByObj }); }
+                        catch (err) { console.warn('Message seen update failed:', err); }
+                    }
+                }).catch(err => console.error('Incoming message processing failed:', err));
+            }, err => {
+                console.error('Chat listener failed:', err);
+                const sub = document.getElementById('chatSubStatus');
+                if (sub && activeChat === openedChatName) sub.textContent = 'Messages load nahi hue — Firebase permission/network check karein';
             });
 
             dbRef.on('child_changed', async snap => {
@@ -1615,32 +1688,46 @@
         }
 
         async function sendMsg() {
-            if(blockedUsers.includes(activeChat)) {
-                alert("Aapne is user ko block kiya hua hai!");
+            if (!activeChat || !dbRef) { alert('Pehle chat open karein.'); return; }
+            if (blockedUsers.includes(activeChat)) { alert('Aapne is user ko block kiya hua hai!'); return; }
+            const inp = document.getElementById('msgInput');
+            const txt = inp ? inp.value.trim() : '';
+            if (!txt) return;
+            if (!window.__bcFirebaseReady || !navigator.onLine) {
+                alert('Message abhi send nahi hua. Internet/Firebase connection check karke dobara bhejein.');
                 return;
             }
-            let inp = document.getElementById('msgInput'), txt = inp.value.trim();
-            if(!txt || !dbRef) return;
-            let formattedTxt = formatMessageContent(txt);
-            let isHtmlFormatted = formattedTxt !== txt;
-            let finalPayloadText = isHtmlFormatted ? formattedTxt : await encryptMessage(txt);
-
-            dbRef.push({
-                text: finalPayloadText, 
-                sender: myName, 
-                isHtml: isHtmlFormatted, 
-                seen: false, 
-                seenBy: { [myName]: true },
-                deleted: false,
-                edited: false,
-                replyTo: replyingTo,
-                time: Date.now()
-            });
-            inp.value = ''; 
-            cancelResponse();
-            if(typingRef) typingRef.set(false);
-            document.getElementById('attachMenu').classList.remove('active');
-            document.getElementById('emojiPickerPopup').classList.remove('active');
+            const sendRef = dbRef;
+            const sendChat = activeChat;
+            const sendButton = document.querySelector('.send-btn');
+            if (sendButton) sendButton.disabled = true;
+            try {
+                const formattedTxt = formatMessageContent(txt);
+                const isHtmlFormatted = formattedTxt !== txt;
+                const finalPayloadText = isHtmlFormatted ? formattedTxt : await encryptMessage(txt);
+                if (sendRef !== dbRef || sendChat !== activeChat) throw new Error('Chat badal gayi. Dobara message bhejein.');
+                await sendRef.push({
+                    text: finalPayloadText,
+                    sender: myName,
+                    isHtml: isHtmlFormatted,
+                    seen: false,
+                    seenBy: { [myName]: true },
+                    deleted: false,
+                    edited: false,
+                    replyTo: replyingTo,
+                    time: (window.firebase && firebase.database && firebase.database.ServerValue) ? firebase.database.ServerValue.TIMESTAMP : Date.now()
+                });
+                if (inp) inp.value = '';
+                cancelResponse();
+                if (typingRef) typingRef.set(false).catch(err => console.warn('Typing state reset failed:', err));
+                const attach = document.getElementById('attachMenu'); if (attach) attach.classList.remove('active');
+                const emoji = document.getElementById('emojiPickerPopup'); if (emoji) emoji.classList.remove('active');
+            } catch (err) {
+                console.error('Message send failed:', err);
+                alert('Message send nahi hua: ' + ((err && err.message) || 'Firebase permission/network error') + '\nAapka message box mein surakshit hai; dobara try karein.');
+            } finally {
+                if (sendButton) sendButton.disabled = false;
+            }
         }
 
         async function editMessage(key, oldText, sender) {
@@ -1651,39 +1738,97 @@
             dbRef.child(key).update({ text: finalEncrypted, edited: true });
         }
 
-        async function sendImage(e) {
-            let file = e.target.files[0]; if(!file) return;
-            let storageRef = storage.ref(`chats/${activeChat}/${Date.now()}_${file.name}`);
-            let uploadTask = storageRef.put(file);
-            
-            alert("☁️ Uploading media to Global Cloud...");
-            uploadTask.on('state_changed', null, (err) => {
-                alert("Upload error: " + err);
-            }, async () => {
-                let downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
-                let imgHtml = `<img src="${downloadURL}" onclick="openImgViewer(this.src)" style="width:100%; height:140px; object-fit:cover; border-radius:8px;">`;
-                let enc = await encryptMessage(imgHtml);
-                dbRef.push({text: enc, sender: myName, isHtml: true, seen: false, seenBy: { [myName]: true }, deleted: false, edited: false, time: Date.now()});
+        // Reliable Firebase Storage upload helper: waits for completion and surfaces
+        // permission, bucket, network and quota errors instead of silently failing.
+        function bcUploadToStorage(file, path, onProgress) {
+            return new Promise((resolve, reject) => {
+                if (!window.__bcFirebaseReady || !storage || typeof storage.ref !== 'function') {
+                    reject(new Error('Firebase Storage connect nahi hai. Internet aur Firebase setup check karein.'));
+                    return;
+                }
+                let task;
+                try {
+                    task = storage.ref(path).put(file, { contentType: file.type || 'application/octet-stream' });
+                    task.on('state_changed', snap => {
+                        if (onProgress && snap.totalBytes) onProgress(Math.round((snap.bytesTransferred / snap.totalBytes) * 100));
+                    }, reject, async () => {
+                        try {
+                            const snapshot = task.snapshot;
+                            const url = await snapshot.ref.getDownloadURL();
+                            resolve({ url, snapshot });
+                        } catch (err) { reject(err); }
+                    });
+                } catch (err) { reject(err); }
             });
-            e.target.value = ''; 
-            document.getElementById('attachMenu').classList.remove('active');
+        }
+
+        function bcMediaErrorMessage(err) {
+            const code = err && err.code ? String(err.code) : '';
+            if (code.includes('storage/unauthorized')) return 'Firebase Storage Rules ne upload rok diya (storage/unauthorized).';
+            if (code.includes('storage/canceled')) return 'Upload cancel ho gaya.';
+            if (code.includes('storage/quota-exceeded')) return 'Firebase Storage quota poora ho gaya.';
+            if (code.includes('storage/unauthenticated')) return 'Upload ke liye user authentication zaroori hai.';
+            if (code.includes('storage/bucket-not-found')) return 'Firebase Storage bucket nahi mila. Firebase Console mein Storage enable/check karein.';
+            if (code.includes('storage/unknown') || code.includes('network')) return 'Network ya Firebase Storage error. Internet check karke dobara try karein.';
+            return (err && err.message) ? err.message : 'Unknown upload error';
+        }
+
+        async function sendImage(e) {
+            const input = e && e.target;
+            const file = input && input.files && input.files[0];
+            if (!file) return;
+            try {
+                if (!activeChat || !dbRef) throw new Error('Pehle chat open karein.');
+                if (!(file.type.startsWith('image/') || file.type.startsWith('video/'))) throw new Error('Sirf photo ya video select karein.');
+                if (file.size > 50 * 1024 * 1024) throw new Error('Photo/video 50 MB se chhota hona chahiye.');
+                if (!window.__bcFirebaseReady) throw new Error('Firebase offline hai; media cloud par upload nahi ho sakta.');
+                const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_').slice(-100) || 'media';
+                const extPath = `chats/${String(activeChat).replace(/[^a-zA-Z0-9_-]/g, '_')}/${Date.now()}_${safeName}`;
+                const { url } = await bcUploadToStorage(file, extPath, pct => {
+                    const label = document.getElementById('bcUploadProgress');
+                    if (label) label.textContent = `Uploading ${pct}%`;
+                });
+                let mediaHtml;
+                if (file.type.startsWith('video/')) {
+                    mediaHtml = `<video controls playsinline preload="metadata" style="width:100%;max-height:240px;border-radius:10px;background:#000"><source src="${url}" type="${file.type.replace(/[^a-zA-Z0-9+./-]/g,'')}"></video>`;
+                } else {
+                    mediaHtml = `<img src="${url}" onclick="openImgViewer(this.src)" loading="lazy" style="width:100%;max-height:220px;object-fit:contain;border-radius:10px;">`;
+                }
+                const enc = await encryptMessage(mediaHtml);
+                await dbRef.push({ text: enc, sender: myName, isHtml: true, seen: false, seenBy: { [myName]: true }, deleted: false, edited: false, time: Date.now(), mediaType: file.type.startsWith('video/') ? 'video' : 'image' });
+                alert('✓ Media upload hokar chat mein bhej diya gaya.');
+            } catch (err) {
+                console.error('Baat-Cheet media upload failed:', err);
+                alert('Media upload nahi hua: ' + bcMediaErrorMessage(err));
+            } finally {
+                if (input) input.value = '';
+                const progress = document.getElementById('bcUploadProgress'); if (progress) progress.textContent = '';
+                const menu = document.getElementById('attachMenu'); if (menu) menu.classList.remove('active');
+            }
         }
 
         async function sendFile(e) {
-            let file = e.target.files[0]; if(!file) return;
-            let storageRef = storage.ref(`documents/${activeChat}/${Date.now()}_${file.name}`);
-            let uploadTask = storageRef.put(file);
-            
-            alert("☁️ Uploading document to Global Storage...");
-            uploadTask.on('state_changed', null, (err) => {
-                alert("Upload error: " + err);
-            }, async () => {
-                let downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
-                let fileHtml = `📁 <b>Global Document:</b> <a href="${downloadURL}" target="_blank" style="color:var(--primary);">${file.name}</a> (${(file.size/1024).toFixed(1)} KB)`;
-                let enc = await encryptMessage(fileHtml);
-                dbRef.push({text: enc, sender: myName, isHtml: true, seen: false, seenBy: { [myName]: true }, deleted: false, edited: false, time: Date.now()});
-            });
-            e.target.value = ''; document.getElementById('attachMenu').classList.remove('active');
+            const input = e && e.target;
+            const file = input && input.files && input.files[0];
+            if (!file) return;
+            try {
+                if (!activeChat || !dbRef) throw new Error('Pehle chat open karein.');
+                if (file.size > 50 * 1024 * 1024) throw new Error('File 50 MB se chhoti honi chahiye.');
+                if (!window.__bcFirebaseReady) throw new Error('Firebase offline hai; file cloud par upload nahi ho sakti.');
+                const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_').slice(-100) || 'document';
+                const { url } = await bcUploadToStorage(file, `documents/${String(activeChat).replace(/[^a-zA-Z0-9_-]/g, '_')}/${Date.now()}_${safeName}`);
+                const safeUrl = url.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+                const fileHtml = `📁 <b>File:</b> <a href="${safeUrl}" target="_blank" rel="noopener" style="color:var(--primary);">${safeName}</a> (${(file.size/1024).toFixed(1)} KB)`;
+                const enc = await encryptMessage(fileHtml);
+                await dbRef.push({ text: enc, sender: myName, isHtml: true, seen: false, seenBy: { [myName]: true }, deleted: false, edited: false, time: Date.now(), mediaType: 'file' });
+                alert('✓ File upload hokar chat mein bhej di gayi.');
+            } catch (err) {
+                console.error('Baat-Cheet file upload failed:', err);
+                alert('File upload nahi hui: ' + bcMediaErrorMessage(err));
+            } finally {
+                if (input) input.value = '';
+                const menu = document.getElementById('attachMenu'); if (menu) menu.classList.remove('active');
+            }
         }
 
         async function toggleRecordVoice() {
@@ -2061,7 +2206,10 @@
             setBaatCheetTheme(next);
         }
 
-        function addStatus() { let st = prompt("Apna Status likhein:"); if(st) document.getElementById('statusText').innerText = st; }
+        function addStatus() {
+            if (typeof window.openStatusComposer === 'function') window.openStatusComposer();
+            else alert('Status composer load nahi hua. Page ko Chrome mein dobara kholein.');
+        }
     
         // Profile picture: saved locally on this device.
         let myProfilePhoto = localStorage.getItem('baatcheet_profile_photo') || '';
@@ -2484,6 +2632,7 @@ body.bc-bubble-modern .bubble { border-radius:16px !important; }
 <div class="bc-card"><h3>📶 Data Saver</h3><p>Data saver preference save hoti hai; actual image/video compression aur Firebase download limits ko app ke media upload/download code mein integrate karna hoga.</p><label class="bc-toggle">Enable data saver <input id="bcDataSaver" type="checkbox" onchange="bcSaveDataSaver()"></label></div>
 <div class="bc-card"><h3>🎙️ Voice to Text</h3><p>Supported browsers mein microphone se message likh sakte hain. Microphone permission zaroori hai.</p><div class="bc-actions"><button class="bc-btn" onclick="bcStartVoice()">Start voice typing</button><button class="bc-btn secondary" onclick="bcStopVoice()">Stop</button></div><small id="bcVoiceStatus" aria-live="polite"></small></div>
 <div class="bc-card"><h3>⭐ Quick tools</h3><p>Current chat ko favorite mark karne aur local favorite list dekhne ke shortcuts.</p><div class="bc-actions"><button class="bc-btn" onclick="bcToggleFavorite()">☆ Favorite current chat</button><button class="bc-btn secondary" onclick="bcShowFavorites()">Show favorites</button></div><div id="bcFavoriteOutput" style="font-size:12px;margin-top:8px"></div></div>
+<div class="bc-card"><h3>🛡️ Security & reliability status</h3><p><b>Important:</b> Is HTML build mein demo OTP real SMS verification nahi hai. Shared browser-side encryption key ko real End-to-End Encryption nahi maana ja sakta. Firebase Authentication, Realtime Database/Storage Security Rules, TURN server aur server-side backup ko Firebase Console/backend par configure aur test karna hoga. Sensitive ya private messages ko production security samajhkar use na karein jab tak ye setup complete na ho.</p></div>
 <div class="bc-card"><h3>ℹ️ Help & reliability</h3><p>Purane Firebase chat/login/call features ko preserve kiya gaya hai. OTP, live messaging, calls, cloud backup, message translation aur server privacy settings ko Firebase/provider configuration ke saath real device par test karna zaroori hai.</p><div class="bc-actions"><button class="bc-btn secondary" onclick="bcShowStorageInfo()">Storage information</button></div><small id="bcStorageInfo"></small></div>
 </div></div></div>
 <script id="baatCheetExtraFeatures">
@@ -2667,6 +2816,53 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')bcpsClose()});$('bcP
 }
 @media(max-width:380px){#menuDropdown.menu-dropdown{right:7px;width:min(310px,calc(100vw - 20px));padding:8px}#menuDropdown .menu-item.bc-menu-row{min-height:50px}}
 </style>
+
+
+<!-- Baat-Cheet repair pass 1: status entry + presence lifecycle safeguards -->
+<script id="bc-repair-pass1">
+(function(){
+  // Rebind legacy status entry points to the current composer.
+  window.addStatus = function(){
+    if (typeof window.openStatusComposer === 'function') window.openStatusComposer();
+    else alert('Status feature load nahi hua. Is HTML ko Chrome browser mein kholein.');
+  };
+  // Make the current status card keyboard/touch accessible and guard missing composer nodes.
+  document.addEventListener('DOMContentLoaded', function(){
+    const card = document.querySelector('#sec1 [onclick*="openStatusComposer"]');
+    if(card){ card.setAttribute('role','button'); card.setAttribute('tabindex','0');
+      card.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();window.openStatusComposer();} });
+    }
+  });
+})();
+</script>
+
+
+<style id="bc-advanced-tools-style">
+#bcAdvancedTools{position:fixed;inset:0;z-index:100900;background:rgba(2,22,17,.68);backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;padding:14px}#bcAdvancedTools.open{display:flex}#bcAdvancedTools .bcat-shell{width:min(100%,560px);max-height:92dvh;overflow:auto;border:1px solid #ffffff99;border-radius:24px;background:linear-gradient(145deg,#f7fffbf2,#e5f7eff2);color:#123d30;box-shadow:0 24px 70px #002c2055}#bcAdvancedTools .bcat-head{position:sticky;top:0;z-index:2;padding:17px 18px;background:linear-gradient(120deg,#087f63,#10a77d);color:white;display:flex;align-items:center;justify-content:space-between}#bcAdvancedTools .bcat-body{padding:14px;display:grid;gap:12px}#bcAdvancedTools .bcat-card{border:1px solid #0b8c6a2b;border-radius:16px;padding:13px;background:#ffffffb8}#bcAdvancedTools h3{font-size:14px;margin:0 0 5px}#bcAdvancedTools p{font-size:11px;color:#5d7d70;margin:0 0 9px}#bcAdvancedTools input,#bcAdvancedTools textarea,#bcAdvancedTools select{width:100%;box-sizing:border-box;padding:10px;border:1px solid #b8d9cb;border-radius:10px;background:white;color:#173c32;margin:4px 0}#bcAdvancedTools button{border:0;border-radius:10px;padding:9px 12px;background:#087f63;color:white;font-weight:700;font-size:12px}#bcAdvancedTools button.alt{background:#edf7f2;color:#155b47;border:1px solid #c4e2d4}#bcAdvancedTools .bcat-row{display:flex;gap:7px;flex-wrap:wrap}#bcAdvancedTools .bcat-note{font-size:11px;color:#527568;white-space:pre-wrap}
+</style>
+<div id="bcAdvancedTools" aria-hidden="true"><div class="bcat-shell"><div class="bcat-head"><div><b>✨ Baat-Cheet Advanced Tools</b><div style="font-size:10px;opacity:.85">Quick replies · Scheduled messages · Safety</div></div><button class="alt" onclick="bcATClose()">✕</button></div><div class="bcat-body">
+<section class="bcat-card"><h3>⚡ Quick Replies</h3><p>Apne common replies save karein; tap karne par current chat ke message box mein aa jayenge.</p><input id="bcATQuickInput" maxlength="300" placeholder="Jaise: Main thodi der mein reply karta hoon"><div class="bcat-row"><button onclick="bcATSaveQuick()">Save reply</button></div><div id="bcATQuickList" style="display:grid;gap:6px;margin-top:9px"></div></section>
+<section class="bcat-card"><h3>🕒 Schedule a Message</h3><p>Active chat mein message tay waqt par bhejne ke liye. Browser/page khula rehna aur internet connected hona zaroori hai.</p><textarea id="bcATScheduleText" maxlength="4000" rows="3" placeholder="Message likhein..."></textarea><label style="font-size:11px">Send date & time</label><input id="bcATScheduleTime" type="datetime-local"><div class="bcat-row"><button onclick="bcATSchedule()">Schedule message</button><button class="alt" onclick="bcATShowQueue()">View queue</button></div><div id="bcATScheduleInfo" class="bcat-note"></div></section>
+<section class="bcat-card"><h3>🛡️ Safety & account checks</h3><p>Yahan se account ki basic safety guidance dekhein. HTML-only PIN ya local lock ko server-side account security na samjhein.</p><div class="bcat-row"><button class="alt" onclick="bcATSecurityInfo()">Security checklist</button><button class="alt" onclick="bcATCallInfo()">Calling requirements</button></div><div id="bcATSafetyInfo" class="bcat-note"></div></section>
+</div></div></div>
+<script id="bc-advanced-tools-script">
+(function(){
+ const $=id=>document.getElementById(id), Q='bc_at_quick_v1', S='bc_at_schedule_v1';let timer=null;
+ function read(k){try{return JSON.parse(localStorage.getItem(k)||'[]')}catch(e){return []}}
+ function write(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){alert('Device storage full. Kuch purane saved items delete karein.')}}
+ window.bcATOpen=function(){ $('bcAdvancedTools').classList.add('open');$('bcAdvancedTools').setAttribute('aria-hidden','false');bcATRenderQuick();bcATShowQueue();if(!$('bcATScheduleTime').value){let d=new Date(Date.now()+10*60000);d.setMinutes(d.getMinutes()-d.getTimezoneOffset());$('bcATScheduleTime').value=d.toISOString().slice(0,16)} };
+ window.bcATClose=function(){$('bcAdvancedTools').classList.remove('open');$('bcAdvancedTools').setAttribute('aria-hidden','true')};
+ window.bcATSaveQuick=function(){let v=$('bcATQuickInput').value.trim();if(!v)return;let a=read(Q);a.unshift({id:Date.now(),text:v});write(Q,a.slice(0,30));$('bcATQuickInput').value='';bcATRenderQuick()};
+ window.bcATRenderQuick=function(){let box=$('bcATQuickList');if(!box)return;box.innerHTML='';read(Q).forEach(x=>{let row=document.createElement('div');row.className='bcat-row';let use=document.createElement('button');use.className='alt';use.style.flex='1';use.textContent=x.text;use.onclick=()=>{let input=$('msgInput');if(!input){alert('Chat message box nahi mila. Pehle chat kholein.');return}input.value=x.text;input.dispatchEvent(new Event('input',{bubbles:true}));bcATClose();input.focus()};let del=document.createElement('button');del.textContent='Delete';del.onclick=()=>{write(Q,read(Q).filter(y=>y.id!==x.id));bcATRenderQuick()};row.append(use,del);box.append(row)})};
+ window.bcATSchedule=function(){let text=$('bcATScheduleText').value.trim(),when=new Date($('bcATScheduleTime').value).getTime();if(!text){alert('Message likhein.');return}if(!Number.isFinite(when)||when<=Date.now()){alert('Future date/time select karein.');return}if(!window.activeChat&&!document.getElementById('chatScreen')?.classList.contains('active')){alert('Pehle jis chat mein bhejna hai woh kholein.');return}let a=read(S);a.push({id:Date.now(),text,when,chat:window.activeChat||'',state:'pending'});write(S,a);$('bcATScheduleText').value='';bcATShowQueue();bcATStartTimer();alert('Message schedule ho gaya. Is page ko scheduled time tak khula rakhein.')};
+ window.bcATShowQueue=function(){let box=$('bcATScheduleInfo');if(!box)return;let a=read(S).filter(x=>x.state==='pending');box.textContent=a.length?a.map(x=>new Date(x.when).toLocaleString()+' · '+x.chat+' · '+x.text.slice(0,70)).join('\n'):'No pending scheduled messages.'};
+ function bcATStartTimer(){if(timer)clearInterval(timer);timer=setInterval(()=>{let a=read(S),changed=false;for(let x of a){if(x.state==='pending'&&x.when<=Date.now()){if((window.activeChat||'')===x.chat&&typeof window.sendMsg==='function'){$('msgInput').value=x.text;window.sendMsg();x.state='sent';x.sentAt=Date.now()}else{x.state='needs-chat';x.note='Open the scheduled chat and send manually.'}changed=true}}if(changed){write(S,a);bcATShowQueue()}},5000)}
+ window.bcATSecurityInfo=function(){$('bcATSafetyInfo').textContent='• Demo OTP in this HTML is not SMS verification.\n• Real account security needs Firebase Authentication.\n• Configure Realtime Database and Storage Rules before public use.\n• Never store passwords or secret keys in HTML/localStorage.'};
+ window.bcATCallInfo=function(){$('bcATSafetyInfo').textContent='Voice/video calling uses browser media permissions and WebRTC signalling. Reliable calls across mobile networks generally need a TURN server; STUN-only connectivity is not guaranteed. Use HTTPS and test with two real devices.'};
+ document.addEventListener('DOMContentLoaded',()=>{let menu=$('menuDropdown');if(menu&&!$('bcATMenuItem')){let d=document.createElement('div');d.id='bcATMenuItem';d.className='menu-item bc-menu-row';d.innerHTML='<span class="bc-menu-icon">✦</span><span><b>Advanced Tools</b><small>Quick replies and scheduled messages</small></span><span class="bc-menu-arrow">›</span>';d.onclick=()=>{if(typeof closeMenuDropdown==='function')closeMenuDropdown();bcATOpen()};menu.appendChild(d)}bcATStartTimer()});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')bcATClose()});
+})();
+</script>
 
 </body>
 </html>
