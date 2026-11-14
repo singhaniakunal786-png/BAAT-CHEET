@@ -171,6 +171,45 @@
         .offline-chat-line{padding:7px 10px;border-radius:10px;background:var(--bubble-in);max-width:88%;overflow-wrap:anywhere}
         .offline-chat-line.mine{align-self:flex-end;background:var(--bubble-out)}
 
+    
+        /* Pro profile & account settings */
+        #profileModal{padding:14px;overflow-y:auto;align-items:center}
+        #profileModal .profile-pro-box{width:min(94%,470px);max-width:470px;max-height:92%;overflow-y:auto;padding:0;border:1px solid var(--border-clr);border-radius:22px;background:var(--card);box-shadow:0 24px 70px rgba(0,0,0,.28)}
+        .profile-pro-head{display:flex;align-items:flex-start;justify-content:space-between;padding:20px 20px 15px;border-bottom:1px solid var(--border-clr)}
+        .profile-kicker{font-size:9px;letter-spacing:1.6px;font-weight:800;color:var(--primary)}
+        .profile-pro-head h3{margin:5px 0 3px;font-size:21px;letter-spacing:-.4px}
+        .profile-pro-head p{margin:0;color:var(--sub);font-size:11px}
+        .profile-close{border:0;border-radius:50%;width:32px;height:32px;background:var(--bg);color:var(--text);font-size:23px;line-height:1;cursor:pointer}
+        .profile-hero{display:flex;align-items:center;gap:14px;margin:15px 18px;padding:14px;border:1px solid var(--border-clr);border-radius:16px;background:var(--bg)}
+        .profile-avatar-wrap{width:78px;height:78px;flex:0 0 78px;display:grid;place-items:center}
+        .profile-hero-copy{min-width:0;display:flex;flex-direction:column;gap:4px;text-align:left}
+        .profile-hero-copy>b{font-size:14px}.profile-hero-copy>span{font-size:10px;color:var(--sub)}
+        .profile-photo-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:5px}
+        .profile-btn-primary,.profile-btn-quiet,.profile-btn-save{border:0;border-radius:9px;padding:9px 12px;font-size:11px;font-weight:700;cursor:pointer}
+        .profile-btn-primary,.profile-btn-save{background:var(--primary);color:white}.profile-btn-quiet{background:transparent;color:var(--sub);border:1px solid var(--border-clr)}
+        .profile-section{margin:12px 18px;padding:14px;border:1px solid var(--border-clr);border-radius:15px;text-align:left}
+        .profile-section-title{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}
+        .profile-section-title span{font-size:9px;letter-spacing:1.2px;font-weight:800;color:var(--primary)}
+        .profile-section-title small{font-size:9px;color:var(--sub)}
+        #profileModal .profile-section>label:not(.profile-toggle-row){display:block;margin:9px 0 4px;font-size:10px;color:var(--sub);font-weight:600}
+        #profileModal .profile-section>input{box-sizing:border-box;width:100%;margin:0;padding:11px 12px;border:1px solid var(--border-clr);border-radius:10px;background:var(--bg);color:var(--text);font-size:13px}
+        #profileModal .profile-section>input:disabled{opacity:.72}
+        .profile-help{display:block;color:var(--sub);font-size:9px;margin:4px 2px 0}
+        .profile-toggle-row{display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer}
+        .profile-toggle-row span{display:flex;flex-direction:column;gap:4px}.profile-toggle-row b{font-size:12px}.profile-toggle-row small{font-size:10px;color:var(--sub)}
+        .profile-toggle-row input{width:19px;height:19px;accent-color:var(--primary);flex:0 0 auto}
+        .profile-account-section{padding:12px}
+        .profile-action-logout,.profile-action-delete{display:flex;align-items:center;gap:10px;width:100%;padding:11px;margin-top:7px;border-radius:10px;text-align:left;cursor:pointer}
+        .profile-action-logout{border:1px solid var(--border-clr);background:var(--bg);color:var(--text)}
+        .profile-action-delete{border:1px solid rgba(239,68,68,.25);background:rgba(239,68,68,.07);color:#dc4545}
+        .profile-action-logout>span:first-child,.profile-action-delete>span:first-child{font-size:18px}
+        .profile-action-logout>span:nth-child(2),.profile-action-delete>span:nth-child(2){display:flex;flex-direction:column;gap:3px;flex:1}
+        .profile-action-logout b,.profile-action-delete b{font-size:11px}.profile-action-logout small,.profile-action-delete small{font-size:9px;opacity:.75}
+        .profile-chevron{font-size:20px;color:var(--sub)}
+        .profile-pro-footer{position:sticky;bottom:0;display:flex;justify-content:flex-end;gap:9px;padding:12px 18px 16px;background:var(--card);border-top:1px solid var(--border-clr)}
+        .profile-btn-save{min-width:120px;padding:11px 16px;font-size:12px}
+        @media(max-width:380px){.profile-hero{align-items:flex-start;margin:12px;padding:11px}.profile-section{margin:10px 12px;padding:11px}.profile-pro-head{padding:16px 14px 12px}.profile-pro-head h3{font-size:19px}.profile-hero-copy>span{font-size:9px}}
+
     </style>
 </head>
 <body>
@@ -190,6 +229,18 @@
             <img id="fullImg" src="" alt="Full">
         </div>
 
+        <div id="bcStatusComposer" style="display:none;position:absolute;inset:0;z-index:250;background:rgba(3,28,22,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:18px;">
+          <div style="width:100%;max-width:420px;background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(225,247,238,.97));border:1px solid rgba(8,132,105,.2);border-radius:22px;padding:18px;box-shadow:0 20px 55px #003d2b44;color:#173c32">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px"><div><b style="font-size:19px">Create status</b><div style="font-size:12px;color:#638277">24 घंटे के लिए अपडेट शेयर करें</div></div><button type="button" onclick="closeStatusComposer()" style="border:0;background:#dff3ea;border-radius:50%;width:36px;height:36px;font-size:20px">×</button></div>
+            <textarea id="bcStatusText" maxlength="500" placeholder="Aaj aap kya share karna chahte hain?" style="width:100%;min-height:110px;resize:vertical;border:1px solid #c5e3d7;border-radius:14px;padding:12px;background:#fff;color:#173c32;font:inherit;outline-color:#0b9674"></textarea>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin:7px 2px 13px;font-size:11px;color:#64877c"><span>Text status</span><span id="bcStatusCount">0/500</span></div>
+            <input id="bcStatusPhoto" type="file" accept="image/*" style="display:none" onchange="bcStatusPhotoPicked(event)">
+            <div id="bcStatusPhotoName" style="font-size:12px;color:#08775d;margin-bottom:10px"></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" onclick="document.getElementById('bcStatusPhoto').click()" style="flex:1;border:1px solid #b9dfd0;background:#effaf5;color:#08775d;border-radius:12px;padding:11px;font-weight:700">＋ Add photo</button><button type="button" onclick="publishBaatStatus()" style="flex:1;border:0;background:linear-gradient(135deg,#0da77e,#05634f);color:white;border-radius:12px;padding:11px;font-weight:700">Share status</button></div>
+            <div id="bcStatusFeedback" role="status" style="font-size:12px;color:#54796b;margin-top:10px;min-height:16px"></div>
+          </div>
+        </div>
+
         <div class="status-viewer-modal" id="statusViewerModal">
             <div>
                 <div class="status-progress-bar"><div class="status-progress-fill" id="statusProgressFill"></div></div>
@@ -202,7 +253,7 @@
                 </div>
             </div>
             <div style="flex:1; display:flex; justify-content:center; align-items:center; overflow:hidden; padding:10px;">
-                <img id="viewerImage" src="" style="max-width:100%; max-height:75vh; border-radius:12px; object-fit:contain;">
+                <img id="viewerImage" src="" style="max-width:100%; max-height:75vh; border-radius:12px; object-fit:contain; display:none;"><div id="viewerStatusText" style="display:none;max-width:100%;padding:28px 20px;border-radius:18px;background:linear-gradient(145deg,#0b9674,#075e4b);color:white;font-size:25px;line-height:1.4;overflow-wrap:anywhere"></div>
             </div>
             <div style="font-size:12px; color:#aaa; margin-bottom:10px;" id="viewerTime">Just now</div>
         </div>
@@ -247,7 +298,6 @@
             <div style="display:flex; gap:16px; align-items:center; font-size:18px;">
                 <span onclick="openCloudVault()" style="cursor:pointer;" title="Cloud Vault">☁️</span>
                 <span onclick="openStarredModal()" style="cursor:pointer;" title="Starred">⭐</span>
-                <span onclick="openWallpaperModal()" style="cursor:pointer;" title="Wallpaper">🎨</span>
                 <span onclick="openBaatThemePanel()" style="cursor:pointer;" title="Theme and appearance">🎨</span>
                 <span onclick="toggleDark()" style="cursor:pointer;" title="Dark / Light Mode">🌙</span>
                 <!-- WhatsApp Style Three Dots Menu Toggle -->
@@ -255,17 +305,22 @@
             </div>
 
             <!-- WhatsApp Style Dropdown Menu Content -->
-            <div class="menu-dropdown" id="menuDropdown">
-                <div class="menu-item" onclick="openCreateGroup(); closeMenuDropdown();">New group</div>
-                <div class="menu-item" onclick="openStarredModal(); closeMenuDropdown();">Starred messages</div>
-                <div class="menu-item" onclick="openWallpaperModal(); closeMenuDropdown();">Wallpaper & Themes</div>
-                <div class="menu-item" onclick="openBaatThemePanel(); closeMenuDropdown();">🎨 थीम और रूप</div>
-                <div class="menu-item" onclick="openProCenter(); closeMenuDropdown();">⚙️ Pro Control Center</div>
-                <div class="menu-item" onclick="openProfileModal(); closeMenuDropdown();">Settings & Profile</div>
-                <div class="menu-item" onclick="openOfflineProMode(); closeMenuDropdown();">📡 Offline Pro Mode</div>
-                
-                
-                <div class="menu-item" onclick="logoutApp(); closeMenuDropdown();" style="color:#ef4444;">Logout</div>
+            <div class="menu-dropdown" id="menuDropdown" aria-label="Baat-Cheet quick menu">
+                <div class="bc-menu-head">
+                    <div class="bc-menu-mark">✦</div>
+                    <div><strong>Baat-Cheet</strong><small>Quick menu · Green edition</small></div>
+                    <span class="bc-menu-pro">PRO</span>
+                </div>
+                <div class="bc-menu-section">QUICK ACTIONS</div>
+                <div class="menu-item bc-menu-row" onclick="openCreateGroup(); closeMenuDropdown();"><span class="bc-menu-icon">＋</span><span><b>New group</b><small>Create a group conversation</small></span><span class="bc-menu-arrow">›</span></div>
+                <div class="menu-item bc-menu-row" onclick="openStarredModal(); closeMenuDropdown();"><span class="bc-menu-icon">★</span><span><b>Starred messages</b><small>Your saved messages</small></span><span class="bc-menu-arrow">›</span></div>
+                <div class="bc-menu-section">PERSONALIZE</div>
+                <div class="menu-item bc-menu-row" onclick="openBaatThemePanel(); closeMenuDropdown();"><span class="bc-menu-icon">◐</span><span><b>Appearance & themes</b><small>Wallpaper, colors and display</small></span><span class="bc-menu-arrow">›</span></div>
+                <div class="menu-item bc-menu-row" onclick="openProCenter(); closeMenuDropdown();"><span class="bc-menu-icon">⚙</span><span><b>Pro Control Center</b><small>Advanced app controls</small></span><span class="bc-menu-arrow">›</span></div>
+                <div class="menu-item bc-menu-row" onclick="openProfileModal(); closeMenuDropdown();"><span class="bc-menu-icon">♙</span><span><b>Settings & profile</b><small>Account and preferences</small></span><span class="bc-menu-arrow">›</span></div>
+                <div class="menu-item bc-menu-row" onclick="openOfflineProMode(); closeMenuDropdown();"><span class="bc-menu-icon">⌁</span><span><b>Offline Pro Mode</b><small>Offline tools and options</small></span><span class="bc-menu-arrow">›</span></div>
+                <div class="bc-menu-divider"></div>
+                <div class="menu-item bc-menu-row bc-menu-logout" onclick="logoutApp(); closeMenuDropdown();"><span class="bc-menu-icon">↪</span><span><b>Logout</b><small>Sign out of this device</small></span></div>
             </div>
         </header>
 
@@ -289,9 +344,10 @@
             
             <div style="font-weight:bold; font-size:15px; margin-bottom:10px; color:var(--text);">Status</div>
             
-            <div class="item" style="border-radius:12px; margin-bottom:15px;" onclick="document.getElementById('statusImageInput').click()">
-                <div class="avatar" style="border: 2px dashed var(--primary);">➕</div>
-                <div><b>My status</b><div style="font-size:12px; color:var(--sub);">Tap to add status update</div></div>
+            <div class="item" style="border-radius:16px; margin-bottom:12px; padding:16px;" onclick="openStatusComposer()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openStatusComposer()}">
+                <div class="avatar" style="border:2px dashed var(--primary);width:56px;height:56px;font-size:25px;">＋</div>
+                <div style="flex:1;min-width:0"><b>My status</b><div style="font-size:12px;color:var(--sub);">Text ya photo status share karein</div></div>
+                <button type="button" onclick="event.stopPropagation();openStatusComposer()" style="border:0;border-radius:20px;background:var(--primary);color:white;padding:9px 14px;font-weight:700">Add</button>
             </div>
 
             <div style="font-size:12px; color:var(--sub); font-weight:bold; margin-bottom:8px;">RECENT UPDATES</div>
@@ -350,34 +406,43 @@
         </div>
 
         <div class="modal" id="profileModal">
-            <div class="modal-box">
-                <h3>Global Profile & Account Settings</h3>
-                <div style="display:flex;align-items:center;gap:12px;margin:12px 0;padding:10px;background:var(--bg);border:1px solid var(--border-clr);border-radius:12px;">
-                    <img id="myProfilePhotoPreview" alt="Profile picture" style="width:58px;height:58px;border-radius:50%;object-fit:cover;background:var(--border-clr);display:none;">
-                    <div id="myProfilePhotoFallback" style="width:58px;height:58px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:bold;">👤</div>
-                    <div style="flex:1;text-align:left;">
-                        <b style="font-size:13px;">Profile Picture</b>
-                        <div style="font-size:11px;color:var(--sub);margin:3px 0 7px;">Apni gallery se photo chunein</div>
+            <div class="modal-box profile-pro-box">
+                <div class="profile-pro-head">
+                    <div><span class="profile-kicker">BAAT-CHEET ACCOUNT</span><h3>Profile & Settings</h3><p>Apni profile aur privacy ko manage karein</p></div>
+                    <button class="profile-close" type="button" aria-label="Close" onclick="document.getElementById('profileModal').classList.remove('active')">×</button>
+                </div>
+                <div class="profile-hero">
+                    <div class="profile-avatar-wrap">
+                        <img id="myProfilePhotoPreview" alt="Profile picture" style="width:76px;height:76px;border-radius:50%;object-fit:cover;background:var(--border-clr);display:none;">
+                        <div id="myProfilePhotoFallback" style="width:76px;height:76px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:bold;">👤</div>
+                    </div>
+                    <div class="profile-hero-copy"><b>Profile photo</b><span>Apni pehchaan ke liye ek photo lagayein</span>
                         <input type="file" id="myProfilePhotoInput" accept="image/*" style="display:none;" onchange="handleMyProfilePhoto(event)">
-                        <button type="button" onclick="document.getElementById('myProfilePhotoInput').click()" style="padding:7px 10px;background:var(--primary);color:white;border:0;border-radius:7px;font-size:11px;">Photo Choose Karein</button>
-                        <button type="button" onclick="removeMyProfilePhoto()" style="padding:7px 10px;background:transparent;color:var(--sub);border:1px solid var(--border-clr);border-radius:7px;font-size:11px;">Remove</button>
+                        <div class="profile-photo-actions"><button type="button" class="profile-btn-primary" onclick="document.getElementById('myProfilePhotoInput').click()">Photo choose karein</button><button type="button" class="profile-btn-quiet" onclick="removeMyProfilePhoto()">Remove</button></div>
                     </div>
                 </div>
-                <label style="font-size:11px; color:var(--sub);">Country & Number:</label>
-                <input type="text" id="profileNameEdit" disabled>
-                <label style="font-size:11px; color:var(--sub);">Unique User ID (@username):</label>
-                <input type="text" id="profileUsernameEdit" placeholder="e.g. rohan_global">
-                <label style="font-size:11px; color:var(--sub);">Bio / Status:</label>
-                <input type="text" id="profileBioEdit" placeholder="Global Traveller 🚀">
-                <div style="margin:10px 0; font-size:13px; display:flex; align-items:center; gap:8px;">
-                    <input type="checkbox" id="hideOnlineToggle" style="width:16px; height:16px;">
-                    <label for="hideOnlineToggle">Hide Online Status</label>
-                </div>
-                <button onclick="logoutApp()" style="width:100%; padding:8px; margin-top:6px; background:#334155; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:600;">🚪 Logout / Switch Account</button>
-                <button onclick="deleteMyAccount()" style="width:100%; padding:8px; margin-top:6px; background:#ef4444; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:600;">⚠️ Delete My Account Forever</button>
-                <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:10px;">
-                    <button onclick="document.getElementById('profileModal').classList.remove('active')" style="padding:8px 14px; background:transparent; color:var(--sub); border:none; border-radius:6px; cursor:pointer;">Radd</button>
-                    <button onclick="saveProfile()" style="padding:8px 14px; background:var(--primary); color:white; border:none; border-radius:6px; cursor:pointer;">Save</button>
+                <section class="profile-section">
+                    <div class="profile-section-title"><span>PERSONAL INFORMATION</span><small>Account details</small></div>
+                    <label for="profileNameEdit">Country / registered number</label>
+                    <input type="text" id="profileNameEdit" disabled>
+                    <label for="profileUsernameEdit">Username</label>
+                    <input type="text" id="profileUsernameEdit" placeholder="@yourname" autocomplete="username">
+                    <small class="profile-help">Aapka unique ID, jisse log aapko dhoondh sakte hain.</small>
+                    <label for="profileBioEdit">About / Bio</label>
+                    <input type="text" id="profileBioEdit" placeholder="Apne baare mein kuch likhein" maxlength="120">
+                </section>
+                <section class="profile-section profile-privacy-section">
+                    <div class="profile-section-title"><span>PRIVACY CONTROLS</span><small>Aapki marzi, aapka control</small></div>
+                    <label class="profile-toggle-row" for="hideOnlineToggle"><span><b>Online status chhupayein</b><small>Dusre users ko aapka online status na dikhe</small></span><input type="checkbox" id="hideOnlineToggle"></label>
+                </section>
+                <section class="profile-section profile-account-section">
+                    <div class="profile-section-title"><span>ACCOUNT ACTIONS</span></div>
+                    <button class="profile-action-logout" onclick="logoutApp()"><span>⇥</span><span><b>Logout / Switch account</b><small>Is device se sign out karein</small></span><span class="profile-chevron">›</span></button>
+                    <button class="profile-action-delete" onclick="deleteMyAccount()"><span>⚠</span><span><b>Delete account</b><small>Account permanently delete karne ka option</small></span></button>
+                </section>
+                <div class="profile-pro-footer">
+                    <button class="profile-btn-quiet" onclick="document.getElementById('profileModal').classList.remove('active')">Cancel</button>
+                    <button class="profile-btn-save" onclick="saveProfile()">Save changes</button>
                 </div>
             </div>
         </div>
@@ -772,78 +837,65 @@
             }
         }
 
-        function uploadPhotoStatus(e) {
-            let file = e.target.files[0];
-            if (!file) return;
-            let storageRef = storage.ref(`statuses/${myName.replace(/[^a-zA-Z0-9+_]/g, '_')}_${Date.now()}`);
-            let uploadTask = storageRef.put(file);
-
-            alert("📷 Photo status upload ho raha hai...");
-            uploadTask.on('state_changed', null, (err) => {
-                alert("Status upload error: " + err);
-            }, async () => {
-                let downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
-                db.ref("statuses/" + Date.now()).set({
-                    sender: myName,
-                    imageUrl: downloadURL,
-                    time: Date.now()
-                });
-                alert("✅ Photo status successfully lag gaya!");
-                loadPhotoStatuses();
-            });
-            e.target.value = '';
-        }
+        let bcPickedStatusFile = null;
+        window.openStatusComposer = function(){
+            const modal=document.getElementById('bcStatusComposer'); if(!modal)return;
+            modal.style.display='flex'; document.getElementById('bcStatusFeedback').textContent='';
+            document.getElementById('bcStatusText').focus();
+        };
+        window.closeStatusComposer = function(){const modal=document.getElementById('bcStatusComposer');if(modal)modal.style.display='none';};
+        window.bcStatusPhotoPicked = function(e){
+            const f=e.target.files&&e.target.files[0]; if(!f)return;
+            if(!f.type.startsWith('image/')){document.getElementById('bcStatusFeedback').textContent='Please image file select karein.';e.target.value='';return;}
+            if(f.size>8*1024*1024){document.getElementById('bcStatusFeedback').textContent='Photo 8 MB se chhoti honi chahiye.';e.target.value='';return;}
+            bcPickedStatusFile=f;document.getElementById('bcStatusPhotoName').textContent='Selected: '+f.name;
+        };
+        window.publishBaatStatus = async function(){
+            const text=(document.getElementById('bcStatusText').value||'').trim();
+            const feedback=document.getElementById('bcStatusFeedback');
+            if(!text&&!bcPickedStatusFile){feedback.textContent='Pehle status text likhein ya photo add karein.';return;}
+            const now=Date.now(), key=String(now), record={sender:myName||'Baat-Cheet User',text:text,time:now};
+            const btn=document.querySelector('#bcStatusComposer button[onclick="publishBaatStatus()"]'); if(btn){btn.disabled=true;btn.textContent='Sharing…';}
+            try{
+                if(bcPickedStatusFile){
+                    if(!window.firebase||!firebase.apps||!firebase.apps.length||!storage||!storage.ref){throw new Error('Firebase Storage connect nahi hai. Text status share kar sakte hain; photo ke liye Firebase Storage setup zaroori hai.');}
+                    const ref=storage.ref('statuses/'+(myName||'user').replace(/[^a-zA-Z0-9+_]/g,'_')+'/'+now+'_'+bcPickedStatusFile.name.replace(/[^a-zA-Z0-9._-]/g,'_'));
+                    const snap=await ref.put(bcPickedStatusFile); record.imageUrl=await snap.ref.getDownloadURL();
+                }
+                if(window.firebase&&firebase.apps&&firebase.apps.length&&db&&db.ref){await db.ref('statuses/'+key).set(record);}
+                else {const arr=JSON.parse(localStorage.getItem('bc_local_statuses')||'[]');arr.unshift(record);localStorage.setItem('bc_local_statuses',JSON.stringify(arr.slice(0,30)));}
+                document.getElementById('bcStatusText').value='';document.getElementById('bcStatusPhoto').value='';document.getElementById('bcStatusPhotoName').textContent='';bcPickedStatusFile=null;
+                feedback.textContent='✓ Status is device par save/share ho gaya.';loadPhotoStatuses();
+                setTimeout(closeStatusComposer,650);
+            }catch(err){feedback.textContent='Status share nahi hua: '+(err&&err.message?err.message:'Unknown error');}
+            finally{if(btn){btn.disabled=false;btn.textContent='Share status';}}
+        };
+        function uploadPhotoStatus(e) { const f=e.target.files&&e.target.files[0]; if(!f)return; openStatusComposer(); bcPickedStatusFile=f; document.getElementById('bcStatusPhotoName').textContent='Selected: '+f.name; e.target.value=''; }
 
         function loadPhotoStatuses() {
-            db.ref("statuses").on('value', snap => {
-                let data = snap.val() || {};
-                let container = document.getElementById('statusFeedContainer');
-                if(!container) return;
-                container.innerHTML = '';
-                
-                let currentTime = Date.now();
-                let hasStatus = false;
-                for(let sId in data) {
-                    let st = data[sId];
-                    if(currentTime - st.time < 86400000) {
-                        hasStatus = true;
-                        let div = document.createElement('div');
-                        div.className = 'item';
-                        div.style.borderRadius = "12px";
-                        div.onclick = () => openStatusViewer(st.sender, st.imageUrl, st.time);
-                        div.innerHTML = `<div style="display:flex; align-items:center;"><div class="avatar">${st.sender[0]}</div><div><b>${st.sender}</b><div style="font-size:12px; color:var(--sub);">Tap to view status</div></div></div>`;
-                        container.appendChild(div);
-                    }
-                }
-                if(!hasStatus) {
-                    container.innerHTML = '<div style="font-size:12px; color:var(--sub); text-align:center; padding:10px;">No recent updates</div>';
-                }
-            });
+            const render=(remoteData)=>{
+                let container=document.getElementById('statusFeedContainer');if(!container)return;container.innerHTML='';
+                let items=[];const now=Date.now();
+                Object.values(remoteData||{}).forEach(st=>{if(st&&st.time&&now-st.time<86400000)items.push(st)});
+                try{JSON.parse(localStorage.getItem('bc_local_statuses')||'[]').forEach(st=>{if(st&&now-st.time<86400000&&!items.some(x=>x.time===st.time))items.push(st)})}catch(e){}
+                items.sort((a,b)=>b.time-a.time);
+                if(!items.length){container.innerHTML='<div style="font-size:12px;color:var(--sub);text-align:center;padding:14px">No recent updates</div>';return;}
+                items.forEach(st=>{let div=document.createElement('div');div.className='item';div.style.borderRadius='14px';div.style.justifyContent='flex-start';div.style.gap='12px';div.onclick=()=>openStatusViewer(st.sender||'User',st.imageUrl||'',st.time,st.text||'');
+                    const avatar=document.createElement('div');avatar.className='avatar';avatar.textContent=(st.sender||'U').charAt(0).toUpperCase();
+                    const info=document.createElement('div');info.style.minWidth='0';const b=document.createElement('b');b.textContent=st.sender||'User';const sub=document.createElement('div');sub.style.cssText='font-size:12px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:230px';sub.textContent=st.text||'Photo status · Tap to view';info.append(b,sub);div.append(avatar,info);container.appendChild(div);
+                });
+            };
+            try{if(window.firebase&&firebase.apps&&firebase.apps.length&&db&&db.ref){db.ref('statuses').off('value',window.__bcStatusListener);window.__bcStatusListener=snap=>render(snap.val()||{});db.ref('statuses').on('value',window.__bcStatusListener);}else render({});}catch(e){console.warn('Status feed:',e);render({});}
         }
 
-        function openStatusViewer(sender, imageUrl, time) {
-            let modal = document.getElementById('statusViewerModal');
-            let img = document.getElementById('viewerImage');
-            let name = document.getElementById('viewerSenderName');
-            let avatar = document.getElementById('viewerAvatar');
-            let timeLbl = document.getElementById('viewerTime');
-            let fillBar = document.getElementById('statusProgressFill');
-
-            img.src = imageUrl;
-            name.innerText = sender;
-            avatar.innerText = sender[0];
-            
-            let d = new Date(time);
-            timeLbl.innerText = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-            modal.classList.add('active');
-            fillBar.style.width = '0%';
-            setTimeout(() => { fillBar.style.width = '100%'; }, 50);
-
-            if(statusTimer) clearTimeout(statusTimer);
-            statusTimer = setTimeout(() => {
-                closeStatusViewer();
-            }, 5000);
+        function openStatusViewer(sender, imageUrl, time, text) {
+            let modal=document.getElementById('statusViewerModal'),img=document.getElementById('viewerImage'),txt=document.getElementById('viewerStatusText');
+            document.getElementById('viewerSenderName').innerText=sender;document.getElementById('viewerAvatar').innerText=(sender||'U')[0];
+            document.getElementById('viewerTime').innerText=new Date(time).toLocaleString();
+            if(imageUrl){img.src=imageUrl;img.style.display='block';txt.style.display='none';}
+            else{img.removeAttribute('src');img.style.display='none';txt.textContent=text||'Status';txt.style.display='block';}
+            modal.classList.add('active');let fillBar=document.getElementById('statusProgressFill');fillBar.style.width='0%';setTimeout(()=>{fillBar.style.width='100%';},50);
+            if(statusTimer)clearTimeout(statusTimer);statusTimer=setTimeout(closeStatusViewer,5000);
         }
 
         function closeStatusViewer() {
@@ -1425,6 +1477,7 @@
                 if(d.sender && d.sender !== myName) {
                     let notifSound = document.getElementById('msgNotificationSound');
                     if(notifSound) notifSound.play().catch(e => {});
+                    if(window.bcpNotifyIncoming) window.bcpNotifyIncoming('Baat-Cheet · '+d.sender, d.isHtml ? 'Aapko media message mila hai.' : (String(d.text || 'Naya message').slice(0,110)));
                 }
                 if(d.deleted) {
                     appendMsg(snap.key, "🚫 *Yeh message delete kar diya gaya hai*", d.sender === myName ? 'out' : 'in', false, {}, true, null, d.sender, true, d.seenBy || {}, d.time, d.edited);
@@ -2191,6 +2244,10 @@
    <div class="pro-card"><h3>🎨 Personalize your app</h3><p>Accent colour aur text size badlein. Setting isi browser mein save hogi.</p><div class="pro-row"><label for="proAccent">Accent colour</label><input id="proAccent" type="color" value="#087f68" onchange="applyProAccent(this.value)"></div><div class="pro-row" style="margin-top:10px"><label for="proTextSize">Text size</label><select id="proTextSize" onchange="applyProTextSize(this.value)"><option value="14px">Compact</option><option value="16px" selected>Standard</option><option value="18px">Large</option><option value="20px">Extra large</option></select></div></div>
    <div class="pro-card"><h3>🔔 Notifications</h3><p>Browser notification permission check/request karein. Push notifications tabhi aayengi jab app mein push service configured ho.</p><div class="pro-row"><span id="proNotifyStatus" class="pro-status">Checking…</span><button class="pro-btn" onclick="requestProNotifications()">Enable permission</button></div></div>
    <div class="pro-card"><h3>💾 Local Data Backup</h3><p>Is browser ke localStorage data ka JSON backup download ya restore karein. Firebase cloud data is backup mein include nahi hota.</p><div class="pro-row"><button class="pro-btn" onclick="exportProBackup()">Export backup</button><button class="pro-btn secondary" onclick="document.getElementById('proBackupFile').click()">Import backup</button><input id="proBackupFile" type="file" accept="application/json,.json" hidden onchange="importProBackup(event)"></div><p class="pro-note">Backup file private rakhein; ismein app ke local data ya profile-related information ho sakti hai.</p></div>
+   <div class="pro-card"><h3>📱 Contacts & Invite</h3><p>Phone contacts picker supported browser mein khulega. Contact select karne ke baad aap invite/share kar sakte hain; contacts ko bina permission upload nahi kiya jayega.</p><div class="pro-row"><button class="pro-btn" onclick="bcpPickContacts()">Choose phone contacts</button><button class="pro-btn secondary" onclick="bcpShareInvite()">Share app invite</button></div><p class="pro-note" id="bcpContactStatus">Contact access sirf aapke tap karne par maanga jayega.</p></div>
+   <div class="pro-card"><h3>📶 Low Internet & Media Saver</h3><p>Data saver mode mein received images/videos ko manually load karne ka option aur app ke media display par control milega.</p><div class="pro-row"><button class="pro-btn" id="bcpDataSaverBtn" onclick="bcpToggleDataSaver()">Enable Data Saver</button><span class="pro-status" id="bcpDataSaverStatus">Checking…</span></div></div>
+   <div class="pro-card"><h3>🔐 App Lock</h3><p>Is browser mein app kholte waqt PIN lock lagayein. PIN isi device ke browser mein store hoga; bhoolne par browser data clear karne se reset ho sakta hai.</p><div class="pro-row"><button class="pro-btn" onclick="bcpSetPin()">Set / Change PIN</button><button class="pro-btn secondary" onclick="bcpRemovePin()">Remove PIN</button><button class="pro-btn secondary" onclick="bcpLockNow()">Lock now</button></div><p class="pro-note" id="bcpLockStatus">PIN lock off</p></div>
+   <div class="pro-card"><h3>🔔 Notification & Message Alerts</h3><p>Foreground browser notifications ke liye permission enable karein. Background push ke liye Firebase Cloud Messaging, VAPID key aur hosted service worker configuration zaroori hai.</p><div class="pro-row"><button class="pro-btn" onclick="requestProNotifications()">Enable notifications</button><span class="pro-status" id="bcpNotifyState">Checking…</span></div></div>
    <div class="pro-card"><h3>📲 Install Baat-Cheet</h3><p>Agar browser install option support karta hai to app ko home screen par add kar sakte hain.</p><button class="pro-btn secondary" id="proInstallBtn" onclick="installBaatApp()">Install / Add to Home Screen</button><p class="pro-note" id="proInstallNote">Browser menu mein “Add to Home screen” bhi check karein.</p></div>
    <div class="pro-note">Note: Ye Pro Center local browser settings aur utilities deta hai. Ye apne aap end-to-end encryption, cloud backup, push server, ya APK create nahi karta.</div>
   </div>
@@ -2442,8 +2499,174 @@ function currentChat(){return window.currentChatId||window.activeChatId||$('chat
 })();
 </script>
 <script id="baatCheetExtraMenuHook">
-document.addEventListener('DOMContentLoaded',function(){let menu=document.getElementById('menuDropdown');if(menu&&!document.getElementById('bcExtraMenuItem')){let d=document.createElement('div');d.id='bcExtraMenuItem';d.className='menu-item';d.textContent='✨ More Features / भाषा / Privacy';d.onclick=function(){if(typeof closeMenuDropdown==='function')closeMenuDropdown();bcOpenHub()};menu.appendChild(d)}let msg=document.getElementById('msgInput');if(msg&&msg.parentElement&&!document.getElementById('bcVoiceQuick')){let b=document.createElement('button');b.id='bcVoiceQuick';b.type='button';b.title='Voice to text';b.textContent='🎙️';b.style.cssText='border:0;border-radius:10px;padding:8px 10px;margin:0 4px;background:var(--primary,#008f72);color:white';b.onclick=()=>{bcOpenHub();bcStartVoice()};msg.parentElement.insertBefore(b,msg.nextSibling)}let saved=localStorage.getItem('bc_language');if(saved)bcSetLanguage(saved)});
+document.addEventListener('DOMContentLoaded',function(){let menu=document.getElementById('menuDropdown');if(menu&&!document.getElementById('bcExtraMenuItem')){let d=document.createElement('div');d.id='bcExtraMenuItem';d.className='menu-item';d.className='menu-item bc-menu-row';d.innerHTML='<span class="bc-menu-icon">✧</span><span><b>More features & privacy</b><small>Language, privacy and extra tools</small></span><span class="bc-menu-arrow">›</span>';d.onclick=function(){if(typeof closeMenuDropdown==='function')closeMenuDropdown();bcOpenHub()};menu.appendChild(d)}let msg=document.getElementById('msgInput');if(msg&&msg.parentElement&&!document.getElementById('bcVoiceQuick')){let b=document.createElement('button');b.id='bcVoiceQuick';b.type='button';b.title='Voice to text';b.textContent='🎙️';b.style.cssText='border:0;border-radius:10px;padding:8px 10px;margin:0 4px;background:var(--primary,#008f72);color:white';b.onclick=()=>{bcOpenHub();bcStartVoice()};msg.parentElement.insertBefore(b,msg.nextSibling)}let saved=localStorage.getItem('bc_language');if(saved)bcSetLanguage(saved)});
 </script>
+
+
+<style id="bc-power-tools-style">
+#bcPowerTools{position:fixed;inset:0;z-index:100600;background:#07131dcc;display:none;align-items:center;justify-content:center;padding:12px;font-family:inherit}#bcPowerTools.open{display:flex}#bcPowerTools .bcp-wrap{width:min(100%,580px);max-height:94vh;overflow:auto;background:var(--card,#fff);color:var(--text,#17202a);border-radius:18px;border:1px solid var(--border-clr,#ddd);box-shadow:0 18px 60px #0006}#bcPowerTools .bcp-top{position:sticky;top:0;background:var(--nav-bg,#075e54);color:white;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;z-index:2}#bcPowerTools .bcp-content{padding:13px;display:grid;gap:11px}.bcp-box{border:1px solid var(--border-clr,#ddd);border-radius:13px;padding:12px;background:var(--bg,#f6f8f8)}.bcp-box h3{font-size:14px;margin:0 0 7px}.bcp-box p{font-size:11px;color:var(--sub,#667);margin:0 0 9px;line-height:1.4}.bcp-box input,.bcp-box textarea{width:100%;padding:10px;border:1px solid var(--border-clr,#ccc);border-radius:9px;background:var(--card,#fff);color:var(--text,#111);margin:4px 0;box-sizing:border-box}.bcp-box textarea{min-height:65px;resize:vertical}.bcp-row{display:flex;gap:7px;flex-wrap:wrap}.bcp-btn{border:0;border-radius:9px;padding:9px 11px;background:var(--primary,#008f72);color:white;font-weight:700;font-size:12px}.bcp-btn.alt{background:var(--nav-bg,#e9efed);color:var(--text,#17202a);border:1px solid var(--border-clr,#ddd)}.bcp-list{font-size:12px;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere}.bcp-status{font-size:11px;color:var(--sub,#667);margin-top:6px}
+</style>
+<div id="bcPowerTools" aria-hidden="true"><div class="bcp-wrap"><div class="bcp-top"><b>🧰 Baat-Cheet Power Tools</b><button class="bcp-btn alt" onclick="bcPowerClose()">✕</button></div><div class="bcp-content">
+<section class="bcp-box"><h3>📝 Personal Notes / Cloud Vault</h3><p>नोट इस फोन के ब्राउज़र में सेव होंगे; Firebase cloud sync नहीं है।</p><textarea id="bcpNote" placeholder="अपना निजी नोट लिखें..."></textarea><div class="bcp-row"><button class="bcp-btn" onclick="bcpSaveNote()">Save note</button><button class="bcp-btn alt" onclick="bcpClearNote()">Clear</button></div><div id="bcpNoteStatus" class="bcp-status"></div></section>
+<section class="bcp-box"><h3>📊 Group Poll Maker</h3><p>सवाल और विकल्प तैयार करें; इसे कॉपी करके ग्रुप में भेज सकते हैं। लाइव वोटिंग के लिए server integration चाहिए।</p><input id="bcpPollQ" placeholder="सवाल लिखें"><textarea id="bcpPollOptions" placeholder="हर लाइन में एक विकल्प लिखें"></textarea><div class="bcp-row"><button class="bcp-btn" onclick="bcpMakePoll()">Create poll text</button><button class="bcp-btn alt" onclick="bcpCopy('bcpPollOut')">Copy</button></div><div id="bcpPollOut" class="bcp-list"></div></section>
+<section class="bcp-box"><h3>⚡ Quick Replies</h3><p>तैयार जवाब को मैसेज बॉक्स में डालें; भेजने से पहले खुद जाँचें।</p><div class="bcp-row"><button class="bcp-btn alt" onclick="bcpInsertReply('मैं थोड़ी देर में जवाब देता हूँ।')">अभी व्यस्त हूँ</button><button class="bcp-btn alt" onclick="bcpInsertReply('धन्यवाद!')">धन्यवाद</button><button class="bcp-btn alt" onclick="bcpInsertReply('ठीक है, समझ गया।')">ठीक है</button><button class="bcp-btn alt" onclick="bcpInsertReply('कृपया थोड़ी देर रुकें।')">थोड़ी देर रुकें</button></div></section>
+<section class="bcp-box"><h3>⏰ Personal Reminder</h3><p>यह इसी खुले ब्राउज़र टैब में रिमाइंडर दिखाएगा; ऐप बंद होने पर समय पर सूचना की गारंटी नहीं है।</p><input id="bcpReminderText" placeholder="किस बात की याद दिलानी है?"><input id="bcpReminderTime" type="datetime-local"><div class="bcp-row"><button class="bcp-btn" onclick="bcpSetReminder()">Set reminder</button></div><div id="bcpReminderStatus" class="bcp-status"></div></section>
+<section class="bcp-box"><h3>📤 Export Current Chat</h3><p>स्क्रीन पर उपलब्ध मैसेज टेक्स्ट को TXT फाइल में सेव करने की कोशिश करेगा। यह पूर्ण सर्वर चैट आर्काइव नहीं है।</p><button class="bcp-btn" onclick="bcpExportVisibleChat()">Export visible chat</button><div id="bcpExportStatus" class="bcp-status"></div></section>
+<section class="bcp-box"><h3>📡 Connection Status</h3><div id="bcpNetworkStatus" class="bcp-list">Checking…</div><p>ऑफलाइन होने पर मैसेज भेजने की सुविधा तभी भरोसेमंद होगी जब Firebase queue/retry logic जोड़ी और टेस्ट की जाए।</p></section>
+</div></div></div>
+<script id="bc-power-tools">
+(function(){const $=id=>document.getElementById(id);const safe=(k,v)=>{try{localStorage.setItem(k,v);return true}catch(e){return false}};
+window.bcPowerOpen=()=>{$('bcPowerTools').classList.add('open');$('bcPowerTools').setAttribute('aria-hidden','false');$('bcpNote').value=localStorage.getItem('bcp_personal_note')||'';bcpUpdateNetwork()};window.bcPowerClose=()=>{$('bcPowerTools').classList.remove('open');$('bcPowerTools').setAttribute('aria-hidden','true')};
+window.bcpSaveNote=()=>{$('bcpNoteStatus').textContent=safe('bcp_personal_note',$('bcpNote').value)?'नोट इस डिवाइस पर सेव हो गया।':'Storage उपलब्ध नहीं है।'};window.bcpClearNote=()=>{if(confirm('नोट मिटाना है?')){$('bcpNote').value='';localStorage.removeItem('bcp_personal_note');$('bcpNoteStatus').textContent='नोट हटा दिया गया।'}};
+window.bcpMakePoll=()=>{let q=$('bcpPollQ').value.trim(),opts=$('bcpPollOptions').value.split(/\n/).map(x=>x.trim()).filter(Boolean);if(!q||opts.length<2){$('bcpPollOut').textContent='सवाल और कम से कम दो विकल्प लिखें।';return}$('bcpPollOut').textContent='📊 '+q+'\n'+opts.map((x,i)=>(i+1)+'. '+x).join('\n')+'\n\nअपना विकल्प चुनकर जवाब दें।'};
+window.bcpCopy=id=>{let t=$(id).innerText||$(id).value||'';if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(()=>alert('कॉपी हो गया।')).catch(()=>alert('कॉपी नहीं हो पाया।'));else alert('इस ब्राउज़र में कॉपी सुविधा उपलब्ध नहीं है।')};window.bcpInsertReply=t=>{let input=$('msgInput');if(!input){alert('पहले कोई चैट खोलें।');return}input.value+=(input.value?' ':'')+t;input.dispatchEvent(new Event('input',{bubbles:true}));bcPowerClose();input.focus()};
+window.bcpSetReminder=()=>{let t=$('bcpReminderText').value.trim(),d=new Date($('bcpReminderTime').value);if(!t||!$('bcpReminderTime').value||isNaN(d)||d<=new Date()){$('bcpReminderStatus').textContent='भविष्य का समय और रिमाइंडर लिखें।';return}let ms=d-new Date();$('bcpReminderStatus').textContent='रिमाइंडर सेट: '+d.toLocaleString();setTimeout(()=>{alert('⏰ Baat-Cheet Reminder: '+t);if('Notification'in window&&Notification.permission==='granted')new Notification('Baat-Cheet Reminder',{body:t})},Math.min(ms,2147483647));if('Notification'in window&&Notification.permission==='default')Notification.requestPermission().catch(()=>{});};
+window.bcpExportVisibleChat=()=>{let el=$('messagesArea')||$('messages')||$('chatMessages');if(!el){$('bcpExportStatus').textContent='Chat messages container नहीं मिला।';return}let txt=el.innerText||'';if(!txt.trim()){$('bcpExportStatus').textContent='इस चैट में export करने लायक visible text नहीं मिला।';return}let blob=new Blob([txt],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Baat-Cheet-Visible-Chat.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);$('bcpExportStatus').textContent='Visible chat text export किया गया।'};
+function bcpUpdateNetwork(){if($('bcpNetworkStatus'))$('bcpNetworkStatus').textContent=navigator.onLine?'🟢 Internet connection detected':'🔴 You are offline'}window.addEventListener('online',bcpUpdateNetwork);window.addEventListener('offline',bcpUpdateNetwork);document.addEventListener('DOMContentLoaded',()=>{const st=document.getElementById('bcStatusText');if(st)st.addEventListener('input',()=>{document.getElementById('bcStatusCount').textContent=st.value.length+'/500'});let menu=$('menuDropdown');if(menu&&!$('bcpPowerMenu')){let item=document.createElement('div');item.id='bcpPowerMenu';item.className='menu-item';item.textContent='🧰 Power Tools';item.onclick=()=>{if(typeof closeMenuDropdown==='function')closeMenuDropdown();bcPowerOpen()};menu.appendChild(item)}});
+})();
+</script>
+
+
+<style id="bc-pro-settings-v2-style">
+#bcProSettings{position:fixed;inset:0;z-index:100700;background:#07131dcc;display:none;align-items:center;justify-content:center;padding:10px;font-family:inherit}
+#bcProSettings.open{display:flex}#bcProSettings .bcps-shell{width:min(100%,620px);max-height:95dvh;overflow:auto;background:var(--card,#fff);color:var(--text,#17202a);border:1px solid var(--border-clr,#ddd);border-radius:20px;box-shadow:0 22px 70px #0007}
+#bcProSettings .bcps-head{position:sticky;top:0;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:15px 17px;background:var(--nav-bg,#075e54);color:white}
+#bcProSettings .bcps-head small{display:block;opacity:.78;font-size:10px;letter-spacing:1px;margin-bottom:3px}#bcProSettings .bcps-head h2{font-size:18px;margin:0}
+#bcProSettings .bcps-close{border:0;background:#ffffff20;color:white;border-radius:10px;width:36px;height:36px;font-size:23px}
+#bcProSettings .bcps-body{padding:13px;display:grid;gap:12px}#bcProSettings .bcps-section{border:1px solid var(--border-clr,#ddd);border-radius:15px;padding:13px;background:var(--bg,#f7f9f8)}
+#bcProSettings .bcps-section h3{font-size:14px;margin:0 0 4px}#bcProSettings .bcps-desc{font-size:11px;color:var(--sub,#667);margin:0 0 10px;line-height:1.45}
+#bcProSettings .bcps-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--border-clr,#ddd)}#bcProSettings .bcps-row:first-of-type{border-top:0}
+#bcProSettings .bcps-row b{display:block;font-size:12px}#bcProSettings .bcps-row small{display:block;color:var(--sub,#667);font-size:10px;margin-top:3px;line-height:1.35}
+#bcProSettings input[type=checkbox]{width:19px;height:19px;accent-color:var(--primary);flex:0 0 auto}#bcProSettings select{max-width:48%;padding:8px;border:1px solid var(--border-clr);border-radius:9px;background:var(--card);color:var(--text)}
+#bcProSettings .bcps-btn{border:0;border-radius:10px;padding:9px 12px;background:var(--primary);color:white;font-weight:700;font-size:11px}#bcProSettings .bcps-btn.secondary{background:var(--card);color:var(--text);border:1px solid var(--border-clr)}
+#bcProSettings .bcps-status{font-size:11px;color:var(--sub);margin-top:8px;white-space:pre-wrap;overflow-wrap:anywhere}#bcProSettings .bcps-actions{display:flex;gap:8px;flex-wrap:wrap}
+</style>
+<style id="bc-pro-settings-glass-green">
+#bcProSettings{background:radial-gradient(ellipse at 15% 10%,rgba(16,185,129,.24),transparent 42%),rgba(3,24,19,.60);backdrop-filter:blur(15px) saturate(145%);-webkit-backdrop-filter:blur(15px) saturate(145%);padding:14px}
+#bcProSettings .bcps-shell{width:min(100%,650px);max-height:min(94dvh,920px);border:1px solid rgba(255,255,255,.66);border-radius:26px;background:linear-gradient(145deg,rgba(255,255,255,.91),rgba(237,250,245,.84));backdrop-filter:blur(26px) saturate(165%);-webkit-backdrop-filter:blur(26px) saturate(165%);box-shadow:0 28px 90px rgba(0,45,31,.30),inset 0 1px 0 rgba(255,255,255,.85);color:#123c30}
+#bcProSettings .bcps-head{padding:20px 19px;background:linear-gradient(120deg,#087f63,#0b9b76 58%,#36b98d);border-bottom:1px solid rgba(255,255,255,.25)}
+#bcProSettings .bcps-head small{letter-spacing:1.7px;font-weight:800;color:#d8fff0}
+#bcProSettings .bcps-head h2{font-size:21px;letter-spacing:-.35px}
+#bcProSettings .bcps-close{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.32);transition:.2s}
+#bcProSettings .bcps-close:active{transform:scale(.94)}
+#bcProSettings .bcps-body{padding:15px;gap:13px;background:linear-gradient(180deg,rgba(246,255,250,.50),rgba(235,249,242,.25))}
+#bcProSettings .bcps-welcome{display:flex;align-items:center;gap:12px;padding:15px;border:1px solid rgba(13,148,104,.18);border-radius:19px;background:linear-gradient(115deg,rgba(255,255,255,.82),rgba(218,248,234,.72));box-shadow:0 8px 24px rgba(5,100,67,.08)}
+#bcProSettings .bcps-welcome-mark{width:42px;height:42px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(145deg,#087f63,#39bd8e);color:white;font-size:23px;box-shadow:0 6px 15px rgba(8,127,99,.22)}
+#bcProSettings .bcps-welcome strong{display:block;font-size:13px;color:#075c45}
+#bcProSettings .bcps-welcome span{display:block;font-size:10px;color:#527568;margin-top:3px}
+#bcProSettings .bcps-welcome .bcps-live-pill{margin-left:auto;white-space:nowrap;font-size:8px;font-weight:800;letter-spacing:.6px;color:#087f63;background:rgba(16,185,129,.10);padding:7px 8px;border-radius:20px}
+#bcProSettings .bcps-live-pill i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#10a875;margin-right:4px;box-shadow:0 0 0 3px rgba(16,185,129,.13)}
+#bcProSettings .bcps-section{border:1px solid rgba(15,130,93,.14);border-radius:19px;padding:14px;background:linear-gradient(135deg,rgba(255,255,255,.84),rgba(240,251,245,.72));box-shadow:0 7px 22px rgba(7,80,55,.055);transition:transform .18s,border-color .18s}
+#bcProSettings .bcps-section:active{transform:scale(.995)}
+#bcProSettings .bcps-section h3{font-size:14px;color:#087457;letter-spacing:.05px}
+#bcProSettings .bcps-desc{color:#668477;font-size:11px}
+#bcProSettings .bcps-row{border-top:1px solid rgba(12,120,82,.10);padding:12px 2px}
+#bcProSettings .bcps-row b{font-size:12px;color:#173f32}
+#bcProSettings .bcps-row small{color:#718b80;font-size:10px}
+#bcProSettings input[type=checkbox]{width:20px;height:20px;accent-color:#07966c;cursor:pointer}
+#bcProSettings select{border:1px solid rgba(8,127,99,.22);border-radius:11px;background:rgba(255,255,255,.86);color:#174c3b;padding:9px}
+#bcProSettings .bcps-btn{background:linear-gradient(120deg,#087f63,#10a878);border:1px solid rgba(255,255,255,.35);border-radius:12px;box-shadow:0 5px 13px rgba(8,127,99,.16);padding:10px 14px}
+#bcProSettings .bcps-btn.secondary{background:rgba(255,255,255,.76);color:#087457;border:1px solid rgba(8,127,99,.20);box-shadow:none}
+#bcProSettings .bcps-status{color:#54796b}
+@media(max-width:480px){#bcProSettings{padding:7px;align-items:flex-end}#bcProSettings .bcps-shell{width:100%;max-height:94dvh;border-radius:24px 24px 18px 18px}#bcProSettings .bcps-head{padding:17px}#bcProSettings .bcps-body{padding:11px;gap:10px}#bcProSettings .bcps-section{padding:12px}#bcProSettings .bcps-welcome .bcps-live-pill{font-size:7px;padding:6px}}
+@media(prefers-reduced-motion:reduce){#bcProSettings *{transition:none!important;animation:none!important}}
+</style>
+<div id="bcProSettings" aria-hidden="true"><div class="bcps-shell" role="dialog" aria-modal="true" aria-labelledby="bcpsTitle">
+ <div class="bcps-head"><div><small>BAAT-CHEET • ADVANCED CONTROL</small><h2 id="bcpsTitle">⚙️ Pro Settings</h2></div><button class="bcps-close" type="button" onclick="bcpsClose()" aria-label="Close">×</button></div>
+ <div class="bcps-body">
+  <div class="bcps-welcome"><div class="bcps-welcome-mark">✦</div><div><strong>Make Baat-Cheet yours</strong><span>Personalize privacy, chats and your experience</span></div><span class="bcps-live-pill"><i></i> CONTROL CENTER</span></div>
+  <section class="bcps-section"><h3>🛡️ Privacy Controls</h3><p class="bcps-desc">Preferences are saved on this device. Server-side enforcement must also be configured for complete privacy.</p>
+   <label class="bcps-row"><span><b>Hide online status</b><small>Try to hide your presence from other users</small></span><input type="checkbox" id="bcpsHideOnline"></label>
+   <label class="bcps-row"><span><b>Read receipts preference</b><small>Save your preference; delivery/read receipt backend is not yet connected</small></span><input type="checkbox" id="bcpsReadReceipts" checked></label>
+   <label class="bcps-row"><span><b>Show message previews</b><small>Allow message preview text in app notifications where supported</small></span><input type="checkbox" id="bcpsPreview" checked></label>
+  </section>
+  <section class="bcps-section"><h3>🔔 Notifications</h3><p class="bcps-desc">Browser notification permission is controlled by your browser or Android settings.</p>
+   <label class="bcps-row"><span><b>Enable browser notifications</b><small>Request permission when you turn this on</small></span><input type="checkbox" id="bcpsNotifications"></label>
+   <label class="bcps-row"><span><b>Notification sound preference</b><small>Preference only; existing message sound integration may vary</small></span><input type="checkbox" id="bcpsSound" checked></label>
+   <div class="bcps-status" id="bcpsNotifyStatus"></div>
+  </section>
+  <section class="bcps-section"><h3>💬 Chat & Media</h3>
+   <label class="bcps-row"><span><b>Auto-download media</b><small>Keep media downloads manual to save data</small></span><input type="checkbox" id="bcpsAutoDownload"></label>
+   <label class="bcps-row"><span><b>Data saver</b><small>Prefer lower data use; does not alter Firebase transfer rules by itself</small></span><input type="checkbox" id="bcpsDataSaver"></label>
+   <label class="bcps-row"><span><b>Enter key sends message</b><small>Choose whether Enter sends or adds a new line</small></span><input type="checkbox" id="bcpsEnterSend" checked></label>
+  </section>
+  <section class="bcps-section"><h3>🎨 Appearance</h3>
+   <label class="bcps-row"><span><b>Theme mode</b><small>Choose app appearance</small></span><select id="bcpsTheme"><option value="light">Light</option><option value="dark">Dark</option><option value="system">System</option></select></label>
+   <label class="bcps-row"><span><b>Message text size</b><small>Saved preference; applies to chat text</small></span><select id="bcpsFont"><option value="13">Small</option><option value="14">Normal</option><option value="16">Large</option><option value="18">Extra large</option></select></label>
+  </section>
+  <section class="bcps-section"><h3>🔐 Security & Devices</h3><p class="bcps-desc">A transparent status check — no fake security claims.</p>
+   <div class="bcps-row"><span><b>App lock / biometrics</b><small>Not enabled in this build. A secure lock needs a verified PIN flow and platform integration.</small></span><span>—</span></div>
+   <div class="bcps-row"><span><b>Encryption status</b><small>This screen does not verify end-to-end encryption for every message.</small></span><span>Check required</span></div>
+   <div class="bcps-row"><span><b>Current device</b><small id="bcpsDeviceInfo">Checking…</small></span><span>●</span></div>
+  </section>
+  <section class="bcps-section"><h3>📦 Storage & Backup</h3><p class="bcps-desc">Storage estimate is browser-local and does not include all Firebase cloud data.</p>
+   <div class="bcps-status" id="bcpsStorageInfo">Calculating…</div>
+   <div class="bcps-actions"><button class="bcps-btn secondary" type="button" onclick="bcpsRefreshStorage()">Refresh storage</button><button class="bcps-btn secondary" type="button" onclick="bcpsExportPrefs()">Export preferences</button><button class="bcps-btn secondary" type="button" onclick="bcpsImportPrefs()">Import preferences</button><input id="bcpsImportFile" type="file" accept="application/json,.json" hidden></div>
+  </section>
+  <section class="bcps-section"><h3>⚙️ Maintenance</h3><p class="bcps-desc">Reset only the Pro Settings preferences created by this panel. Your account and chat history are not intentionally deleted.</p><div class="bcps-actions"><button class="bcps-btn secondary" type="button" onclick="bcpsReset()">Reset Pro preferences</button><button class="bcps-btn" type="button" onclick="bcpsSave();bcpsClose()">Save all settings</button></div><div class="bcps-status" id="bcpsSaveStatus" aria-live="polite"></div></section>
+ </div></div></div>
+<script id="bc-pro-settings-v2-script">
+(function(){const $=id=>document.getElementById(id),P='bcps_v2_';const defaults={hideOnline:false,readReceipts:true,preview:true,notifications:false,sound:true,autoDownload:false,dataSaver:false,enterSend:true,theme:'light',font:'14'};
+function read(){try{return {...defaults,...JSON.parse(localStorage.getItem(P+'prefs')||'{}')}}catch(e){return {...defaults}}}
+function write(o){try{localStorage.setItem(P+'prefs',JSON.stringify(o));return true}catch(e){return false}}
+window.bcpsOpen=function(){let o=read();for(const [k,v] of Object.entries(o)){let el=$('bcps'+k[0].toUpperCase()+k.slice(1));if(el){if(el.type==='checkbox')el.checked=!!v;else el.value=String(v)}}$('bcProSettings').classList.add('open');$('bcProSettings').setAttribute('aria-hidden','false');$('bcpsDeviceInfo').textContent=(navigator.userAgent||'Browser').slice(0,110);bcpsRefreshStorage();$('bcpsNotifyStatus').textContent=('Notification'in window)?'Permission: '+Notification.permission:'Notifications API unavailable';};
+window.bcpsClose=function(){$('bcProSettings').classList.remove('open');$('bcProSettings').setAttribute('aria-hidden','true')};
+window.bcpsSave=async function(){let o={};for(const k of Object.keys(defaults)){let el=$('bcps'+k[0].toUpperCase()+k.slice(1));o[k]=el?(el.type==='checkbox'?el.checked:el.value):defaults[k]}
+if(!write(o)){$('bcpsSaveStatus').textContent='Settings save nahi ho sake — browser storage unavailable.';return}
+try{localStorage.setItem('baatcheet_hide_online',o.hideOnline?'1':'0')}catch(e){}
+if(o.theme==='dark')document.body.classList.add('dark-mode');else if(o.theme==='light')document.body.classList.remove('dark-mode');else{let dark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;document.body.classList.toggle('dark-mode',dark)}
+document.documentElement.style.setProperty('--bc-message-font-size',o.font+'px');document.querySelectorAll('.message-bubble,.message-text,.msg-text').forEach(el=>el.style.fontSize='var(--bc-message-font-size)');
+if(o.notifications&&'Notification'in window&&Notification.permission==='default'){try{let perm=await Notification.requestPermission();$('bcpsNotifyStatus').textContent='Notification permission: '+perm}catch(e){$('bcpsNotifyStatus').textContent='Permission request unavailable.'}}
+$('bcpsSaveStatus').textContent='Pro preferences saved on this device. Server-side privacy and delivery behavior may need backend support.';};
+window.bcpsRefreshStorage=async function(){let t=0;for(let i=0;i<localStorage.length;i++){let k=localStorage.key(i)||'';t+=(k.length+(localStorage.getItem(k)||'').length)*2}let extra='';if(navigator.storage&&navigator.storage.estimate){try{let e=await navigator.storage.estimate();extra='\nBrowser storage: '+(e.usage/1048576).toFixed(2)+' MB used / '+(e.quota/1048576).toFixed(1)+' MB quota (estimate).'}catch(e){}}$('bcpsStorageInfo').textContent='App localStorage estimate: '+(t/1024).toFixed(1)+' KB.'+extra};
+window.bcpsExportPrefs=function(){let blob=new Blob([JSON.stringify(read(),null,2)],{type:'application/json'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='Baat-Cheet-Pro-Preferences.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)};
+window.bcpsImportPrefs=function(){$('bcpsImportFile').click()};$('bcpsImportFile').addEventListener('change',async e=>{let f=e.target.files&&e.target.files[0];if(!f)return;try{let v=JSON.parse(await f.text());let clean={};for(let k of Object.keys(defaults))if(k in v)clean[k]=v[k];write({...defaults,...clean});bcpsOpen();$('bcpsSaveStatus').textContent='Preferences imported. Press Save all settings to apply.'}catch(err){$('bcpsSaveStatus').textContent='Invalid preferences file.'}e.target.value=''});
+window.bcpsReset=function(){if(!confirm('Sirf Pro Settings preferences reset karni hain?'))return;localStorage.removeItem(P+'prefs');bcpsOpen();$('bcpsSaveStatus').textContent='Pro preferences reset.'};
+document.addEventListener('DOMContentLoaded',()=>{let menu=$('menuDropdown');if(menu&&!$('bcProSettingsMenuItem')){let d=document.createElement('div');d.id='bcProSettingsMenuItem';d.className='menu-item';d.textContent='⚙️ Pro Settings';d.onclick=()=>{if(typeof closeMenuDropdown==='function')closeMenuDropdown();bcpsOpen()};menu.appendChild(d)}let msg=$('msgInput');if(msg){msg.addEventListener('keydown',e=>{let o=read();if(e.key==='Enter'&&!e.shiftKey&&!o.enterSend){e.preventDefault();msg.value+='\n';msg.dispatchEvent(new Event('input',{bubbles:true}))}})}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')bcpsClose()});$('bcProSettings').addEventListener('click',e=>{if(e.target===$('bcProSettings'))bcpsClose()});
+})();
+</script>
+
+
+<style id="bc-glass-green-menu-refresh">
+/* Refined glass-green dropdown: compact, readable and touch friendly */
+#menuDropdown.menu-dropdown{
+  width:min(330px,calc(100vw - 28px)); max-height:min(76vh,650px); overflow-y:auto;
+  top:calc(100% + 8px); right:10px; padding:10px; gap:3px;
+  display:none; flex-direction:column; box-sizing:border-box;
+  background:linear-gradient(145deg,rgba(250,255,252,.94),rgba(226,247,239,.88));
+  border:1px solid rgba(12,130,103,.20); border-radius:22px;
+  box-shadow:0 18px 48px rgba(0,65,48,.20),inset 0 1px 0 rgba(255,255,255,.9);
+  -webkit-backdrop-filter:blur(22px) saturate(150%); backdrop-filter:blur(22px) saturate(150%);
+  scrollbar-width:thin; scrollbar-color:rgba(8,132,105,.28) transparent;
+}
+#menuDropdown.menu-dropdown.active{display:flex}
+#menuDropdown .bc-menu-head{display:flex;align-items:center;gap:11px;padding:10px 9px 13px;margin-bottom:3px;border-bottom:1px solid rgba(8,132,105,.13);color:#075e4b}
+#menuDropdown .bc-menu-mark{width:39px;height:39px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(145deg,#0c9b79,#05634f);color:white;font-size:23px;box-shadow:0 6px 16px #087b6033}
+#menuDropdown .bc-menu-head strong{display:block;font-size:16px;letter-spacing:.1px}
+#menuDropdown .bc-menu-head small{display:block;font-size:11px;color:#64877c;margin-top:2px}
+#menuDropdown .bc-menu-pro{margin-left:auto;padding:5px 8px;border-radius:20px;background:#d5f4e7;color:#08775d;font-size:10px;font-weight:800;letter-spacing:1px}
+#menuDropdown .bc-menu-section{padding:9px 9px 4px;color:#6b9185;font-size:9px;font-weight:800;letter-spacing:1.25px}
+#menuDropdown .menu-item.bc-menu-row{display:flex;align-items:center;gap:11px;min-height:54px;padding:7px 9px;border-radius:14px;text-align:left;color:#173c32;font-size:13px;box-sizing:border-box;transition:background .18s ease,transform .18s ease}
+#menuDropdown .menu-item.bc-menu-row:active{transform:scale(.985);background:rgba(9,139,106,.13)}
+#menuDropdown .menu-item.bc-menu-row:hover{background:rgba(11,145,111,.10);color:#075e4b}
+#menuDropdown .bc-menu-icon{width:36px;height:36px;flex:0 0 36px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(145deg,rgba(15,166,125,.15),rgba(15,166,125,.07));color:#078264;font-size:19px;font-weight:700}
+#menuDropdown .bc-menu-row b{display:block;font-size:13px;font-weight:650;line-height:1.25}
+#menuDropdown .bc-menu-row small{display:block;margin-top:3px;font-size:10px;color:#78948b;line-height:1.25}
+#menuDropdown .bc-menu-arrow{margin-left:auto;color:#8ba99f;font-size:23px;font-weight:300}
+#menuDropdown .bc-menu-divider{height:1px;background:rgba(8,132,105,.14);margin:5px 7px}
+#menuDropdown .menu-item.bc-menu-logout{color:#bd4b52}
+#menuDropdown .bc-menu-logout .bc-menu-icon{background:rgba(213,74,83,.10);color:#c34e56}
+@media(prefers-color-scheme:dark){
+ body.dark #menuDropdown.menu-dropdown, .dark #menuDropdown.menu-dropdown{background:linear-gradient(145deg,rgba(15,43,36,.96),rgba(8,29,25,.94));border-color:rgba(76,190,153,.25);box-shadow:0 18px 48px #0008,inset 0 1px 0 #ffffff12}
+ body.dark #menuDropdown, .dark #menuDropdown{color:#e6f5ee}
+ body.dark #menuDropdown .bc-menu-head, .dark #menuDropdown .bc-menu-head{color:#d9fff0}
+ body.dark #menuDropdown .bc-menu-row, .dark #menuDropdown .menu-item.bc-menu-row{color:#e2f4ed}
+ body.dark #menuDropdown .bc-menu-row small, .dark #menuDropdown .bc-menu-row small{color:#9ab8ad}
+ body.dark #menuDropdown .bc-menu-section, .dark #menuDropdown .bc-menu-section{color:#83b8a5}
+}
+@media(max-width:380px){#menuDropdown.menu-dropdown{right:7px;width:min(310px,calc(100vw - 20px));padding:8px}#menuDropdown .menu-item.bc-menu-row{min-height:50px}}
+</style>
 
 </body>
 </html>
